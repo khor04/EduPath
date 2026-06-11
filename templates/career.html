@@ -1,0 +1,279 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/career.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="career-page">
+
+    <h1 class="page-title">Career Recommendation</h1>
+    <p class="page-subtitle">
+        Aim to present a summarized skill profile derived from academic transcript data,
+        highlighting key strengths, areas for improvement, and corresponding career recommendations.
+    </p>
+
+    <div class="skill-section">
+        <p class="section-label">SKILL PROFILE</p>
+
+        <div class="skill-grid">
+
+            <div class="skill-card">
+                <div class="card-heading">
+                    <i class="bi bi-check-circle strength-icon"></i>
+                    <div>
+                        <h2>Academic Strengths</h2>
+                        <p>Your strongest skill areas based on transcript performance</p>
+                    </div>
+                </div>
+
+                <div class="radar-wrapper">
+                    <canvas id="skillRadar"></canvas>
+                </div>
+
+                <div class="strength-buttons">
+                    <button onclick="showSkillDetail('Programming')">Programming</button>
+                    <button onclick="showSkillDetail('Data Analytics')">Data Analytics</button>
+                    <button onclick="showSkillDetail('AI')">AI</button>
+                    <button onclick="showSkillDetail('System Design')">System Design</button>
+                    <button onclick="showSkillDetail('Mathematics')">Mathematics</button>
+                </div>
+
+                <div id="Programming" class="strength-detail hidden">
+                    <strong>Related Courses:</strong>
+                    <p>• Web Programming (A)</p>
+                    <p>• Mobile Application Development (A)</p>
+                    <p>• Data Structure (A-)</p>
+                </div>
+
+                <div id="DataAnalytics" class="strength-detail hidden">
+                    <strong>Related Courses:</strong>
+                    <p>• Intro to Data Science (A)</p>
+                    <p>• Database (A-)</p>
+                </div>
+
+                <div id="AI" class="strength-detail hidden">
+                    <strong>Related Courses:</strong>
+                    <p>• Machine Learning (A-)</p>
+                    <p>• Artificial Intelligence (B+)</p>
+                </div>
+
+                <div id="SystemDesign" class="strength-detail hidden">
+                    <strong>Related Courses:</strong>
+                    <p>• System Analysis and Design (A)</p>
+                    <p>• Information System (B+)</p>
+                </div>
+
+                <div id="Mathematics" class="strength-detail hidden">
+                    <strong>Related Courses:</strong>
+                    <p>• Probalistic & Statistics (B)</p>
+                    <p>• Computing Mathematics(B+)</p>
+                </div>
+            </div>
+
+            <!-- Area for Improvement -->
+            <div class="skill-card improvement-card">
+                <div class="card-heading">
+                    <i class="bi bi-graph-down-arrow improvement-icon"></i>
+                    <div>
+                        <h2>Area for Improvement</h2>
+                        <p>Skill areas that may require further improvement</p>
+                    </div>
+                </div>
+
+                <div class="growth-item">
+                    <div class="growth-top clickable">
+                        <span>Project Management <i class="bi bi-caret-down-fill toggle-icon"></i>
+                        </span>
+                        <span>32%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div style="width:32%"></div>
+                    </div>
+
+                    <!-- Hidden content -->
+                    <div class="growth-detail hidden">
+                        <strong>Related Courses:</strong>
+                        <p>• Project Management (B+)</p></br>
+                        <strong>Suggested Improvement:</strong>
+                        <p>• Practice project planning</p>
+                        <p>• Learn Agile methodology</p>
+                    </div>
+                </div>
+
+                <div class="growth-item">
+                    <div class="growth-top clickable">
+                        <span>Networking <i class="bi bi-caret-down-fill toggle-icon"></i>
+                        </span>
+                        <span>40%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div style="width:40%"></div>
+                    </div>
+
+                    <!-- Hidden content -->
+                    <div class="growth-detail hidden">
+                        <strong>Related Courses:</strong>
+                        <p>• Network Technology Foundation (B)</p>
+                        <p>• Internet of Things (B-)</p></br>
+                        <strong>Suggested Improvement:</strong>
+                        <p>• Practice more on Netacad</p>
+                        <p>• Learning knowledge on routing</p>
+                    </div>
+                </div>
+
+
+                <div class="growth-item">
+                    <div class="growth-top clickable">
+                        <span>Business <i class="bi bi-caret-down-fill toggle-icon"></i>
+                        </span>
+                        <span>45%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div style="width:45%"></div>
+                    </div>
+
+                    <!-- Hidden content -->
+                    <div class="growth-detail hidden">
+                        <strong>Related Courses:</strong>
+                        <p>• E-commerce (A-)</p></br>
+
+                        <strong>Suggested Improvement:</strong>
+                        <p>• Learning how business operate</p>
+                        <p>• Study digital marking techinques</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Career Recommendations -->
+    <div class="career-section">
+        <p class="section-label">Recommended Career Pathways</p>
+        <div class="career-title-row">
+
+    <h2>Suggest suitable careers based on your strengths</h2>
+
+    <div class="match-info-wrapper">
+
+        <i class="bi bi-info-circle info-icon"></i>
+
+        <div class="match-guide hidden">
+
+            <h4>Match Score Guide</h4>
+
+            <table>
+                <tr>
+                    <th>Match Score</th>
+                    <th>Match Level</th>
+                </tr>
+
+                <tr>
+                    <td>85 - 100</td>
+                    <td>Strong Match</td>
+                </tr>
+
+                <tr>
+                    <td>70 - 84</td>
+                    <td>Moderate Match</td>
+                </tr>
+
+                <tr>
+                    <td>50 - 69</td>
+                    <td>Potential Match</td>
+                </tr>
+
+                <tr>
+                    <td>Below 50</td>
+                    <td>Weak Match</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <div class="career-grid">
+
+            <div class="career-card">
+                <div class="career-img">
+                    <img src="/static/images/softwareDeveloper.png" alt="Software Developer">
+                    <span class="badge">STRONG MATCH • 88%</span>
+                </div>
+                <div class="career-body">
+                    <h3>Software Developer</h3>
+                    <p>Focus on building robust and scalable applications or web pages.</p></br>
+                    <strong>Matched Skills:</strong>
+                    <ul>
+                        <li>Programming</li>
+                        <li>System Design</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="career-card">
+                <div class="career-img">
+                    <img src="/static/images/systemAnalyst.png" alt="System Analyst">
+
+                    <span class="badge">STRONG MATCH • 80% </span>
+                </div>
+                <div class="career-body">
+                    <h3>System Analyst</h3>
+                    <p>Acts as a bridge between business stakeholders and IT teams.</p></br>
+                    <strong>Matched Skills:</strong>
+                    <ul>
+                        <li>Data Analytics</li>
+                        <li>Programming</li>
+                        <li>System Design</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="career-card">
+                <div class="career-img">
+                    <img src="/static/images/quantAnalyst.png" alt="Quant Analyst">
+
+                    <span class="badge moderate">MODERATE MATCH • 67%</span>
+                </div>
+                <div class="career-body">
+                    <h3>Quantitative Analysts</h3>
+                    <p>Work in financial technology to model risk and uncertainty using advanced probability.</p></br>
+                    <strong>Matched Skills:</strong>
+                    <ul>
+                        <li>AI</li>
+                        <li>Mathematics</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="feedback-section">
+        <h2>Feedback</h2>
+        <p>How well do these recommendations match your career interests?</p>
+
+        <div class="rating-row">
+            <button class="rating-btn">😞<span>Very Poor</span></button>
+            <button class="rating-btn">😐<span>Poor</span></button>
+            <button class="rating-btn">🙂<span>Neutral</span></button>
+            <button class="rating-btn">😊<span>Good</span></button>
+            <button class="rating-btn">😍<span>Excellent</span></button>
+        </div>
+
+        <button class="submit-feedback">Submit</button>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/career.js') }}"></script>
+
+{% endblock %}

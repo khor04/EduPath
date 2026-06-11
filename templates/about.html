@@ -1,0 +1,126 @@
+{% if current_user.is_authenticated %}
+    {% extends "layout.html" %}
+{% else %}
+    {% extends "layout_public.html" %}
+{% endif %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="about-page">
+
+    <!-- Header -->
+    <div class="about-header">
+        <h1>About EduPath</h1>
+        <p>
+            Smart Academic Performance Analysis & Career Recommendation System
+        </p>
+    </div>
+
+    <!-- Introduction -->
+    <div class="about-section">
+        <h2>Introduction</h2>
+
+        <p>
+            EduPath is a web-based academic performance analysis system developed
+            to help students monitor, analyse, and predict their academic
+            performance through intelligent transcript processing and
+            data visualization features.
+        </p>
+    </div>
+
+    <!-- Objectives -->
+    <div class="about-section">
+
+        <h2>System Objectives</h2>
+
+        <div class="objective-grid">
+
+            <div class="objective-card">
+                <i class="bi bi-graph-up"></i>
+                <h3>Performance Analysis</h3>
+                <p>
+                    Analyse GPA and CGPA performance trends across semesters.
+                </p>
+            </div>
+
+            <div class="objective-card">
+                <i class="bi bi-lightbulb"></i>
+                <h3>Academic Insights</h3>
+                <p>
+                    Provide meaningful insights to support academic planning.
+                </p>
+            </div>
+
+            <div class="objective-card">
+                <i class="bi bi-briefcase"></i>
+                <h3>Career Recommendation</h3>
+                <p>
+                    Recommend suitable career pathways based on academic results.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="about-section">
+
+        <h2>Main Features</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <i class="bi bi-file-earmark-arrow-up"></i>
+                <span>Transcript Upload</span>
+            </div>
+
+            <div class="feature-card">
+                <i class="bi bi-bar-chart"></i>
+                <span>Performance Analysis</span>
+            </div>
+
+            <div class="feature-card">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>CGPA Prediction</span>
+            </div>
+
+            <div class="feature-card">
+                <i class="bi bi-people"></i>
+                <span>Peer Benchmarking</span>
+            </div>
+
+            <div class="feature-card">
+                <i class="bi bi-briefcase"></i>
+                <span>Career Recommendation</span>
+            </div>
+
+            <div class="feature-card">
+                <i class="bi bi-person-circle"></i>
+                <span>User Profile Management</span>
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <!-- Mission -->
+    <div class="about-section mission-section">
+
+        <h2>Our Mission</h2>
+
+        <p>
+            EduPath aims to provide students with a smarter and more interactive
+            platform for understanding academic progress and planning future
+            career pathways.
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

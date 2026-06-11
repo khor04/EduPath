@@ -1,0 +1,200 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="analysis-page">
+
+  <h1 class="page-title">Academic Performance Analysis and Prediction</h1>
+  <p class="page-subtitle">
+    Overview of your performance trend and predict needed GPA to achieve target CGPA
+  </p>
+
+  <!-- GPA Progression -->
+  <div class="analysis-card">
+    <p class="card-label">PERFORMANCE TREND</p>
+    <h2>GPA Progression</h2>
+
+{% if gpa_labels and gpa_values %}
+  <canvas id="gpaTrendChart"></canvas>
+{% else %}
+  <div class="empty-message">
+No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction.  </div>
+{% endif %}
+  </div>
+
+  <!-- Prediction Engine -->
+  <div class="prediction-card">
+
+    <div class="prediction-header">
+      <div>
+        <p class="card-label">PREDICTION ENGINE</p>
+        <h2>Target CGPA Simulator</h2>
+        <p class="mini-text">What GPA do I need overall until graduate?</p>
+      </div>
+
+      <button class="save-btn" id="saveTargetBtn">Save</button>
+    </div>
+
+    <div class="current-info">
+      <p>Current CGPA: <span id="currentCGPA">-</span></p>
+      <p>Current Total Credit: <span id="currentCredits">-</span></p>
+    </div>
+
+    <p class="instruction">
+      In order to calculate the needed CGPA to achieve final goal, please adjust the slider to the required number
+    </p>
+
+    <div class="slider-row">
+
+      <div class="slider-group">
+        <label>Target CGPA:</label>
+        <span id="targetValue" class="slider-value"></span>
+        <input type="range" id="targetCGPA" min="0.00" max="4.00" step="0.01" value="0">
+      </div>
+
+      <div class="slider-group">
+        <label>Total Remaining Credit:</label>
+        <span id="creditValue" class="slider-value"></span>
+        <input type="range" id="remainingCredits" min="0" max="128" step="1" value="0">      </div>
+
+    </div>
+
+    <div class="button-row">
+      <button onclick="calculatePrediction()" class="calculate-btn">Calculate</button>
+      <button onclick="resetPrediction()" class="reset-btn">Reset</button>
+    </div>
+
+    <!-- Result Box -->
+    <div id="predictionOutput" style="display: none;">
+    <div id="resultBox" class="result-box">
+      <p class="result-title">REQUIREMENT ANALYSIS:</p>
+      <h3 id="resultStatus">NOT ACHIEVABLE!</h3>
+      <p id="resultMessage">
+        Required GPA of <b>4.15</b> exceeds maximum possible GPA (4.00).
+      </p>
+      <p id="bestPossibleText">
+        Best possible CGPA you may achieve is <b>3.85</b>
+      </p>
+    </div>
+
+    <!-- Projection Cards -->
+    <div class="case-row">
+
+      <div class="case-card best-case">
+        <h3>Best Case</h3>
+        <p>Assumes student scores GPA 4.00 for all remaining credits.</p>
+        <span>Projected CGPA:</span>
+        <h2 id="bestCase">3.85</h2>
+      </div>
+
+      <div class="case-card realistic-case">
+        <h3>Realistic Case</h3>
+        <p>Assumes student maintains current academic performance.</p>
+        <span>Projected CGPA:</span>
+        <h2 id="realisticCase">3.78</h2>
+      </div>
+
+      <div class="case-card worst-case">
+        <h3>Worst Case</h3>
+        <p>Assumes GPA decreases based on recent trend.</p>
+        <span>Projected CGPA:</span>
+        <h2 id="worstCase">3.72</h2>
+      </div>
+
+    </div>
+
+    <!-- AI GPA Target Planner -->
+<div class="ai-plan-card" id="aiPlanCard" style="display:none;">
+
+  <div class="ai-header">
+    <h3>🤖 AI-Assisted GPA Target Planning</h3>
+    <p>
+      Generate a personalized semester-by-semester GPA target plan and academic guidance based on your performance trend and remaining credit hours.
+    </p>
+  </div>
+
+  <!-- Remaining Semester Inputs -->
+  <div class="semester-plan-section">
+
+    <h4>Remaining Semester Credit Distribution</h4>
+
+    <div id="semesterInputs"></div>
+
+    <button type="button" id="addSemesterBtn">
+      + Add Semester
+    </button>
+    <div class="credit-balance">
+    Credits Left to Allocate: <strong id="creditsBalance">0</strong>
+    </div>
+
+  </div>
+
+  <div class="ai-button-row">
+    <button onclick="generateAIPlan()">
+      Generate AI Plan
+    </button>
+  </div>
+
+  <!-- AI Result -->
+  <div id="aiResultSection" style="display:none;">
+
+    <div class="ai-summary">
+
+      <div class="summary-pill" id="trendPill">
+        <span>Trend: </span>
+        <strong id="trendResult">Improving</strong>
+      </div>
+
+      <div class="summary-pill" id="feasibilityPill">
+        <span>Feasibility: </span>
+        <strong id="feasibilityResult">Achievable</strong>
+      </div>
+
+    </div>
+
+    <table class="ai-plan-table">
+
+      <thead>
+        <tr>
+          <th>Semester</th>
+          <th>Credits</th>
+          <th>Minimum GPA Required</th>
+        </tr>
+      </thead>
+
+      <tbody id="semesterPlanTable">
+
+      </tbody>
+
+    </table>
+
+    <div class="ai-advice-box">
+      <h4>AI Advice</h4>
+      <p id="adviceText"></p>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const gpaLabels = {{ gpa_labels|tojson }};
+const gpaValues = {{ gpa_values|tojson }};
+const currentCGPA = JSON.parse('{{ current_cgpa | tojson | safe }}');
+const currentCredits = JSON.parse('{{ current_credits | tojson | safe }}');
+const semesterHistory = {{ semester_history|safe }};
+
+</script>
+
+<script src="{{ url_for('static', filename='js/analysis.js') }}"></script>
+{% endblock %}

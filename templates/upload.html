@@ -1,0 +1,196 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="upload-page">
+
+  <h1 class="page-title">Transcript Upload</h1>
+  <p class="page-subtitle">
+    Upload your result transcript, auto-extract your grades, and save in the system.
+  </p>
+
+  <!-- Upload Box -->
+  <div class="upload-card">
+    <div class="drop-zone">
+      <i class="bi bi-file-earmark-arrow-up upload-icon"></i>
+
+      <h3>Drag and drop your transcript here</h3>
+      <p>Download transcript record from the MAYA Portal.</p>
+
+      <p class="upload-note">
+        <strong>Note:</strong><br>
+        You may upload full transcript records or by semester.<br>
+        The system will automatically organize and analyse your data.<br>
+        <strong>For best accuracy, uploading a complete transcript is strongly recommended.</strong>.
+      </p>
+
+      <label for="pdfUpload" class="select-btn">SELECT PDF</label>
+      <input type="file" id="pdfUpload" name="pdf" accept=".pdf" hidden>
+
+      <div class="warning-msg">
+        <i class="bi bi-exclamation-circle"></i>
+        Only PDF files are supported for verification
+      </div>
+    </div>
+  </div>
+
+
+
+</div><!-- Verification Section -->
+<div class="verification-section" id="verificationSection" style="display: none;">
+
+  <div class="verification-header">
+    <div>
+      <h1 class="section-title">Transcript Verification & Editing</h1>
+      <p class="page-subtitle">
+        Review the extracted course data before final submission. You may edit directly on the table if certain
+        information is extracted wrongly.<br><br>
+        <strong>Verified transcript data will be used throughout the system.</strong> Please review and confirm that all
+        information is accurate before submission.
+      </p>
+    </div>
+
+    <div class="action-buttons">
+      <button class="submit-btn" id="finalizeBtn">Finalize & Submit</button>
+    </div>
+  </div>
+
+  <!-- Extracted Data Table -->
+  <div class="semester-panel" id="semesterPanel"></div>
+</div>
+<!-- Upload History -->
+<div class="history-card">
+  <h2 class="section-title">Transcript Upload History</h2>
+  <p class="page-subtitle">Previously verified transcript uploads</p>
+
+  <div class="history-list">
+
+    {% if upload_history %}
+    {% for item in upload_history %}
+
+    <div class="history-item">
+
+      <!-- Header (click to expand) -->
+      <div class="history-header" onclick="toggleHistory(this)">
+        <div class="history-left">
+          <i class="bi bi-folder2-open"></i>
+
+          <div>
+            <h4>{{ item.uploaded_at }}</h4>
+            <span class="badge">
+              {{item.uploaded_type}}
+            </span>
+
+
+          </div>
+        </div>
+
+        <div class="history-right">
+          <span class="status {{ item.status|lower }}">
+            {{ item.status }}
+          </span>
+
+          <i class="bi bi-chevron-down arrow"></i>
+        </div>
+      </div>
+
+      <!-- Expandable content -->
+      <div class="history-content">
+
+        <div class="semester-list">
+          <div class="semester-card">
+            <i class="bi bi-journal-text"></i>
+            <span>{{item.summary}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    {% endfor %}
+
+    {% else %}
+    <p>No transcript upload history yet.</p>
+    {% endif %}
+
+  </div>
+</div>
+
+<!--delete history button-->
+<div class="history-actions">
+  <button
+    class="btn btn-danger"
+    data-bs-toggle="modal"
+    data-bs-target="#deleteTranscriptModal"
+    id="deleteBtn"
+>
+    <i class="bi bi-trash"></i>
+    Delete All Transcript Data
+</button>
+</div>
+
+
+<div class="modal fade" id="deleteTranscriptModal" tabindex="-1" aria-hidden="true">
+
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Delete All Academic Records?
+        </h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal">
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="delete-warning">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          All transcript-related data will be permanently removed from the system.
+        </div>
+
+        <p>
+          This action will permanently remove:
+        </p>
+
+        <ul class="delete-list">
+          <li>All uploaded transcripts records</li>
+          <li>Dashboard academic data</li>
+          <li>Skill profile results</li>
+          <li>Career recommendations</li>
+          <li>Dashboard GPA and CGPA analytics</li>
+        </ul>
+
+        <p class="delete-danger-text">
+          This action is irreversible and cannot be undone.
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+
+        <button type="button" id="confirmDeleteTranscriptBtn" class="btn btn-danger">
+          Delete All Records
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+
+{% endblock %}

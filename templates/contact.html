@@ -1,0 +1,83 @@
+{% if current_user.is_authenticated %}
+    {% extends "layout.html" %}
+{% else %}
+    {% extends "layout_public.html" %}
+{% endif %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="contact-wrapper">
+
+    <h1>Contact Us</h1>
+
+    <form id="contactForm" method="POST">
+
+        <label>Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name">
+        <div id="nameError" class="error"></div>   
+
+        <label>Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email">
+        <div id="emailError" class="error"></div>     
+
+        <label>Message</label>
+        <textarea id="message" name="message" placeholder="Your message"></textarea>
+        <div id="messageError" class="error"></div>   
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="{{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+</div>
+
+<script>
+    document.getElementById("contactForm").addEventListener("submit", function (e) {
+        e.preventDefault();   
+
+        let valid = true;
+
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let message = document.getElementById("message").value.trim();
+
+        document.getElementById("nameError").innerText = "";
+        document.getElementById("emailError").innerText = "";
+        document.getElementById("messageError").innerText = "";
+
+        if (name === "") {
+            document.getElementById("nameError").innerText = "Name is required";
+            valid = false;
+        }
+
+        if (email === "") {
+            document.getElementById("emailError").innerText = "Email is required";
+            valid = false;
+        } else if (!email.includes("@")) {
+            document.getElementById("emailError").innerText = "Invalid email format";
+            valid = false;
+        }
+
+        if (message === "") {
+            document.getElementById("messageError").innerText = "Message is required";
+            valid = false;
+        }
+
+        if (valid) {
+            this.submit();
+        }
+    });
+</script>
+
+{% endblock %}

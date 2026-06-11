@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EduPath</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    {% block styles %}
+
+    {% endblock %}
+
+</head>
+
+<body>
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="logo">
+            <img src="/static/images/Logo design for CGPA Hub-Photoroom.png" class="logo_design">
+            <img src="/static/images/EduPath.png" class="logo_text">
+        </div>
+        
+        <div class="profile">
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('profile.profile') }}">
+                {% if current_user.profile_picture %}
+                <img src="{{ current_user.profile_picture }}" class="user_icon">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/people icon.png') }}" class="user_icon">
+                {% endif %}
+            </a>
+            {% else %}
+            <img src="{{ url_for('static', filename='images/people icon.png') }}" class="user_icon">
+            {% endif %}
+        </div>
+    </div>
+
+
+    <!-- Page layout below topbar -->
+    <div class="page-layout">
+
+        <div class="sidebar">
+            <ul class="menu">
+                <li class="{% if active_page == 'dashboard' %}active{% endif %}">
+                    <a href="/dashboard"><i class="bi bi-grid"></i> Dashboard</a>
+                </li>
+
+                <li class="{% if active_page == 'upload' %}active{% endif %}">
+                    <a href="/upload"><i class="bi bi-file-earmark-arrow-up"></i> Transcript Upload</a>
+                </li>
+
+                <li class="{% if active_page == 'analysis' %}active{% endif %}">
+                    <a href="/analysis"><i class="bi bi-graph-up"></i> Analysis & Prediction</a>
+                </li>
+
+                <li class="{% if active_page == 'benchmark' %}active{% endif %}">
+                    <a href="/benchmarking"><i class="bi bi-bar-chart"></i> Peer Benchmarking</a>
+                </li>
+
+                <li class="{% if active_page == 'career' %}active{% endif %}">
+                    <a href="/career"><i class="bi bi-briefcase"></i> Career Recommendation</a>
+                </li>
+            </ul>
+
+            <div class="logout">
+
+                <i class="bi bi-box-arrow-left"></i>
+
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn"
+                    onclick="return confirm('Are you sure you want to logout?')">
+                    Logout
+                </a>
+
+            </div>
+        </div>
+
+
+        <div class="main">
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>@2026 EduPath. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact Us</a>
+            <a href="/privacy">Privacy Policy</a>
+        </div>
+    </footer>
+
+</body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</html>

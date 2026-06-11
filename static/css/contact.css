@@ -1,0 +1,62 @@
+.contact-wrapper {
+    max-width: 600px;
+    margin: 40px auto;
+    text-align: left;
+    min-height: calc(100vh - 200px);  /* add this */
+}
+
+h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #7776B3;
+    margin-bottom: 3px;
+}
+
+label {
+  font-size: 14px;
+  display: block;
+  margin-top: 18px;
+}
+
+input, textarea {
+  width: 100%;        
+  padding: 15px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+  height: 110px;
+}
+
+button {
+  width: 100%;
+  margin-top: 18px;
+  padding: 10px;
+  background: #7776B3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background: #5f5da0;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+

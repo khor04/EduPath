@@ -1,0 +1,106 @@
+{% if current_user.is_authenticated %}
+    {% extends "layout.html" %}
+{% else %}
+    {% extends "layout_public.html" %}
+{% endif %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/privacy.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="privacy-page">
+
+    <!-- Header -->
+    <div class="privacy-header">
+        <h1>Privacy Policy</h1>
+
+        <p>
+            Your privacy and academic information are important to us.
+        </p>
+    </div>
+
+    <!-- Privacy Cards -->
+    <div class="privacy-container">
+
+        <div class="privacy-card">
+            <i class="bi bi-shield-lock"></i>
+
+            <h2>Introduction</h2>
+
+            <p>
+                EduPath is committed to protecting the privacy and personal
+                information of users. This Privacy Policy explains how user
+                data is collected, used, and protected within the system.
+            </p>
+        </div>
+
+        <div class="privacy-card">
+            <i class="bi bi-person-lines-fill"></i>
+
+            <h2>Information Collected</h2>
+
+            <ul>
+                <li>Username and email address</li>
+                <li>Academic transcript information</li>
+                <li>GPA and CGPA results</li>
+                <li>Profile pictures uploaded by users</li>
+                <li>Account login credentials</li>
+            </ul>
+        </div>
+
+        <div class="privacy-card">
+            <i class="bi bi-bar-chart"></i>
+
+            <h2>Use of Information</h2>
+
+            <ul>
+                <li>Academic performance analysis</li>
+                <li>GPA and CGPA visualization</li>
+                <li>Anonymous peer benchmarking</li>
+                <li>Career recommendation generation</li>
+                <li>User account management</li>
+                <li>System improvement and maintenance</li>
+            </ul>
+        </div>
+
+        <div class="privacy-card">
+            <i class="bi bi-lock"></i>
+
+            <h2>Data Security</h2>
+
+            <ul>
+                <li>User passwords are encrypted before storage</li>
+                <li>Personal information is securely stored</li>
+                <li>Only authorized users can access their own records</li>
+            </ul>
+        </div>
+
+        <div class="privacy-card">
+            <i class="bi bi-share"></i>
+
+            <h2>Data Sharing</h2>
+
+            <p>
+                EduPath does not sell, trade, or share user personal
+                information with third parties unless required by law.
+            </p>
+        </div>
+
+        <div class="privacy-card">
+            <i class="bi bi-arrow-repeat"></i>
+
+            <h2>Policy Updates</h2>
+
+            <p>
+                EduPath reserves the right to update this Privacy Policy
+                when necessary. Any changes will be reflected on this page.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

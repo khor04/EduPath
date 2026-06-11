@@ -1,0 +1,129 @@
+{% extends "layout_public.html" %}
+
+{% block content %}
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <img src="{{ url_for('static', filename='images/landing_pic.png') }}" class="hero-img"
+        alt="EduPath academic analytics illustration">
+    <div class="hero-content">
+        <p class="system-label">Automated Transcript Parsing and Predictive Analytics System</p>
+
+        <h1>Turn Your Transcript<br>into Insights.</h1>
+
+        <p class="hero-desc">
+            From grades to growth,<br>
+            analyze, predict, and plan your future.
+        </p>
+
+        <a href="{{ url_for('auth.register') }}" class="hero-btn">Get Started - It’s Free</a>
+
+        <p class="privacy-text">
+            <i class="bi bi-shield-check"></i>
+            Your data is secure and private.
+        </p>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="features">
+    <h2>Powerful Features to Guide Your Academic Journey</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <div class="icon-box purple"><i class="bi bi-file-earmark-arrow-up"></i></div>
+            <h3>Smart Transcript Processing</h3>
+            <p>Upload your PDF transcript and automatically extract courses, grade, and semesters with accuracy.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon-box green"><i class="bi bi-lightbulb"></i></div>
+            <h3>Academic Insights</h3>
+            <p>Identify your strength and area of improvement with subject-level analysis and performance trends.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon-box yellow"><i class="bi bi-bullseye"></i></div>
+            <h3>Target CGPA Prediction</h3>
+            <p>Predict GPA needed to achieve your target CGPA, and what-if scenarios to reach your academic goals.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon-box peach"><i class="bi bi-bar-chart"></i></div>
+            <h3>Peer Benchmarking</h3>
+            <p>See where you stand among your cohort with anonymous GPA distribution graph.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon-box blue"><i class="bi bi-briefcase"></i></div>
+            <h3>Career Path Suggestion</h3>
+            <p>Discover suitable careers based on your academic strength and skill profile.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon-box beige"><i class="bi bi-grid-fill"></i></div>
+            <h3>All-in-one Dashboard</h3>
+            <p>View your academic summary, trends, benchmarking, and career insights in one place.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- Steps -->
+<section class="steps">
+    <h2>Simple Steps, Powerful Insights</h2>
+
+    <div class="steps-row">
+
+        <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-icon purple"><i class="bi bi-upload"></i></div>
+            <h3>Upload Transcript</h3>
+            <p>Upload your official PDF transcript.</p>
+        </div>
+
+        <div class="step-line"></div>
+
+        <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-icon blue"><i class="bi bi-check-circle"></i></div>
+            <h3>Review & Confirm</h3>
+            <p>Review and confirm the extracted data are accurate to ensure smooth analysis process and results.</p>
+        </div>
+
+        <div class="step-line"></div>
+
+        <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-icon purple"><i class="bi bi-bar-chart-fill"></i></div>
+            <h3>Analyze Performance</h3>
+            <p>Get insights from your academic performance, trends, CGPA prediction.</p>
+        </div>
+
+        <div class="step-line"></div>
+
+        <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-icon beige"><i class="bi bi-briefcase"></i></div>
+            <h3>Explore Career</h3>
+            <p>Discover career path that match your strength.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div>
+        <h2>Start Making Smarter Academic<br>Decision Today</h2>
+        <p>Upload your transcript and unlock personalized insights instantly.</p>
+    </div>
+
+    <a href="{{ url_for('auth.register') }}" class="cta-btn">Get Started - It’s Free</a>
+</section>
+
+{% endblock %}

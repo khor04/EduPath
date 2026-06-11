@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/benchmarking.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="benchmark-page">
+
+  <h1 class="page-title">Peer Benchmarking</h1>
+  <p class="page-subtitle">
+    An overview of your standing against peers of the same department
+  </p>
+
+  <h3 class="sample-text">Based on 20 students in your department</h3>
+
+  <!-- Top section: Histogram + Donut/Insight -->
+  <div class="benchmark-grid">
+
+    <div class="chart-card">
+      <p class="card-label">ANONYMOUS PEER COMPARISON</p>
+      <h2>GPA Distribution Analysis</h2>
+      <canvas id="gpaHistogram"></canvas>
+    </div>
+
+    <div class="right-section">
+
+      <div class="mean-card">
+        <h3>DEPARTMENTAL AVERAGES</h3>
+        <p>Department average used for performance benchmark.</p>
+
+        <div class="donut-wrapper">
+          <canvas id="meanChart"></canvas>
+
+          <div class="donut-center-text">
+            <strong>MEAN</strong>
+            <span>3.67</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <h3>INSIGHTS:</h3>
+        <p>
+          Your CGPA is <span>slightly above</span> the cohort average,
+          indicating strong performance.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom section: Semester chart + Insight -->
+  <div class="semester-grid">
+
+    <div class="chart-card">
+      <h2 class="purple-title">Semester Breakdown Comparison</h2>
+      <p>CGPA Comparison Trend Graph</p>
+      <canvas id="semesterTrend"></canvas>
+    </div>
+
+    <div class="insight-card semester-insight">
+      <h3>INSIGHTS: </h3>
+      <p>Your CGPA trend shows steady improvement across semesters.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/benchmark.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-page">
+    <div class="profile-card">
+
+        <h1>Personal Details</h1>
+        <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash-message {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('profile.profile') }}" id="profileForm">
+
+            <div class="profile-header">
+                <img src="{{ user.profile_picture if user.profile_picture else url_for('static', filename='images/people icon.png') }}"
+                    class="profile-photo">
+
+                <div class="profile-info">
+                    <h2>{{ user.username }}</h2>
+                    <p>{{ user.email }}</p>
+                    <button type="button" class="upload-btn" onclick="openModal('pictureModal')">
+                        Upload Profile Picture
+                    </button>
+                </div>
+
+                <button type="button" class="edit-btn" id="editSaveBtn" onclick="enableEdit(event)">
+                    Edit
+                </button>
+            </div>
+
+            <div class="details-grid">
+                <div class="field-group">
+                    <label>Username</label>
+                    <input type="text" name="username" id="usernameInput" value="{{ user.username }}" readonly>
+                </div>
+
+                <div class="field-group">
+                    <label>Email</label>
+                    <input type="email" id="emailInput" name="email" value="{{ user.email }}" readonly>
+                </div>
+
+                <div class="field-group">
+                    <label>Batch*</label>
+                    <input type="text" value="{{ user.batch }}" readonly>
+                </div>
+
+                <div class="field-group">
+                    <label>Department*</label>
+                    <input type="text" value="{{ user.department }}" readonly>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="profile-actions">
+            <button type="button" class="change-btn" onclick="openModal('passwordModal')">
+                Change Password
+            </button>
+
+            <button type="button" class="delete-btn" onclick="openModal('deleteModal')">
+                Delete account
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal" id="passwordModal">
+    <form method="POST" action="{{ url_for('profile.change_password') }}">
+        <div class="modal-box">
+            <span class="close" onclick="closeModal('passwordModal')">&times;</span>
+            <h3>Change Password</h3>
+
+            <label>Current Password*</label>
+            <div class="password-wrapper">
+                <input type="password" class="password-input" name="current_password" id="currentPassword" required>
+                <i class="bi bi-eye-slash password-eye" onclick="togglePassword('currentPassword', this)"></i>
+            </div>
+            <p id="currentPasswordMsg" class="error-text"></p>
+
+            <label>New Password*</label>
+            <div class="password-wrapper">
+                <input type="password" class="password-input" name="new_password" id="newPassword" required>
+                <i class="bi bi-eye-slash password-eye" onclick="togglePassword('newPassword', this)"></i>
+            </div>
+            <p class = "note">Password must contain at least 8 characters, 1 digit and 1 special character.</p>
+            <p id="passwordRequirementMsg" class="error-text"></p>
+
+            <label>Confirm New Password*</label>
+            <div class="password-wrapper">
+                <input type="password" class="password-input" name="confirm_password" id="confirmPassword" required>
+                <i class="bi bi-eye-slash password-eye" onclick="togglePassword('confirmPassword', this)"></i>
+            </div>
+
+            <p id="passwordMatchMsg" class="error-text"></p>
+
+            <div class="modal-actions">
+                <button type="submit" class="save-modal-btn" id="passwordSaveBtn" disabled>
+                    Save Changes
+                </button>
+
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-box small-modal">
+        <h3>Are you sure you want to delete your account?</h3>
+        <p>This process cannot be undone.</p>
+
+        <label class="checkbox-row">
+            <input type="checkbox" required>
+            I understand this will delete all my data permanently.
+        </label>
+
+        <div class="modal-actions center">
+            <button type="button" onclick="closeModal('deleteModal')" class="cancel-btn">
+                No
+            </button>
+
+            <form method="POST" action="{{ url_for('profile.delete_account') }}">
+                <button type="submit" class="delete-confirm-btn">
+                    Yes
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Picture Modal -->
+<div class="modal" id="pictureModal">
+    <form method="POST" action="{{ url_for('profile.upload_picture') }}" enctype="multipart/form-data">
+        <div class="modal-box">
+            <span class="close" onclick="closeModal('pictureModal')">&times;</span>
+            <h3>Upload Profile Picture</h3>
+
+            <img src="{{ user.profile_picture if user.profile_picture else url_for('static', filename='images/people icon.png') }}"
+                class="preview-img" id="profilePicturePreview">
+
+            <input type="file" name="profile_picture" accept="image/*" required onchange="previewProfilePicture(event)">
+            <p class="hint">Recommended size: 200 x 200 pixels</p>
+
+            <div class="modal-actions">
+                <button type="button" onclick="closeModal('pictureModal')" class="cancel-btn">
+                    Cancel
+                </button>
+
+                <button type="submit" class="save-picture-btn">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+    <div class="success-box">
+        <div class="success-icon">✓</div>
+        <p>Updated Successfully!</p>
+
+        <button type="button" onclick="closeModal('successModal')" class="ok-btn">
+            OK
+        </button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+{% if request.args.get('modal') == 'success' %}
+
+{% endif %}
+
+{% endblock %}

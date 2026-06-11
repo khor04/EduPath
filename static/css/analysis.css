@@ -1,0 +1,402 @@
+.analysis-page {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.page-title {
+  color: #7776B3;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.analysis-card,
+.prediction-card {
+  background: white;
+  padding: 18px;
+  margin-bottom: 28px;
+}
+
+.card-label {
+  color: #7776B3;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.analysis-card h2,
+.prediction-card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.analysis-card canvas {
+  width: 100% !important;
+  height: 320px !important;
+}
+
+/* Prediction */
+.prediction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mini-text {
+  font-size: 12px;
+}
+
+.save-btn {
+  background: #c2b6ff;
+  border: 1px solid #8b7fd1;
+  border-radius: 6px;
+  padding: 8px 28px;
+  cursor: pointer;
+}
+
+.current-info {
+  margin: 15px 0;
+  font-size: 16px;
+}
+
+.current-info p {
+  margin-bottom: 8px;
+}
+
+.instruction {
+  font-size: 13px;
+  margin: 18px 0;
+}
+
+.slider-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  margin-bottom: 22px;
+}
+
+.slider-group label {
+  font-size: 16px;
+  margin-right: 15px;
+}
+
+.slider-value {
+  color: #0984ff;
+  font-size: 34px;
+  font-weight: 500;
+}
+
+.slider-group input[type="range"] {
+  width: 100%;
+  margin-top: 8px;
+  accent-color: #0984ff;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.calculate-btn,
+.reset-btn {
+  padding: 8px 32px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.calculate-btn {
+  background: #fff7cc;
+  border: 1px solid #999;
+}
+
+.reset-btn {
+  background: #eef6ff;
+  border: 1px solid #8ab6e8;
+}
+
+/* Result Box */
+.result-box {
+  background: #fff8bd;
+  padding: 10px;
+  margin: 12px 0;
+  font-weight: bold;
+}
+
+.result-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.result-box .resultStatus {
+  color: red;
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.result-box p {
+  font-size: 14px;
+}
+
+/* Scenario Cards */
+.case-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 15px;
+}
+
+.case-card {
+  text-align: center;
+  padding: 18px 12px;
+  min-height: 135px;
+}
+
+.case-card h3 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  font-weight: bolder;
+}
+
+.case-card p {
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.case-card span {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.case-card h2 {
+  font-size: 34px;
+  color: #0984ff;
+  margin-top: 3px;
+}
+
+.best-case {
+  background: #d9ffd4;
+}
+
+.realistic-case {
+  background: #ffe9b8;
+}
+
+.worst-case {
+  background: #ffd8c9;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 80px 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+/*ai suggestion part*/
+.semester-plan-section h4 {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.ai-plan-card {
+  margin-top: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.ai-header {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.ai-header h3 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  color: #2563eb;
+}
+
+.ai-header p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.semester-input-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#addSemesterBtn {
+  margin-top: 10px;
+  border: none;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#addSemesterBtn:hover {
+  background: #bae6fd;
+}
+
+.ai-button-row {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.ai-button-row button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ai-button-row button:hover {
+  background: #1d4ed8;
+}
+
+.ai-summary {
+  display: flex;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.summary-pill {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+/* Achievable */
+.feasible-success {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+}
+
+/* Challenging */
+.feasible-warning {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  color: #92400e;
+}
+
+/* Not Achievable */
+.feasible-danger {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+}
+
+/* Error */
+.feasible-neutral {
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+/* trendpills*/
+/* Improving */
+.trend-improving {
+  background: #e0f2fe;
+  border: 1px solid #7dd3fc;
+  color: #075985;
+}
+
+/* Stable */
+.trend-stable {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+}
+
+/* Declining */
+.trend-declining {
+  background: #ffedd5;
+  border: 1px solid #fdba74;
+  color: #9a3412;
+}
+
+.ai-plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.ai-plan-table th {
+  background: #2563eb;
+  color: white;
+  padding: 14px;
+}
+
+.ai-plan-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.ai-plan-table tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.gpa-high {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.gpa-medium {
+  color: #ca8a04;
+  font-weight: 700;
+}
+
+.gpa-critical {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.ai-advice-box {
+  margin-top: 25px;
+  background: #eff6ff;
+  border-left: 5px solid #2563eb;
+  padding: 18px;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .slider-row {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .case-row {
+    grid-template-columns: 1fr;
+  }
+}

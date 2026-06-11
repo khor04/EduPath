@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-page">
+
+  <div class="dashboard-header">
+
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">
+        An overview of academic performance
+      </p>
+    </div>
+
+    <div class="dashboard-actions">
+
+      <p class="updated-text">Last transcript update: {{ last_updated }}</p>
+
+      <div class="report-actions">
+
+        <button class="preview-report-btn">
+          Preview Report
+        </button>
+
+        <button class="download-report-btn">
+          Download PDF
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Top Statistic Cards -->
+  <div class="stats-row">
+
+    <div class="stat-card">
+      <h3>Latest CGPA</h3>
+      <p>{{ "%.2f"|format(latest_cgpa) if latest_cgpa else "-" }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Credit Completed</h3>
+      <p>{{ completed_credits if completed_credits else "-" }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Target CGPA</h3>
+      <p>{{ "%.2f"|format(target_cgpa) if target_cgpa else "-" }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>CGPA needed<br>for Target</h3>
+      <p>{{ "%.2f"|format(required_gpa) if required_gpa else "-" }}</p>
+    </div>
+  </div>
+
+  <!-- GPA Progression -->
+  <div class="dashboard-card full-card">
+    <p class="card-label">PERFORMANCE TREND</p>
+    <h2>GPA Progression</h2>
+    {% if gpa_labels and gpa_values %}
+  <canvas id="dashboardGpaTrend"></canvas>
+{% else %}
+  <div class="empty-message">
+  No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction.  </div>
+{% endif %}
+  </div>
+
+  <!-- Benchmark Section -->
+  <div class="benchmark-summary-grid">
+
+    <div class="dashboard-card">
+      <p class="card-label">ANONYMOUS PEER COMPARISON</p>
+      <h2>GPA Distribution Analysis</h2>
+      <h4>Based on 20 students in your department</h4>
+      <canvas id="dashboardHistogram"></canvas>
+    </div>
+
+    <div class="insight-card">
+      <h3>INSIGHTS:</h3>
+      <p>
+        Your CGPA is <span>slightly above</span> the cohort average,
+        indicating strong performance.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Bottom Summary Cards -->
+  <div class="bottom-grid">
+
+    <div class="summary-card">
+      <h3>Academic Strength and Weakness</h3>
+
+      <div class="summary-list">
+        <strong>Strength:</strong>
+        <ul>
+          <li>Programming</li>
+          <li>Data Analytics</li>
+          <li>Probability & Statistics</li>
+        </ul>
+      </div>
+
+      <div class="summary-list">
+        <strong>Weaknesses:</strong>
+        <ul>
+          <li>Project Management</li>
+          <li>Geography</li>
+          <li>Business</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <h3>Recommended Career Pathways</h3>
+
+      <div class="career-match">
+        <strong class="strong-match">STRONG MATCH</strong>
+        <ul>
+          <li>Software Developer</li>
+          <li>Data Analyst</li>
+        </ul>
+      </div>
+
+      <div class="career-match">
+        <strong class="moderate-match">MODERATE MATCH</strong>
+        <ul>
+          <li>Quantitative Analyst</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const dashboardGpaLabels = JSON.parse('{{ gpa_labels | tojson | safe }}');
+  const dashboardGpaValues = JSON.parse('{{ gpa_values | tojson | safe }}');
+  const dashboardLatestCGPA = JSON.parse('{{ latest_cgpa | tojson | safe }}');
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

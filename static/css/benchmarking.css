@@ -1,0 +1,185 @@
+.benchmark-page {
+  max-width: 1180px;
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.page-title {
+    color: #7776B3;
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+.page-subtitle {
+    font-size: 13px;
+    margin-bottom: 28px;
+}
+
+.sample-text {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.benchmark-grid,
+.semester-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 28px;
+  align-items: start;
+}
+
+
+.semester-insight {
+    font-size: 18px;
+  min-height: 180px;
+}
+
+.semester-grid {
+  margin-top: 28px;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.chart-card {
+    background: white;
+    padding: 22px;
+    width: 100%;
+}
+
+.chart-card canvas {
+    width: 100px;
+    height: 100px;
+}
+
+.card-label {
+    color: #7776B3;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.chart-card h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.purple-title {
+    color: #7776B3;
+}
+
+.right-section {
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+}
+
+.mean-card {
+  background: #4578c9;
+  color: white;
+  text-align: center;
+  padding: 20px 16px;
+  height: 260px;
+}
+
+.donut-wrapper {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 12px auto 0;
+}
+
+.donut-wrapper canvas {
+  width: 170px !important;
+  height: 170px !important;
+}
+
+.donut-center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-center-text strong {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.donut-center-text span {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.mean-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.mean-card p {
+    font-size: 11px;
+}
+
+
+
+.mean-card h2 {
+    font-size: 20px;
+    margin-top: -110px;
+    position: relative;
+    z-index: 2;
+}
+
+.insight-card {
+    width: 100%;
+    background: white;
+    padding: 18px;
+    text-align: center;
+    min-height: 120px;
+}
+
+.insight-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.insight-card p {
+    font-size: 18px;
+}
+
+.insight-card span {
+    color: red;
+    font-weight: bold;
+}
+
+.insight-card.large {
+    min-height: 170px;
+}
+
+@media (max-width: 1100px) {
+    .benchmark-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .right-section {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+}
+
+@media (max-width: 800px) {
+    .right-section {
+        grid-template-columns: 1fr;
+    }
+}
