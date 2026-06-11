@@ -6,31 +6,10 @@ The system allows students to upload academic transcripts in PDF format, where r
 
 The system provides several analytical features, including GPA progression visualisation, CGPA prediction, benchmarking against students from the same department and batch, and academic strength and weakness analysis. In addition, it includes a career recommendation component that identifies potential career pathways based on students’ academic performance and skill profiles derived from completed courses.
 
-# Tech Stack
-
+Tech Stack
 - Frontend: HTML, CSS, JavaScript, Bootstrap
 - Backend: Python Flask
 - Database: Supabase, Cloudinary
 - AI Integration: Google Gemini API
 - Data Visualization: Chart.js
 
-  ## Project Structure
-
-FYP Project/
-│
-├── app.py
-├── config.py
-├── extensions.py
-├── requirements.txt
-│
-├── models/
-├── routes/
-├── services/
-├── utils/
-│
-├── templates/
-├── static/
-   ├── css/
-   ├── js/
-
- 
