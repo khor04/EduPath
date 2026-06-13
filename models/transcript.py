@@ -10,7 +10,9 @@ class Transcript(db.Model):
     uploaded_at   = db.Column(db.DateTime, default=datetime.utcnow)
     uploaded_type = db.Column(db.String(20)) #new/appeal/mixed
     summary = db.Column(db.Text) #human-readable history
+
     # Relationships
+    #SQLAlchemy relationships define ORM-level links between models for easier data access, but structure in Supabase is determined by foreign key constraints, not relationship declarations.
     semesters             = db.relationship('Semester', backref='transcript', lazy=True)
     skill_profiles        = db.relationship('SkillProfile', backref='transcript', lazy=True)
     career_recommendations = db.relationship('CareerRecommendation', backref='transcript', lazy=True)

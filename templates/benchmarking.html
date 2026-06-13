@@ -5,65 +5,111 @@
 {% endblock %}
 
 {% block content %}
-
 <div class="benchmark-page">
 
   <h1 class="page-title">Peer Benchmarking</h1>
   <p class="page-subtitle">
-    An overview of your standing against peers of the same department
+    Compare your academic performance against peers in the same department.
   </p>
 
-  <h3 class="sample-text">Based on 20 students in your department</h3>
+  <h3 class="sample-text">
+    Based on anonymized data from 20 students in your department
+  </h3>
 
-  <!-- Top section: Histogram + Donut/Insight -->
+  <!-- TOP SECTION -->
   <div class="benchmark-grid">
 
     <div class="chart-card">
-      <p class="card-label">ANONYMOUS PEER COMPARISON</p>
-      <h2>GPA Distribution Analysis</h2>
+
+      <div class="chart-header">
+
+        <div>
+          <p class="card-label">ANONYMOUS PEER COMPARISON</p>
+          <h2>Semester GPA Distribution</h2>
+        </div>
+
+        <select id="semesterSelector">
+          <!-- populated by JS -->
+        </select>
+
+      </div>
+
       <canvas id="gpaHistogram"></canvas>
+
     </div>
 
     <div class="right-section">
 
+      <!-- Department Average -->
       <div class="mean-card">
-        <h3>DEPARTMENTAL AVERAGES</h3>
-        <p>Department average used for performance benchmark.</p>
+
+        <h3>DEPARTMENT AVERAGE GPA</h3>
+        <p>
+          Average GPA for the selected semester.
+        </p>
 
         <div class="donut-wrapper">
+
           <canvas id="meanChart"></canvas>
 
           <div class="donut-center-text">
+
             <strong>MEAN</strong>
-            <span>3.67</span>
+
+            <span id="departmentMeanValue">
+              3.67
+            </span>
+
           </div>
+
         </div>
+
       </div>
 
+      <!-- Semester Insight -->
       <div class="insight-card">
-        <h3>INSIGHTS:</h3>
-        <p>
-          Your CGPA is <span>slightly above</span> the cohort average,
-          indicating strong performance.
+
+        <h3>INSIGHTS</h3>
+
+        <p id="benchmarkInsight">
+
+          You are performing above the department average for this semester.
+
         </p>
+
       </div>
 
     </div>
 
   </div>
 
-  <!-- Bottom section: Semester chart + Insight -->
+  <!-- BOTTOM SECTION -->
   <div class="semester-grid">
 
     <div class="chart-card">
-      <h2 class="purple-title">Semester Breakdown Comparison</h2>
-      <p>CGPA Comparison Trend Graph</p>
+
+      <h2 class="purple-title">
+        Semester GPA vs Department Average
+      </h2>
+
+      <p>
+        Compare your GPA performance against the department average across semesters.
+      </p>
+
       <canvas id="semesterTrend"></canvas>
+
     </div>
 
     <div class="insight-card semester-insight">
-      <h3>INSIGHTS: </h3>
-      <p>Your CGPA trend shows steady improvement across semesters.</p>
+
+      <h3>TREND INSIGHTS</h3>
+
+      <p id="trendInsight">
+
+        Your GPA has remained above the department average in most semesters.
+
+      </p>
+
     </div>
 
   </div>

@@ -9,5 +9,4 @@ class TargetCGPA(db.Model):
     target_cgpa       = db.Column(db.Float)
     required_gpa      = db.Column(db.Float)
     remaining_credits = db.Column(db.Float)
-    status = db.Column(db.String(50))
     updated_at        = db.Column(db.DateTime, default=datetime.utcnow)

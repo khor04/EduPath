@@ -2,6 +2,7 @@ from models.course import Course
 from models.semester import Semester
 from models.transcript import Transcript
 from extensions import db
+from decimal import Decimal, ROUND_HALF_UP
 
 FAIL_GRADES = {
     "F",
@@ -9,7 +10,6 @@ FAIL_GRADES = {
     "D+",
     "C-"
 }
-
 def calculate_cgpa_credits(user_id):
     
     courses = (
@@ -20,14 +20,14 @@ def calculate_cgpa_credits(user_id):
         .all()
     )
 
-    total_registered_credits = 0
-    earned_credits = 0
-    total_points = 0
+    total_registered_credits = Decimal("0")
+    earned_credits = Decimal("0")
+    total_points = Decimal("0")
 
     for c in courses:
 
-        credit = float(c.credit_hour or 0)
-        gp = float(c.grade_point or 0)
+        credit = Decimal(str(c.credit_hour or 0))
+        gp = Decimal(str(c.grade_point or 0))
 
         total_registered_credits += credit
         total_points += gp
@@ -42,8 +42,14 @@ def calculate_cgpa_credits(user_id):
         }
 
     cgpa = total_points / total_registered_credits
+    cgpa_rounded = float(
+        cgpa.quantize(
+            Decimal("0.00"),
+            rounding=ROUND_HALF_UP
+        )
+    )
 
     return {
-        "cgpa": round(cgpa, 2),
-        "credits": earned_credits
+        "cgpa": cgpa_rounded,
+        "credits": int(earned_credits)
     }

@@ -8,6 +8,7 @@ from extensions import db
 from models.transcript import Transcript
 from models.semester import Semester
 from models.course import Course
+from models.target_cgpa import TargetCGPA
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -35,6 +36,10 @@ def upload():
 
     upload_history = []
 
+    has_transcript = Transcript.query.filter_by(
+        user_id=current_user.user_id
+    ).first() is not None
+
     for transcript in transcripts:
         semesters = Semester.query.filter_by(
             transcript_id=transcript.transcript_id
@@ -51,7 +56,8 @@ def upload():
     return render_template(
         "upload.html",
         active_page="upload",
-        upload_history=upload_history
+        upload_history=upload_history,
+        has_transcript=has_transcript
     )
 
 def get_or_create_semester(transcript_id, sem_no, session):
@@ -93,15 +99,34 @@ def upload_transcript():
             for page in pdf.pages:
                 text += page.extract_text() or ""
 
+        # Check if PDF is image-based (no extractable text)
+        if len(text.strip()) < 20:  # threshold - adjust based on testing
+            return jsonify({
+                "success": False,
+                "message": "Unable to read this PDF. Please upload a text-based (not scanned/image) transcript PDF."
+            
+            })
         text_upper = text.upper()
 
-        # Validate transcript by checking required UM FSKTM keywords using case-insensitive matching
-        if "EXAMINATION RESULT" not in text_upper or "BACHELOR OF COMPUTER SCIENCE" not in text_upper:
+        has_exam_result = "EXAMINATION RESULT" in text_upper
+        has_exam_centre = "EXAMINATION AND GRADUATION CENTRE" in text_upper
+        has_fsktm = "BACHELOR OF COMPUTER SCIENCE" in text_upper
+
+
+        # Case 1: Looks like a UM transcript, but not FSKTM/CS program
+        if has_exam_result and has_exam_centre and not has_fsktm:
             return jsonify({
                 "success": False,
                 "message": "Not UM FSKTM student. Only UM FSKTM Bachelor of Computer Science students can use this website."
             })
 
+        # Case 2: Doesn't look like a UM transcript at all
+        if not (has_exam_result and has_exam_centre and has_fsktm):
+            return jsonify({
+                "success": False,
+                "message": "Invalid PDF. Only UM FSKTM Bachelor of Computer Science transcripts are supported."
+            })
+        
         semesters = extract_transcript_data(text)
 
         return jsonify({
@@ -110,15 +135,22 @@ def upload_transcript():
             "semesters": semesters
         })
     
+    #remove saved file(Even not um transcript pdf) for privacy problem
     finally:
-        # Delete uploaded file after extraction for privacy
-        if os.path.exists(filepath):
-            os.remove(filepath)
+        try:
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        except Exception as e:
+            print(f"Failed to delete temporary file: {e}")
 
-
-import re
 
 def normalize_course_lines(content):
+    content = re.sub(
+        r"(\d+\.\d{2})(\d+\.\s+[A-Z]{2,}\d{4})",
+        r"\1\n\2",
+        content
+    )
+
     lines = [line.strip() for line in content.splitlines()]
 
     def is_course_line(line):
@@ -138,6 +170,13 @@ def normalize_course_lines(content):
             return False
         # A line that is ONLY digits/grade/gradepoint is data, not a name
         if re.match(r"^\d+\s+(A\+|A-|A|B\+|B-|B|C\+|C-|C|D\+|D|F)\s+\d+\.\d{2}$", line):
+            return False
+        # Exclude page headers and institutional text
+        if re.match(r"^(STUDENT ACADEMIC PERFORMANCE RECORD|Name|Registration|NRIC|Programme|Faculty)", line, re.I):
+            return False
+        if len(line) > 80:
+            return False
+        if re.search(r'\b[a-z]{3,}\b', line):
             return False
         return True
 
@@ -310,6 +349,10 @@ def extract_transcript_data(text):
             "cgpa": cgpa_match.group(1) if cgpa_match else "",
             "courses": []
         }
+        #debug
+        print("CONTENT FOR:", semester_title)
+        for j, l in enumerate(content.splitlines()):
+            print(f"  {j:02d}: {repr(l)}")
 
         course_section = re.split(r"(?:GPA\s*:|CGPA\s*:|Result\s*:)", content, flags=re.I)[0]
         lines = [line.strip() for line in course_section.splitlines() if line.strip()]
@@ -499,7 +542,6 @@ def save_transcript():
                     semester_no=sem["semester_no"],
                     academic_session=sem["academic_session"],
                     semester_gpa=float(sem.get("gpa") or 0),
-                    semester_credits=float(sem.get("credits") or 0),
                    is_revised=False
                 )
 
@@ -610,10 +652,10 @@ def save_transcript():
             "message": f"Failed: {str(e)}"
         })
 
-
 @transcript_bp.route("/delete-transcript-data", methods=["POST"])
 @login_required
 def delete_transcript_data():
+
 
     try:
 
@@ -658,6 +700,14 @@ def delete_transcript_data():
         ).delete(
             synchronize_session=False
         )
+
+        #delete target cgpa
+        TargetCGPA.query.filter_by(
+            user_id=current_user.user_id
+        ).delete(
+            synchronize_session=False
+        )
+
 
         db.session.commit()
 

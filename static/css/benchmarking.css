@@ -29,6 +29,10 @@
   align-items: start;
 }
 
+.insight-card{
+    font-size: large;
+    font-weight: bold;
+}
 
 .semester-insight {
     font-size: 18px;

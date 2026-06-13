@@ -55,7 +55,6 @@ def analysis():
         semester_history.append({
             "semester" : sem.semester_no,
             "gpa" : float(sem.semester_gpa or 0),
-            "credits" : int(sem.semester_credits or 0)
         })
 
     return render_template(
@@ -84,7 +83,6 @@ def save_target_cgpa():
     target_cgpa = float(data.get("target_cgpa") or 0)
     required_gpa = float(data.get("required_gpa") or 0)
     remaining_credits = int(data.get("remaining_credits") or 0)
-    status = data.get("status", "")
     # Validation
     if target_cgpa <= 0:
         return jsonify({
@@ -119,7 +117,6 @@ def save_target_cgpa():
             existing_target.target_cgpa = target_cgpa
             existing_target.required_gpa = round(required_gpa, 2)
             existing_target.remaining_credits = remaining_credits
-            existing_target.status = status
             existing_target.updated_at = datetime.now(ZoneInfo("Asia/Kuala_Lumpur"))
 
         else:
@@ -129,7 +126,6 @@ def save_target_cgpa():
                 target_cgpa=target_cgpa,
                 required_gpa=round(required_gpa, 2),
                 remaining_credits=remaining_credits,
-                status=status,
                 updated_at=datetime.now(ZoneInfo("Asia/Kuala_Lumpur"))
             )
 
@@ -152,41 +148,81 @@ def save_target_cgpa():
         })
     
 #helper function
-#identify trend based on first and last recent semester
 def detect_trend(history):
-    
     if len(history) < 2:
         return "Stable"
 
-    change = history[-1]["gpa"] - history[0]["gpa"]
+    gpas = [h["gpa"] for h in history] #eg:gpas = [3.53,3.81,4.0,4.0]
+    deltas = [gpas[i+1] - gpas[i] for i in range(len(gpas)-1)] #detect semester-to-semester changes(represent improvement or decline) eg:[0.28,0.19,0]
+    avg_change = sum(deltas) / len(deltas) #eg: 0.16
 
-    if change >= 0.20:
+    #count positive & negative changes
+    #ignore changes=0, because unchanged semester treated as stable
+    positive = sum(1 for d in deltas if d > 0) #2
+    negative = sum(1 for d in deltas if d < 0) #0
+    non_zero = positive + negative #2
+
+    #identify substantial fluctuations between semesters, distinguish normal academic variation from significant performance instability
+    is_volatile = (
+        max(deltas) - min(deltas) > 0.5 
+        and positive > 0 
+        and negative > 0
+    )
+
+    if non_zero > 0:
+        positive_ratio = positive / non_zero 
+        negative_ratio = negative / non_zero
+    else:
+        positive_ratio = 0
+        negative_ratio = 0
+    
+    #0.75 defined to consider at least 75% of semester changes are positive
+    if is_volatile:
+        return "Volatile"
+    elif positive_ratio >= 0.75 and avg_change > 0:
         return "Improving"
-    elif change <= -0.20:
+    elif negative_ratio >= 0.75 and avg_change < 0:
         return "Declining"
+    elif avg_change >= 0.05:
+        return "Slightly Improving"
+    elif avg_change <= -0.05:
+        return "Slightly Declining"
     else:
         return "Stable"
     
+def determine_feasibility(current_cgpa, target_cgpa, remaining_sems_credits, trend, required_gpa):
+    total_remaining_credits = sum(remaining_sems_credits)
 
-def determine_feasibility(required_gpa, trend, latest_gpa):
-    
+    if total_remaining_credits == 0:
+        return "Impossible" if current_cgpa < target_cgpa else "Achieved"
+
     if required_gpa > 4.0:
         return "Impossible"
 
-    gap = required_gpa - latest_gpa
+    #adjust feasibiltiy based on trend
+    trend_boost = {
+        "Improving": 0.20,
+        "Slightly Improving": 0.10,
+        "Stable": 0.0,
+        "Volatile": -0.05,
+        "Slightly Declining": -0.10,
+        "Declining": -0.20,
+    }.get(trend, 0)
 
-    if gap <= 0.15:
+    #base tolerance is 0.25 — meaning if the required GPA is within 0.25 of current CGPA, it's considered Achievable.
+    adjusted_threshold = 0.25 + trend_boost
+    cgpa_gap = required_gpa - current_cgpa
+
+    if cgpa_gap <= 0:#already exceed target
         return "Achievable"
-
-    elif trend == "Improving" and gap <= 0.30:
+    elif cgpa_gap <= adjusted_threshold:#small gap
         return "Achievable"
-
+    elif cgpa_gap <= adjusted_threshold + 0.20: #medium gap
+        return "Challenging"
     else:
-        return "Challenging" 
+        return "Very Challenging" #large gap
 
 
-#The system does not assume that higher-credit semesters are easier. Instead, it considers that higher-credit semesters have a greater influence on the final CGPA because they carry more weight in the CGPA calculation. Therefore, the GPA targets are distributed with consideration of credit weighting while still keeping the targets realistic and balanced.
-#Higher-credit semesters contribute more weight to the final CGPA calculation. Therefore, the AI planner considers credit distribution when allocating GPA targets so that the plan reflects the relative impact of each semester on the student's overall CGPA.
 @analysis_bp.route("/generate-ai-plan", methods=["POST"])
 @login_required
 def generate_ai_plan():
@@ -195,35 +231,48 @@ def generate_ai_plan():
 
         data = request.get_json()
         history = data.get("history", [])
-        remaining_semesters = data.get(
-            "remainingSemesters",
-            []
-        )
+        remaining_semesters = data.get("remainingSemesters", [])
         target_cgpa = data.get("targetCGPA")
         required_gpa = float(data.get("requiredGPA") or 0)
         current_cgpa = data.get("currentCGPA")
         current_credits = data.get("currentCredits")
-        trend = detect_trend(history)
-        latest_gpa = float(data.get("latestGPA") or 0)
-        feasibility = determine_feasibility(required_gpa, trend, latest_gpa)
 
-        prompt = """
-You are an academic advisor AI helping a Malaysian university student
+        trend = detect_trend(history)
+        remaining_sems_credits = [s.get("credits", 0) for s in remaining_semesters]
+        feasibility = determine_feasibility(
+            current_cgpa=float(current_cgpa),
+            target_cgpa=float(target_cgpa),
+            remaining_sems_credits=remaining_sems_credits,
+            trend=trend,
+            required_gpa=required_gpa
+
+        )
+
+        trend_meanings = {
+            "Improving":          "GPA has been consistently rising across most semesters.",
+            "Slightly Improving": "GPA shows a small but consistent upward movement.",
+            "Stable":             "GPA has remained relatively consistent with no clear direction.",
+            "Volatile":           "GPA fluctuates significantly up and down between semesters.",
+            "Slightly Declining": "GPA shows a small but consistent downward movement.",
+            "Declining":          "GPA has been consistently dropping across most semesters.",
+        }
+
+        prompt = """You are an academic advisor AI helping a Malaysian university student
 plan their remaining semesters realistically.
 
 Student past performance:
 """
 
         for sem in history:
-
             prompt += (
-                f"\n- Sem {sem['semester']}: "
-                f"{sem['gpa']} ({sem['credits']} credits)"
+                f"\n- Sem {sem.get('semester', '-')}: "
+                f"{sem.get('gpa', 0)} ({sem.get('credits', 0)} credits)"
             )
 
         prompt += f"""
-System Detected Trend: {trend}
 
+System Detected Trend: {trend}
+Trend Meaning: {trend_meanings.get(trend, "")}
 System Calculated Feasibility: {feasibility}
 
 Current CGPA: {current_cgpa}
@@ -231,13 +280,14 @@ Current Credits: {current_credits}
 
 Target CGPA: {target_cgpa}
 Required average GPA for remaining credits: {required_gpa}
+
+Remaining semesters:
 """
 
         for sem in remaining_semesters:
-
             prompt += (
-                f"\n- Sem {sem['sem']}: "
-                f"{sem['credits']} credits"
+                f"\n- Semester {sem.get('sem', '-')}: "
+                f"{sem.get('credits', 0)}"
             )
 
         prompt += """
@@ -251,7 +301,6 @@ Rules:
 6. No GPA target may exceed 4.00.
 7. Do not generate trend or feasibility values. They are provided by the system.
 8. The weighted average GPA across all remaining semesters must be approximately equal to the required GPA.
-
 
 Advice rules — follow STRICTLY:
 9. Write advice as EXACTLY 4 bullet points, each starting with "•".
@@ -275,8 +324,7 @@ Return JSON only:
       "minimumGPARequired": 0
     }
   ],
-  "advice":""
-  
+  "advice": ""
 }
 """
 

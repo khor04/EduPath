@@ -11,4 +11,3 @@ class SkillProfile(db.Model):
     raw_score       = db.Column(db.Float)
     percentage      = db.Column(db.Float)
     skill_category  = db.Column(db.String(20))  # 'strength' or 'growth'
-    created_at      = db.Column(db.DateTime, default=datetime.utcnow)

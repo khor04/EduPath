@@ -47,45 +47,68 @@ new Chart(gpaCtx, {
   }
 });
 
+const semesterData = {
 
+  "Semester 1": {
+    histogram: [1, 1, 2, 1, 4, 2, 3, 5],
+    mean: 3.25,
+    userGPA: 3.78,
+    insight: "You performed above the department average in Semester 1."
+  },
 
-// User position label plugin for histogram
-const dashboardUserPositionPlugin = {
-  id: "dashboardUserPositionLabel",
-  afterDatasetsDraw(chart) {
-    const { ctx } = chart;
-    const meta = chart.getDatasetMeta(0);
+  "Semester 2": {
+    histogram: [0, 2, 2, 3, 3, 4, 4, 2],
+    mean: 3.40,
+    userGPA: 3.92,
+    insight: "You ranked among the stronger performers in Semester 2."
+  },
 
-    const userIndex = 6; // CGPA 3.78 belongs to [3.6,3.8)
-    const bar = meta.data[userIndex];
-
-    if (!bar) return;
-
-    const labelWidth = 80;
-    const labelHeight = 26;
-    const labelX = bar.x - labelWidth / 2;
-    const labelY = bar.y - 40;
-
-    ctx.save();
-
-    ctx.fillStyle = "#111";
-    ctx.fillRect(labelX, labelY, labelWidth, labelHeight);
-
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 9px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("YOUR POSITION", bar.x, labelY + 11);
-    ctx.fillText(`CGPA ${dashboardLatestCGPA.toFixed(2)}`, bar.x, labelY + 22); 
-
-    ctx.restore();
+  "Semester 3": {
+    histogram: [1, 1, 1, 2, 4, 5, 3, 3],
+    mean: 3.55,
+    userGPA: 4.00,
+    insight: "Your GPA was significantly above the department average."
   }
 };
 
+const trendData = {
+  labels: ["Semester 1", "Semester 2", "Semester 3"],
+  student: [3.78, 3.92, 4.00],
+  department: [3.25, 3.40, 3.55]
+};
 
-// GPA Histogram
-const histogramCtx = document.getElementById("dashboardHistogram");
 
-new Chart(histogramCtx, {
+const semesterSelector =
+  document.getElementById("semesterSelector");
+
+Object.keys(semesterData).forEach(sem => {
+
+  const option = document.createElement("option");
+  option.value = sem;
+  option.textContent = sem;
+
+  semesterSelector.appendChild(option);
+
+});
+
+function getHistogramColors(userIndex) {
+
+  return Array(8)
+    .fill("#c7d6ef")
+    .map((color, index) =>
+      index === userIndex
+        ? "#4c78c8"
+        : color
+    );
+}
+
+function getUserIndex(userGPA) {
+  return Math.min(Math.floor((userGPA - 2.4) / 0.2), 7);
+}
+const histogramCtx =
+  document.getElementById("dashboardHistogram");
+
+const histogramChart = new Chart(histogramCtx, {
   type: "bar",
   data: {
     labels: [
@@ -99,62 +122,53 @@ new Chart(histogramCtx, {
       "[3.8,4.0]"
     ],
     datasets: [{
-      label: "Number of Students",
-      data: [1, 1, 2, 1, 4, 2, 3, 5],
-      backgroundColor: [
-        "#c7d6ef",
-        "#c7d6ef",
-        "#c7d6ef",
-        "#c7d6ef",
-        "#c7d6ef",
-        "#c7d6ef",
-        "#4c78c8",
-        "#c7d6ef"
-      ]
+      data: semesterData["Semester 1"].histogram,
+      backgroundColor: getHistogramColors(
+        getUserIndex(semesterData["Semester 1"].userGPA)
+      )
     }]
   },
   options: {
-  responsive: true,
-  maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const sem = semesterData[semesterSelector.value];
+            const userIndex = getUserIndex(sem.userGPA);
 
-  interaction: {
-    mode: "index",
-    intersect: false
-  },
+            let text = `${context.label}: ${context.raw} students`;
 
-  layout: {
-    padding: {
-      top: 45
-    }
-  },
+            if (context.dataIndex === userIndex) {
+              text += " (You're here)";
+            }
 
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      enabled: true,
-      callbacks: {
-        label: function(context) {
-          return `Students: ${context.raw}`;
+            return text;
+          }
         }
       }
     }
-  },
-
-  scales: {
-    y: {
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: "Number of Students"
-      }
-    },
-    x: {
-      title: {
-        display: true,
-        text: "CGPA"
-      }
-    }
   }
-},
-  plugins: [dashboardUserPositionPlugin]
+});
+
+function updateHistogram(semName) {
+  const sem = semesterData[semName];
+  const userIndex = getUserIndex(sem.userGPA);
+
+  histogramChart.data.datasets[0].data = sem.histogram;
+
+  histogramChart.data.datasets[0].backgroundColor =
+    getHistogramColors(userIndex);
+
+  histogramChart.update();
+}
+
+semesterSelector.addEventListener("change", () => {
+  const selected = semesterSelector.value;
+  const sem = semesterData[selected];
+
+  updateHistogram(selected);
+
+  document.getElementById("benchmarkInsight").textContent =
+    sem.insight;
 });

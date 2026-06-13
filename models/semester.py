@@ -9,8 +9,6 @@ class Semester(db.Model):
     academic_session     = db.Column(db.String(20),nullable=False)
 
     semester_gpa         = db.Column(db.Float)
-    semester_credits     = db.Column(db.Float)
-
     is_revised           = db.Column(db.Boolean, default=False)
     
     # Relationships

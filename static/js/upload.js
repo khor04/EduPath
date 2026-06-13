@@ -25,6 +25,21 @@ dropZone.addEventListener("drop", function (e) {
     uploadPDF(file);
 });
 
+document.getElementById("deleteBtn").addEventListener("click", function (e) {
+    const hasTranscript = this.dataset.hasTranscript === "true";
+
+    if (!hasTranscript) {
+        e.stopPropagation();  // prevent modal from opening
+        alert("No transcript data found to delete.");
+        return;
+    }
+
+    // has transcript — let Bootstrap open the modal normally
+    const modal = new bootstrap.Modal(
+        document.getElementById("deleteTranscriptModal")
+    );
+    modal.show();
+});
 
 document.getElementById("confirmDeleteTranscriptBtn").addEventListener("click", function () {
 
@@ -231,6 +246,7 @@ document.getElementById("finalizeBtn").addEventListener("click", function () {
             }
 
             alert(msg || "Transcript processed successfully");
+            location.reload();
         });
 });
 

@@ -18,12 +18,12 @@
     <p class="card-label">PERFORMANCE TREND</p>
     <h2>GPA Progression</h2>
 
-{% if gpa_labels and gpa_values %}
-  <canvas id="gpaTrendChart"></canvas>
-{% else %}
-  <div class="empty-message">
-No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction.  </div>
-{% endif %}
+    {% if gpa_labels and gpa_values %}
+    <canvas id="gpaTrendChart"></canvas>
+    {% else %}
+    <div class="empty-message">
+      No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction. </div>
+    {% endif %}
   </div>
 
   <!-- Prediction Engine -->
@@ -59,7 +59,8 @@ No transcript data found. Please upload your transcript to generate GPA trend an
       <div class="slider-group">
         <label>Total Remaining Credit:</label>
         <span id="creditValue" class="slider-value"></span>
-        <input type="range" id="remainingCredits" min="0" max="128" step="1" value="0">      </div>
+        <input type="range" id="remainingCredits" min="0" max="128" step="1" value="0">
+      </div>
 
     </div>
 
@@ -70,129 +71,160 @@ No transcript data found. Please upload your transcript to generate GPA trend an
 
     <!-- Result Box -->
     <div id="predictionOutput" style="display: none;">
-    <div id="resultBox" class="result-box">
-      <p class="result-title">REQUIREMENT ANALYSIS:</p>
-      <h3 id="resultStatus">NOT ACHIEVABLE!</h3>
-      <p id="resultMessage">
-        Required GPA of <b>4.15</b> exceeds maximum possible GPA (4.00).
-      </p>
-      <p id="bestPossibleText">
-        Best possible CGPA you may achieve is <b>3.85</b>
-      </p>
-    </div>
-
-    <!-- Projection Cards -->
-    <div class="case-row">
-
-      <div class="case-card best-case">
-        <h3>Best Case</h3>
-        <p>Assumes student scores GPA 4.00 for all remaining credits.</p>
-        <span>Projected CGPA:</span>
-        <h2 id="bestCase">3.85</h2>
+      <div id="resultBox" class="result-box">
+        <p class="result-title">REQUIREMENT ANALYSIS:</p>
+        <h3 id="resultStatus">NOT ACHIEVABLE!</h3>
+        <p id="resultMessage">
+          Required GPA of <b>4.15</b> exceeds maximum possible GPA (4.00).
+        </p>
+        <p id="bestPossibleText">
+          Best possible CGPA you may achieve is <b>3.85</b>
+        </p>
       </div>
 
-      <div class="case-card realistic-case">
-        <h3>Realistic Case</h3>
-        <p>Assumes student maintains current academic performance.</p>
-        <span>Projected CGPA:</span>
-        <h2 id="realisticCase">3.78</h2>
+      <!-- Projection Cards -->
+      <div class="case-row">
+
+        <div class="case-card best-case">
+          <h3>Best Case</h3>
+          <p>Assumes student scores GPA 4.00 for all remaining credits.</p>
+          <span>Projected CGPA:</span>
+          <h2 id="bestCase">3.85</h2>
+        </div>
+
+        <div class="case-card realistic-case">
+          <h3>Realistic Case</h3>
+          <p>Assumes student maintains current academic performance.</p>
+          <span>Projected CGPA:</span>
+          <h2 id="realisticCase">3.78</h2>
+        </div>
+
+        <div class="case-card worst-case">
+          <h3>Worst Case</h3>
+          <p>Assumes GPA decreases based on recent trend.</p>
+          <span>Projected CGPA:</span>
+          <h2 id="worstCase">3.72</h2>
+        </div>
+
       </div>
 
-      <div class="case-card worst-case">
-        <h3>Worst Case</h3>
-        <p>Assumes GPA decreases based on recent trend.</p>
-        <span>Projected CGPA:</span>
-        <h2 id="worstCase">3.72</h2>
+      <!-- AI GPA Target Planner -->
+      <div class="ai-plan-card" id="aiPlanCard" style="display:none;">
+
+        <div class="ai-header">
+          <h3>🤖 AI-Assisted GPA Target Planning</h3>
+          <p>
+            Generate a personalized semester-by-semester GPA target plan and academic guidance based on your performance
+            trend and remaining credit hours.
+          </p>
+        </div>
+
+        <!-- Remaining Semester Inputs -->
+        <div class="semester-plan-section">
+
+          <h4>Remaining Semester Credit Distribution</h4>
+
+          <div id="semesterInputs"></div>
+
+          <button type="button" id="addSemesterBtn">
+            + Add Semester
+          </button>
+          <div class="credit-balance">
+            Credits Left to Allocate: <strong id="creditsBalance">0</strong>
+          </div>
+
+        </div>
+
+        <div class="ai-button-row">
+          <button onclick="generateAIPlan()">
+            Generate AI Plan
+          </button>
+        </div>
+
+        <!-- AI Result -->
+        <div id="aiResultSection" style="display:none;">
+
+          <div class="ai-summary">
+
+            <div class="summary-pill" id="trendPill">
+              <span>📈 Trend: </span>
+              <strong id="trendResult">—</strong>
+
+              <span id="trendInfoIcon" class="info-icon">ⓘ</span><br>
+
+              <div id="trendGuide" class="guide-popup hidden">
+                <h4>Trend Guide</h4>
+                <ul>
+                  <li><b>Improving</b> – GPA consistently increasing.</li>
+                  <li><b>Slightly Improving</b> – Small upward trend.</li>
+                  <li><b>Stable</b> – GPA remains consistent.</li>
+                  <li><b>Volatile</b> – GPA fluctuates significantly.</li>
+                  <li><b>Slightly Declining</b> – Small downward trend.</li>
+                  <li><b>Declining</b> – GPA consistently decreasing.</li>
+                </ul>
+              </div>
+
+              <span id="trendMeaning">—</span>
+            </div>
+
+            <div class="summary-pill" id="feasibilityPill">
+              <span>🎯 Feasibility: </span>
+              <strong id="feasibilityResult">—</strong>
+
+              <span id="feasibilityInfoIcon" class="info-icon">ⓘ</span><br>
+
+              <div id="feasibilityGuide" class="guide-popup hidden">
+                <h4>Feasibility Determination</h4>
+
+                <ul>
+                  <li><b>Achievable</b> – Required GPA is close to current performance.</li>
+                  <li><b>Challenging</b> – Moderate improvement needed.</li>
+                  <li><b>Very Challenging</b> – Significant improvement needed.</li>
+                  <li><b>Impossible</b> – Required GPA exceeds 4.00.</li>
+                </ul>
+              </div>
+
+              <span id="feasibilityMeaning">—</span>
+            </div>
+
+          </div>
+          <table class="ai-plan-table">
+
+            <thead>
+              <tr>
+                <th>Semester</th>
+                <th>Credits</th>
+                <th>Minimum GPA Required</th>
+              </tr>
+            </thead>
+
+            <tbody id="semesterPlanTable">
+
+            </tbody>
+
+          </table>
+
+          <div class="ai-advice-box">
+            <h4>AI Advice</h4>
+            <p id="adviceText"></p>
+          </div>
+
+        </div>
+
       </div>
-
-    </div>
-
-    <!-- AI GPA Target Planner -->
-<div class="ai-plan-card" id="aiPlanCard" style="display:none;">
-
-  <div class="ai-header">
-    <h3>🤖 AI-Assisted GPA Target Planning</h3>
-    <p>
-      Generate a personalized semester-by-semester GPA target plan and academic guidance based on your performance trend and remaining credit hours.
-    </p>
-  </div>
-
-  <!-- Remaining Semester Inputs -->
-  <div class="semester-plan-section">
-
-    <h4>Remaining Semester Credit Distribution</h4>
-
-    <div id="semesterInputs"></div>
-
-    <button type="button" id="addSemesterBtn">
-      + Add Semester
-    </button>
-    <div class="credit-balance">
-    Credits Left to Allocate: <strong id="creditsBalance">0</strong>
     </div>
 
   </div>
-
-  <div class="ai-button-row">
-    <button onclick="generateAIPlan()">
-      Generate AI Plan
-    </button>
-  </div>
-
-  <!-- AI Result -->
-  <div id="aiResultSection" style="display:none;">
-
-    <div class="ai-summary">
-
-      <div class="summary-pill" id="trendPill">
-        <span>Trend: </span>
-        <strong id="trendResult">Improving</strong>
-      </div>
-
-      <div class="summary-pill" id="feasibilityPill">
-        <span>Feasibility: </span>
-        <strong id="feasibilityResult">Achievable</strong>
-      </div>
-
-    </div>
-
-    <table class="ai-plan-table">
-
-      <thead>
-        <tr>
-          <th>Semester</th>
-          <th>Credits</th>
-          <th>Minimum GPA Required</th>
-        </tr>
-      </thead>
-
-      <tbody id="semesterPlanTable">
-
-      </tbody>
-
-    </table>
-
-    <div class="ai-advice-box">
-      <h4>AI Advice</h4>
-      <p id="adviceText"></p>
-    </div>
-
-  </div>
-</div>
-
-  </div>
-  </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-const gpaLabels = {{ gpa_labels|tojson }};
-const gpaValues = {{ gpa_values|tojson }};
-const currentCGPA = JSON.parse('{{ current_cgpa | tojson | safe }}');
-const currentCredits = JSON.parse('{{ current_credits | tojson | safe }}');
-const semesterHistory = {{ semester_history|safe }};
+  const gpaLabels = {{ gpa_labels| tojson }};
+  const gpaValues = {{ gpa_values| tojson }};
+  const currentCGPA = JSON.parse('{{ current_cgpa | tojson | safe }}');
+  const currentCredits = JSON.parse('{{ current_credits | tojson | safe }}');
+  const semesterHistory = {{ semester_history| safe }};
 
 </script>
 

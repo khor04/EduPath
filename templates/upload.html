@@ -124,17 +124,15 @@
 
 <!--delete history button-->
 <div class="history-actions">
-  <button
+<button
     class="btn btn-danger"
-    data-bs-toggle="modal"
-    data-bs-target="#deleteTranscriptModal"
     id="deleteBtn"
+    data-has-transcript="{{ 'true' if has_transcript else 'false' }}"
 >
     <i class="bi bi-trash"></i>
     Delete All Transcript Data
 </button>
 </div>
-
 
 <div class="modal fade" id="deleteTranscriptModal" tabindex="-1" aria-hidden="true">
 

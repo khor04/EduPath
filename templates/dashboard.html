@@ -80,18 +80,28 @@
       <p class="card-label">ANONYMOUS PEER COMPARISON</p>
       <h2>GPA Distribution Analysis</h2>
       <h4>Based on 20 students in your department</h4>
+
+      <select id="semesterSelector">
+          <!-- populated by JS -->
+        </select>
+
       <canvas id="dashboardHistogram"></canvas>
     </div>
 
-    <div class="insight-card">
-      <h3>INSIGHTS:</h3>
-      <p>
-        Your CGPA is <span>slightly above</span> the cohort average,
-        indicating strong performance.
-      </p>
-    </div>
+      <div class="insight-card">
+
+        <h3>INSIGHTS</h3>
+
+        <p id="benchmarkInsight">
+
+          You are performing above the department average for this semester.
+
+        </p>
+
+      </div>
 
   </div>
+
 
   <!-- Bottom Summary Cards -->
   <div class="bottom-grid">

@@ -66,7 +66,7 @@ def dashboard():
         active_page="dashboard",
         semesters=semesters,
         latest_cgpa=round(latest_cgpa, 2),
-        completed_credits=completed_credits,
+        completed_credits=int(completed_credits),
         target_cgpa=target_cgpa,
         required_gpa=required_gpa,
         last_updated=last_updated,
