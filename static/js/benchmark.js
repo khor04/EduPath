@@ -1,204 +1,320 @@
+const semesterSelector = document.getElementById("semesterSelector");
 
-const semesterData = {
+// ================================
+// Chart instances (global-safe)
+// ================================
+let histogramChart = null;
+let meanChart = null;
+let trendChart = null;
 
-  "Semester 1": {
-    histogram: [1, 1, 2, 1, 4, 2, 3, 5],
-    mean: 3.25,
-    userGPA: 3.78,
-    insight: "You performed above the department average in Semester 1."
-  },
-
-  "Semester 2": {
-    histogram: [0, 2, 2, 3, 3, 4, 4, 2],
-    mean: 3.40,
-    userGPA: 3.92,
-    insight: "You ranked among the stronger performers in Semester 2."
-  },
-
-  "Semester 3": {
-    histogram: [1, 1, 1, 2, 4, 5, 3, 3],
-    mean: 3.55,
-    userGPA: 4.00,
-    insight: "Your GPA was significantly above the department average."
-  }
-
-};
-
-const trendData = {
-  labels: ["Semester 1", "Semester 2", "Semester 3"],
-  student: [3.78, 3.92, 4.00],
-  department: [3.25, 3.40, 3.55]
-};
-
-
-const semesterSelector =
-  document.getElementById("semesterSelector");
-
-Object.keys(semesterData).forEach(sem => {
-
-  const option = document.createElement("option");
-  option.value = sem;
-  option.textContent = sem;
-
-  semesterSelector.appendChild(option);
-
-});
-
+// ================================
+// Utility functions
+// ================================
 function getHistogramColors(userIndex) {
-
   return Array(8)
     .fill("#c7d6ef")
     .map((color, index) =>
-      index === userIndex
-        ? "#4c78c8"
-        : color
+      index === userIndex ? "#4c78c8" : color
     );
 }
 
 function getUserIndex(userGPA) {
-  return Math.min(Math.floor((userGPA - 2.4) / 0.2), 7);
+  if (!userGPA || isNaN(userGPA)) return 0;
+
+  return Math.max(
+    0,
+    Math.min(Math.floor((userGPA - 2.4) / 0.2), 7)
+  );
 }
-const histogramCtx =
-  document.getElementById("gpaHistogram");
 
-const histogramChart = new Chart(histogramCtx, {
-  type: "bar",
-  data: {
-    labels: [
-      "[2.4,2.6)",
-      "[2.6,2.8)",
-      "[2.8,3.0)",
-      "[3.0,3.2)",
-      "[3.2,3.4)",
-      "[3.4,3.6)",
-      "[3.6,3.8)",
-      "[3.8,4.0]"
-    ],
-    datasets: [{
-      data: semesterData["Semester 1"].histogram,
-      backgroundColor: getHistogramColors(
-        getUserIndex(semesterData["Semester 1"].userGPA)
-      )
-    }]
-  },
-  options: {
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            const sem = semesterData[semesterSelector.value];
-            const userIndex = getUserIndex(sem.userGPA);
+// ================================
+// INIT HISTOGRAM CHART
+// ================================
+// ================================
+// "YOU'RE HERE" LABEL PLUGIN
+// ================================
+const youAreHerePlugin = {
+  id: "youAreHerePlugin",
+  afterDatasetsDraw(chart) {
+    const userIndex = chart.data.userIndex;
+    if (userIndex === undefined || userIndex === null) return;
 
-            let text = `${context.label}: ${context.raw} students`;
+    const meta = chart.getDatasetMeta(0);
+    const bar = meta.data[userIndex];
+    if (!bar) return;
 
-            if (context.dataIndex === userIndex) {
-              text += " (You're here)";
-            }
+    const { ctx } = chart;
+    const x = bar.x;
+    const y = bar.y - 10; // slightly above the bar top
 
-            return text;
-          }
+    ctx.save();
+    ctx.font = "bold 12px sans-serif";
+    ctx.fillStyle = "#4c78c8";
+    ctx.textAlign = "center";
+    ctx.fillText("You're here", x, y);
+
+    // small arrow pointing down at the bar
+    ctx.beginPath();
+    ctx.moveTo(x - 4, y + 4);
+    ctx.lineTo(x + 4, y + 4);
+    ctx.lineTo(x, y + 10);
+    ctx.closePath();
+    ctx.fillStyle = "#4c78c8";
+    ctx.fill();
+    ctx.restore();
+  }
+};
+
+function initHistogram() {
+  const ctx = document.getElementById("gpaHistogram");
+
+  histogramChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: [
+        "[2.4,2.6)",
+        "[2.6,2.8)",
+        "[2.8,3.0)",
+        "[3.0,3.2)",
+        "[3.2,3.4)",
+        "[3.4,3.6)",
+        "[3.6,3.8)",
+        "[3.8,4.0]"
+      ],
+      datasets: [{
+        data: [],
+        backgroundColor: []
+      }]
+    },
+    options: {
+      responsive: true,
+      layout: {
+        padding: {
+          top: 24 // extra headroom so the label doesn't clip at the top of the canvas
+        }
+      },
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { precision: 0 }
+        }
+      }
+    },
+    plugins: [youAreHerePlugin]
+  });
+}
+
+// ================================
+// INIT MEAN CHART
+// ================================
+function initMeanChart() {
+  const ctx = document.getElementById("meanChart");
+
+  meanChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      datasets: [{
+        data: [0, 4]
+      }]
+    },
+    options: {
+      cutout: "70%",
+      plugins: {
+        legend: {
+          display: false
         }
       }
     }
-  }
-});
-
-function updateHistogram(semName) {
-  const sem = semesterData[semName];
-  const userIndex = getUserIndex(sem.userGPA);
-
-  histogramChart.data.datasets[0].data = sem.histogram;
-
-  histogramChart.data.datasets[0].backgroundColor =
-    getHistogramColors(userIndex);
-
-  histogramChart.update();
+  });
 }
-const meanCtx =
-  document.getElementById("meanChart");
 
-const meanChart = new Chart(meanCtx, {
+// ================================
+// LOAD BENCHMARK DATA
+// ================================
 
-  type: "doughnut",
+// ================================
+// Motivation message
+// ================================
+const messagesAbove = [
+  "Great work — keep up this momentum.",
+  "Consistency like this pays off over time.",
+  "You're building strong habits this semester."
+];
 
-  data: {
+const messagesBelow = [
+  "Consistent effort across semesters can turn this around.",
+  "Progress often isn't linear — stay focused on your own growth.",
+  "Focus on progress rather than comparison."
+];
 
-    datasets: [{
+function pickMessage(pool) {
+  return pool[Math.floor(Math.random() * pool.length)];
+}
 
-      data: [
-        semesterData["Semester 1"].mean,
-        4 - semesterData["Semester 1"].mean
-      ],
+function setMotivationMessage(performanceBand) {
+  const el = document.getElementById("motivationMessage");
+  const isAbove = performanceBand === "above";
 
-      backgroundColor: [
-        "#b292d6",
-        "#6f8bd8"
-      ],
+  el.textContent = isAbove ? pickMessage(messagesAbove) : pickMessage(messagesBelow);
+  el.classList.remove("above", "below");
+  el.classList.add(isAbove ? "above" : "below");
+}
 
-      borderWidth: 0
+async function loadBenchmark() {
+  try {
+    const value = semesterSelector.value || "";
+    const parts = value.split("|");
 
-    }]
-  },
+    const session = (parts[0] || "").trim();
+    const semester = parseInt(parts[1]);
 
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: "70%",
-    plugins: {
-      legend: { display: false }
+    if (!session || isNaN(semester)) {
+      console.error("Invalid semester selection");
+      return;
     }
+
+    const response = await fetch(
+      `/api/benchmark-data?session=${session}&semester=${semester}`
+    );
+
+    const data = await response.json();
+
+    if (data.error) {
+      document.getElementById("benchmarkInsight").textContent =
+        "Not enough peer data available for this semester yet.";
+      document.getElementById("sampleSize").textContent = data.sample_size ?? 0;
+      document.getElementById("departmentMeanValue").textContent = "-";
+
+      const el = document.getElementById("motivationMessage");
+      el.textContent = "";
+      el.classList.remove("above", "below");
+
+      histogramChart.data.userIndex = null;
+      histogramChart.data.datasets[0].data = [];
+      histogramChart.data.datasets[0].backgroundColor = getHistogramColors(-1);
+      histogramChart.update();
+
+      meanChart.data.datasets[0].data = [0, 4];
+      meanChart.update();
+
+      return;
+    }
+
+    setMotivationMessage(data.performance_band);
+
+    // ================================
+    // Update UI text
+    // ================================
+    document.getElementById("sampleSize").textContent = data.sample_size ?? 0;
+
+    document.getElementById("departmentMeanValue").textContent =
+      (data.mean ?? 0).toFixed(2);
+
+    document.getElementById("benchmarkInsight").textContent =
+      data.insight ?? "-";
+
+
+    // ================================
+    // Histogram update
+    // ================================
+    const userIndex = getUserIndex(data.user_gpa);
+    histogramChart.data.userIndex = userIndex;
+    histogramChart.data.datasets[0].data = data.histogram || [];
+    histogramChart.data.datasets[0].backgroundColor =
+      getHistogramColors(userIndex);
+
+    histogramChart.update();
+
+    // ================================
+    // Mean chart update
+    // ================================
+    meanChart.data.datasets[0].data = [
+      data.mean || 0,
+      Math.max(0, 4 - (data.mean || 0))
+    ];
+
+    meanChart.update();
+
+  } catch (err) {
+    console.error("loadBenchmark error:", err);
   }
+}
 
-});
-const trendCtx =
-  document.getElementById("semesterTrend");
+// ================================
+// LOAD TREND CHART
+// ================================
+async function loadTrend() {
 
-new Chart(trendCtx, {
+  try {
+    const response = await fetch("/api/benchmark-trend");
+    const data = await response.json();
 
-  type: "line",
+    if (!data.labels || !data.student) {
+      console.error("Invalid trend data");
+      return;
+    }
 
-  data: {
+    document.getElementById("trendInsight").textContent =
+      data.trend_insight ?? "-";
 
-    labels: trendData.labels,
+    // destroy old chart (IMPORTANT FIX)
+    if (trendChart) {
+      trendChart.destroy();
+    }
 
-    datasets: [
-
+    trendChart = new Chart(
+      document.getElementById("semesterTrend"),
       {
-        label: "Your GPA",
-        data: trendData.student,
-        borderColor: "#168bd1",
-        tension: 0.3
-      },
-
-      {
-        label: "Department Average",
-        data: trendData.department,
-        borderColor: "#999",
-        borderDash: [5, 5],
-        tension: 0.3
+        type: "line",
+        data: {
+          labels: data.labels,
+          datasets: [
+            {
+              label: "Your GPA",
+              data: data.student,
+              borderColor: "#168bd1",
+              tension: 0.3
+            },
+            {
+              label: "Cohort Average",
+              data: data.cohort,
+              borderColor: "#999",
+              borderDash: [5, 5],
+              tension: 0.3
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: true
+            }
+          }
+        }
       }
+    );
 
-    ]
+  } catch (err) {
+    console.error("loadTrend error:", err);
+  }
+}
+
+// ================================
+// EVENT LISTENER
+// ================================
+window.addEventListener("DOMContentLoaded", () => {
+  if (semesterSelector) {
+    semesterSelector.selectedIndex = 0;
+    semesterSelector.addEventListener("change", loadBenchmark); // <-- add this
   }
 
-});
+  initHistogram();
+  initMeanChart();
 
-semesterSelector.addEventListener("change", () => {
-  const selected = semesterSelector.value;
-  const sem = semesterData[selected];
-
-  updateHistogram(selected);
-
-  meanChart.data.datasets[0].data = [
-    sem.mean,
-    4 - sem.mean
-  ];
-  meanChart.update();
-
-  document.getElementById("departmentMeanValue").textContent =
-    sem.mean.toFixed(2);
-
-  document.getElementById("benchmarkInsight").textContent =
-    sem.insight;
+  loadBenchmark();
+  loadTrend();
 });

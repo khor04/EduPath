@@ -28,18 +28,23 @@ def dashboard():
     )
 
     # GPA trend chart data
-    gpa_labels = [f"Sem {s.semester_no} ({s.academic_session})"
-                  for s in semesters]
-    gpa_values = [
-    float(sem.semester_gpa or 0)
-    for sem in semesters
+    gpa_labels = [f"Sem {s.semester_no} ({s.academic_session})" for s in semesters]
+    gpa_values = [float(sem.semester_gpa or 0) for sem in semesters]
+
+    semester_options = [
+        {
+            "academic_session": s.academic_session,
+            "semester_no": s.semester_no
+        }
+        for s in semesters
+        if s.semester_gpa is not None   # only let users pick semesters that actually have a GPA
     ]
 
     # Latest CGPA and completed credits
     cgpa_result = calculate_cgpa_credits(current_user.user_id)
-
     latest_cgpa = cgpa_result["cgpa"]
     completed_credits = cgpa_result["credits"]
+
     # Latest transcript upload time
     latest_transcript = (
         Transcript.query
@@ -54,23 +59,19 @@ def dashboard():
     )
 
     # Saved target CGPA plan
-    target_plan = TargetCGPA.query.filter_by(
-        user_id=current_user.user_id
-    ).first()
-
+    target_plan = TargetCGPA.query.filter_by(user_id=current_user.user_id).first()
     target_cgpa = round(target_plan.target_cgpa, 2) if target_plan else None
     required_gpa = round(target_plan.required_gpa, 2) if target_plan else None
 
     return render_template(
         "dashboard.html",
         active_page="dashboard",
-        semesters=semesters,
+        semesters=semester_options,
         latest_cgpa=round(latest_cgpa, 2),
         completed_credits=int(completed_credits),
         target_cgpa=target_cgpa,
         required_gpa=required_gpa,
         last_updated=last_updated,
-
         gpa_labels=gpa_labels,
         gpa_values=gpa_values
     )

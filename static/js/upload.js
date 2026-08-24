@@ -251,12 +251,12 @@ document.getElementById("finalizeBtn").addEventListener("click", function () {
 });
 
 
-function showWarning(missing) {
-    let text = "Missing semesters detected:\n";
+// function showWarning(missing) {
+//     let text = "Missing semesters detected:\n";
 
-    missing.forEach(m => {
-        text += `Sem ${m.semester_no} ${m.session}\n`;
-    });
+//     missing.forEach(m => {
+//         text += `Sem ${m.semester_no} ${m.session}\n`;
+//     });
 
-    return confirm(text + "\nContinue?");
-}
+//     return confirm(text + "\nContinue?");
+// }

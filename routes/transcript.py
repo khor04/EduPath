@@ -69,64 +69,208 @@ def get_or_create_semester(transcript_id, sem_no, session):
 
     return semester
 
+import re
+
+
+def extract_programme_from_transcript(text):
+    """
+    Extract programme from transcript line such as:
+    Programme : BACHELOR OF COMPUTER SCIENCE (INFORMATION SYSTEMS)
+    """
+
+    match = re.search(
+        r"Programme\s*:\s*(.+)",
+        text,
+        re.IGNORECASE
+    )
+
+    if match:
+        return match.group(1).strip()
+
+    return None
+
+
+def normalize_programme(programme):
+    """
+    Normalize programme names for comparison.
+    """
+
+    if not programme:
+        return ""
+
+    return " ".join(programme.upper().split())
+
+# @transcript_bp.route("/upload-transcript", methods=["POST"])
+# @login_required
+# def upload_transcript():
+#     if "pdf" not in request.files:
+#         return jsonify({"success": False, "message": "No file uploaded."})
+
+#     #validate uploaded file type to ensure only PDF documents are accepted
+#     file = request.files["pdf"]
+
+#     if file.filename == "":
+#         return jsonify({"success": False, "message": "Please select a PDF file."})
+
+#     if not allowed_file(file.filename):
+#         return jsonify({"success": False, "message": "Only PDF files are supported."})
+
+#     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+#     #handle overwriting another user's uplaod
+#     filename = f"{uuid.uuid4()}.pdf"
+#     filepath = os.path.join(UPLOAD_FOLDER, filename)
+#     file.save(filepath)
+
+#     try:
+#         text = ""
+
+#         #use pdfplumber to extract text content from the upload file
+#         with pdfplumber.open(filepath) as pdf:
+#             for page in pdf.pages:
+#                 text += page.extract_text() or ""
+
+#         # Check if PDF is image-based (no extractable text)
+#         if len(text.strip()) < 20:  # threshold - adjust based on testing
+#             return jsonify({
+#                 "success": False,
+#                 "message": "Unable to read this PDF. Please upload a text-based (not scanned/image) transcript PDF."
+            
+#             })
+#         text_upper = text.upper()
+
+#         has_exam_result = "EXAMINATION RESULT" in text_upper
+#         has_exam_centre = "EXAMINATION AND GRADUATION CENTRE" in text_upper
+#         has_fsktm = "BACHELOR OF COMPUTER SCIENCE" in text_upper
+
+
+#         # Case 1: Looks like a UM transcript, but not FSKTM/CS program
+#         if has_exam_result and has_exam_centre and not has_fsktm:
+#             return jsonify({
+#                 "success": False,
+#                 "message": "Not UM FSKTM student. Only UM FSKTM Bachelor of Computer Science students can use this website."
+#             })
+
+#         # Case 2: Doesn't look like a UM transcript at all
+#         if not (has_exam_result and has_exam_centre and has_fsktm):
+#             return jsonify({
+#                 "success": False,
+#                 "message": "Invalid PDF. Only UM FSKTM Bachelor of Computer Science transcripts are supported."
+#             })
+        
+#         semesters = extract_transcript_data(text)
+
+#         return jsonify({
+#             "success": True,
+#             "message": "Transcript extracted successfully.",
+#             "semesters": semesters
+#         })
+    
+#     #remove saved file(Even not um transcript pdf) for privacy problem
+#     finally:
+#         try:
+#             if os.path.exists(filepath):
+#                 os.remove(filepath)
+#         except Exception as e:
+#             print(f"Failed to delete temporary file: {e}")
+
 @transcript_bp.route("/upload-transcript", methods=["POST"])
 @login_required
 def upload_transcript():
-    if "pdf" not in request.files:
-        return jsonify({"success": False, "message": "No file uploaded."})
 
-    #validate uploaded file type to ensure only PDF documents are accepted
+    if "pdf" not in request.files:
+        return jsonify({
+            "success": False,
+            "message": "No file uploaded."
+        })
+
     file = request.files["pdf"]
 
     if file.filename == "":
-        return jsonify({"success": False, "message": "Please select a PDF file."})
+        return jsonify({
+            "success": False,
+            "message": "Please select a PDF file."
+        })
 
     if not allowed_file(file.filename):
-        return jsonify({"success": False, "message": "Only PDF files are supported."})
+        return jsonify({
+            "success": False,
+            "message": "Only PDF files are supported."
+        })
 
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-    #handle overwriting another user's uplaod
     filename = f"{uuid.uuid4()}.pdf"
     filepath = os.path.join(UPLOAD_FOLDER, filename)
+
     file.save(filepath)
 
     try:
+
         text = ""
 
-        #use pdfplumber to extract text content from the upload file
         with pdfplumber.open(filepath) as pdf:
             for page in pdf.pages:
                 text += page.extract_text() or ""
 
-        # Check if PDF is image-based (no extractable text)
-        if len(text.strip()) < 20:  # threshold - adjust based on testing
+        # Reject image-based/scanned PDFs
+        if len(text.strip()) < 20:
             return jsonify({
                 "success": False,
                 "message": "Unable to read this PDF. Please upload a text-based (not scanned/image) transcript PDF."
-            
             })
+
         text_upper = text.upper()
+
+        # --------------------------------------------------
+        # Verify that this is a UM transcript
+        # --------------------------------------------------
 
         has_exam_result = "EXAMINATION RESULT" in text_upper
         has_exam_centre = "EXAMINATION AND GRADUATION CENTRE" in text_upper
-        has_fsktm = "BACHELOR OF COMPUTER SCIENCE" in text_upper
 
-
-        # Case 1: Looks like a UM transcript, but not FSKTM/CS program
-        if has_exam_result and has_exam_centre and not has_fsktm:
+        if not (has_exam_result and has_exam_centre):
             return jsonify({
                 "success": False,
-                "message": "Not UM FSKTM student. Only UM FSKTM Bachelor of Computer Science students can use this website."
+                "message": "Invalid Universiti Malaya transcript."
             })
 
-        # Case 2: Doesn't look like a UM transcript at all
-        if not (has_exam_result and has_exam_centre and has_fsktm):
+        # --------------------------------------------------
+        # Extract programme from transcript
+        # --------------------------------------------------
+
+        transcript_programme = extract_programme_from_transcript(text)
+
+        if not transcript_programme:
             return jsonify({
                 "success": False,
-                "message": "Invalid PDF. Only UM FSKTM Bachelor of Computer Science transcripts are supported."
+                "message": "Unable to identify programme from transcript."
             })
-        
+
+        # --------------------------------------------------
+        # Compare against registered programme
+        # --------------------------------------------------
+
+        registered_programme = current_user.programme
+
+        if (
+            normalize_programme(transcript_programme)
+            != normalize_programme(registered_programme)
+        ):
+            return jsonify({
+                "success": False,
+                "message":
+                    f"Programme Mismatch:\n\n" 
+                    f"Your account is registered under "
+                    f"'{registered_programme}', "
+                    f"but the uploaded transcript belongs to "
+                    f"'{transcript_programme}'."
+            })
+
+        # --------------------------------------------------
+        # Extract transcript data
+        # --------------------------------------------------
+
         semesters = extract_transcript_data(text)
 
         return jsonify({
@@ -134,16 +278,15 @@ def upload_transcript():
             "message": "Transcript extracted successfully.",
             "semesters": semesters
         })
-    
-    #remove saved file(Even not um transcript pdf) for privacy problem
+
     finally:
+
         try:
             if os.path.exists(filepath):
                 os.remove(filepath)
         except Exception as e:
             print(f"Failed to delete temporary file: {e}")
-
-
+            
 def normalize_course_lines(content):
     content = re.sub(
         r"(\d+\.\d{2})(\d+\.\s+[A-Z]{2,}\d{4})",
@@ -464,7 +607,7 @@ def save_transcript():
             }
 
             # -------------------------
-            # DUPLICATE CHECK
+            # DUPLICATE CHECK (check on course code, grade point and credit hour)
             # -------------------------
             is_exact_duplicate = True
 

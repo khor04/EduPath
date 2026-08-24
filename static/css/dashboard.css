@@ -119,15 +119,18 @@
 .insight-card h3 {
   font-size: 17px;
   margin-bottom: 10px;
+  font-weight: bolder;
+  color: #7776B3;
 }
 
 .insight-card p {
   font-size: 14px;
 }
 
-.insight-card span {
-  color: red;
+.motivation-box{
+  font-size: 14px;
   font-weight: bold;
+  color:rgb(66, 126, 237);
 }
 
 /* Bottom cards */

@@ -66,11 +66,11 @@
     <p class="card-label">PERFORMANCE TREND</p>
     <h2>GPA Progression</h2>
     {% if gpa_labels and gpa_values %}
-  <canvas id="dashboardGpaTrend"></canvas>
-{% else %}
-  <div class="empty-message">
-  No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction.  </div>
-{% endif %}
+    <canvas id="dashboardGpaTrend"></canvas>
+    {% else %}
+    <div class="empty-message">
+      No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction. </div>
+    {% endif %}
   </div>
 
   <!-- Benchmark Section -->
@@ -79,26 +79,25 @@
     <div class="dashboard-card">
       <p class="card-label">ANONYMOUS PEER COMPARISON</p>
       <h2>GPA Distribution Analysis</h2>
-      <h4>Based on 20 students in your department</h4>
+      <h4 id="dashboardSampleSize">Based on anonymized data from your cohort</h4>
 
       <select id="semesterSelector">
-          <!-- populated by JS -->
-        </select>
+        {% for sem in semesters %}
+        <option value="{{ sem.academic_session }}|{{ sem.semester_no }}">
+          {{ sem.academic_session }} - Semester {{ sem.semester_no }}
+        </option>
+        {% endfor %}
+      </select>
 
       <canvas id="dashboardHistogram"></canvas>
     </div>
 
-      <div class="insight-card">
-
-        <h3>INSIGHTS</h3>
-
-        <p id="benchmarkInsight">
-
-          You are performing above the department average for this semester.
-
-        </p>
-
-      </div>
+    <div class="insight-card">
+      <h3>INSIGHTS</h3>
+      <p id="benchmarkInsight"></p>
+      <hr>
+      <div id="motivationMessage" class="motivation-box"></div>
+    </div>
 
   </div>
 

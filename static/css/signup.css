@@ -382,3 +382,18 @@ button:hover {
     margin-bottom: 10px;
 }
 
+.modal {
+    z-index: 1055 !important;
+}
+
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.error-msg {
+    display: block;
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+

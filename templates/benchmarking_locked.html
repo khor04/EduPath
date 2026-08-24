@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/benchmarking.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h3>Benchmarking Unavailable</h3>
+
+    <p>
+        Upload your transcript to unlock benchmarking features.
+    </p>
+
+    <a href="{{ url_for('transcript.upload') }}" class="btn btn-primary">
+        Upload Transcript
+    </a>
+</div>
+{% endblock %}

@@ -11,8 +11,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
-    department = db.Column(db.String(255))
-    batch = db.Column(db.String(20))
+    faculty = db.Column(db.String(200), nullable=False)
+    programme = db.Column(db.String(200), nullable=False)
+    batch = db.Column(db.String(20), nullable=False)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     profile_picture=db.Column(db.String(500), default=None)

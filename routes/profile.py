@@ -50,6 +50,17 @@ def profile():
             flash("Missing required fields.", "error")
             return redirect(url_for("profile.profile"))
 
+        
+        # Check duplicate username
+        existing_username = User.query.filter(
+        User.username == username,
+        User.user_id != current_user.user_id
+        ).first()
+
+        if existing_username:
+            flash("Username already exists.", "error")
+            return redirect(url_for("profile.profile"))
+
         current_user.username = username
 
         # EMAIL CHANGED LOGIC
@@ -60,6 +71,7 @@ def profile():
             if existing_user:
                 flash("Email already registered.", "error")
                 return redirect(url_for("profile.profile"))
+            
 
             # update email + mark unverified
             current_user.email_pending = new_email

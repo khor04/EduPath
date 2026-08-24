@@ -13,7 +13,9 @@
   </p>
 
   <h3 class="sample-text">
-    Based on anonymized data from 20 students in your department
+    Based on anonymized data from
+    <span id="sampleSize">20</span>
+    students in your cohort (including you)
   </h3>
 
   <!-- TOP SECTION -->
@@ -29,7 +31,17 @@
         </div>
 
         <select id="semesterSelector">
-          <!-- populated by JS -->
+
+          {% for sem in semesters %}
+
+          <option value="{{ sem.academic_session }}|{{ sem.semester_no }}">
+
+            {{ sem.academic_session }} - Semester {{ sem.semester_no }}
+
+          </option>
+
+          {% endfor %}
+
         </select>
 
       </div>
@@ -71,11 +83,10 @@
 
         <h3>INSIGHTS</h3>
 
-        <p id="benchmarkInsight">
+        <p id="benchmarkInsight"></p>
+        <hr>
 
-          You are performing above the department average for this semester.
-
-        </p>
+        <p id="motivationMessage" class="motivation-box"></p>
 
       </div>
 

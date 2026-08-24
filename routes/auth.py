@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, jsonify
 from markupsafe import Markup
 from extensions import db,mail
 from models.users import User
@@ -81,7 +81,41 @@ EduPath System
 
     mail.send(msg)
 
+@auth_bp.route("/check-availability", methods=["POST"])
+def check_availability():
+    try:
+        data = request.get_json(silent=True) or {}
 
+        email = (data.get("email") or "").strip()
+        username = (data.get("username") or "").strip()
+
+        email_taken = False
+        username_taken = False
+
+        if email:
+            email_taken = (
+                User.query.filter(User.email == email).first() is not None
+            )
+
+        if username:
+            username_taken = (
+                User.query.filter(User.username == username).first() is not None
+            )
+
+        return jsonify({
+            "email_taken": email_taken,
+            "username_taken": username_taken
+        })
+
+    except Exception as e:
+        print("check_availability error:", e)  # IMPORTANT for debugging
+        return jsonify({
+            "email_taken": False,
+            "username_taken": False,
+            "error": "server error"
+        }), 200
+    
+    
 @auth_bp.route("/signup", methods=["GET", "POST"])
 def register():
     
@@ -90,8 +124,21 @@ def register():
         email = request.form.get("email")
         password = request.form.get("password")
         confirm_password = request.form.get("confirm_password")
-        department = request.form.get("department")
+        faculty = request.form.get("faculty")
+        programme = request.form.get("programme")
         batch = request.form.get("batch")
+
+        if not faculty:
+            flash("Please select a faculty.", "error")
+            return redirect(url_for("auth.register"))
+
+        if not programme:
+            flash("Please select a programme.", "error")
+            return redirect(url_for("auth.register"))
+
+        if not batch:
+            flash("Please select a batch.", "error")
+            return redirect(url_for("auth.register"))
 
         password_pattern = r'^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\|,.<>/?]).{8,}$'
 
@@ -114,11 +161,18 @@ def register():
             )
             return redirect(url_for("auth.register"))
 
+        existing_username = User.query.filter_by(username=username).first()
+
+        if existing_username:
+            flash("Username already exists.", "error")
+            return redirect(url_for("auth.register"))
+        
         new_user = User(
             username=username,
             email=email,
             password=generate_password_hash(password),
-            department=department,
+            faculty=faculty,
+            programme=programme,
             batch=batch
         )
 
