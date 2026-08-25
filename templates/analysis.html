@@ -19,7 +19,9 @@
     <h2>GPA Progression</h2>
 
     {% if gpa_labels and gpa_values %}
-    <canvas id="gpaTrendChart"></canvas>
+    <div class="chart-canvas-wrapper" style="position: relative; height: 340px;">
+      <canvas id="gpaTrendChart"></canvas>
+    </div>
     {% else %}
     <div class="empty-message">
       No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction. </div>
@@ -143,6 +145,13 @@
 
         <!-- AI Result -->
         <div id="aiResultSection" style="display:none;">
+
+          <div class="ai-disclaimer">
+            <span class="ai-disclaimer-icon">ⓘ</span>
+            AI-generated plan based on your academic history — treat it as a
+            guide, not a guarantee. Please verify the numbers and consult your
+            academic advisor before making important decisions.
+          </div>
 
           <div class="ai-summary">
 

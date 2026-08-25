@@ -7,6 +7,18 @@ from models.semester import Semester
 from models.users import User
 
 benchmark_bp = Blueprint("benchmark", __name__)
+
+# Histogram binning — single source of truth for both the API
+# response and the "which bin am I in" calculation, so the
+# frontend never needs to duplicate this formula.
+BIN_WIDTH = 0.2
+BIN_MIN = 2.4
+BIN_COUNT = 8
+
+
+def compute_bin_index(gpa):
+    index = int((gpa - BIN_MIN) // BIN_WIDTH)
+    return max(0, min(index, BIN_COUNT - 1))
 @benchmark_bp.route("/benchmarking")
 @login_required
 def benchmark():
@@ -57,11 +69,17 @@ def benchmark_data():
     if not session or not semester_no:
         return jsonify({"error": "Invalid parameters"})
 
+    # Peers only — the viewer is benchmarked AGAINST their cohort,
+    # not folded into it. Including yourself would (a) bias the
+    # average toward your own GPA, especially in small cohorts,
+    # and (b) let you back out another student's exact GPA once
+    # the cohort is just you + one other person.
     cohort_gpas = (
         db.session.query(Semester.semester_gpa)
         .join(Transcript, Semester.transcript_id == Transcript.transcript_id)
         .join(User, Transcript.user_id == User.user_id)
         .filter(
+            User.user_id != current_user.user_id,
             User.programme == current_user.programme,
             User.batch == current_user.batch,
             Semester.academic_session == session,
@@ -74,6 +92,9 @@ def benchmark_data():
     gpa_values = [g[0] for g in cohort_gpas]
     sample_size = len(gpa_values)
 
+    # sample_size now counts OTHER peers only, so "< 2" means
+    # "fewer than 2 other peers" — the minimum needed so no
+    # individual peer's GPA can be isolated from the aggregate.
     if sample_size < 2:
         return jsonify({
             "error": "not_enough_data",
@@ -95,15 +116,16 @@ def benchmark_data():
 
     user_gpa = user_sem.semester_gpa
 
-    bins = [0] * 8
+    bins = [0] * BIN_COUNT
     for gpa in gpa_values:
-        index = int((gpa - 2.4) // 0.2)
-        index = max(0, min(index, 7))
-        bins[index] += 1
+        bins[compute_bin_index(gpa)] += 1
 
-    gap = mean - user_gpa
+    gap = round(mean - user_gpa, 2)
 
-    if gap <= 0:
+    if gap == 0:
+        performance_band = "equal"
+        insight = f"Your GPA ({user_gpa:.2f}) matches the cohort average ({mean:.2f})."
+    elif gap < 0:
         performance_band = "above"
         insight = f"Your GPA ({user_gpa:.2f}) is above the cohort average ({mean:.2f})."
     elif gap < 0.15:
@@ -118,6 +140,7 @@ def benchmark_data():
         "mean": mean,
         "sample_size": sample_size,
         "user_gpa": user_gpa,
+        "user_bin_index": compute_bin_index(user_gpa),
         "insight": insight,
         "performance_band": performance_band
     })
@@ -151,6 +174,7 @@ def benchmark_trend():
             .join(Transcript, Semester.transcript_id == Transcript.transcript_id)
             .join(User, Transcript.user_id == User.user_id)
             .filter(
+                User.user_id != current_user.user_id,
                 User.programme == current_user.programme,
                 User.batch == current_user.batch,
                 Semester.academic_session == sem.academic_session,
@@ -161,6 +185,8 @@ def benchmark_trend():
         )
         values = [g[0] for g in cohort_gpas]
 
+        # Same anonymity floor as benchmark_data(): require at
+        # least 2 OTHER peers before revealing an average.
         cohort.append(round(sum(values) / len(values), 2) if len(values) >= 2 else None)
 
     valid_pairs = [(s, c) for s, c in zip(student, cohort) if s is not None and c is not None]

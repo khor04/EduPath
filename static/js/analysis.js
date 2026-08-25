@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       interaction: { mode: "nearest", intersect: false },
       plugins: {
         legend: { display: false },
@@ -61,8 +63,11 @@ document.addEventListener("DOMContentLoaded", function () {
       elements: {
         point: { radius: 5, hoverRadius: 8 }
       },
+      layout: {
+        padding: { top: 20 }
+      },
       scales: {
-        y: { beginAtZero: true, suggestedMax: 4.1 }
+        y: { beginAtZero: true, max: 4.5 }
       }
     }
   });

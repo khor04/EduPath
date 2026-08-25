@@ -66,7 +66,9 @@
     <p class="card-label">PERFORMANCE TREND</p>
     <h2>GPA Progression</h2>
     {% if gpa_labels and gpa_values %}
-    <canvas id="dashboardGpaTrend"></canvas>
+    <div class="chart-canvas-wrapper" style="position: relative; height: 320px;">
+      <canvas id="dashboardGpaTrend"></canvas>
+    </div>
     {% else %}
     <div class="empty-message">
       No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction. </div>

@@ -37,8 +37,11 @@
 
 .analysis-card canvas {
   width: 100% !important;
-  height: 320px !important;
 }
+/* Chart height is set via inline style on .chart-canvas-wrapper in
+   the template — Chart.js (with maintainAspectRatio: false) reads
+   the CANVAS'S PARENT container's height, not the canvas's own
+   CSS, so the fixed height has to live on that wrapper. */
 
 /* Prediction */
 .prediction-header {
@@ -277,6 +280,24 @@
 
 .ai-button-row button:hover {
   background: #1d4ed8;
+}
+
+.ai-disclaimer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff8e6;
+  color: #7a5c1e;
+  border-left: 4px solid #e8b84c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  margin-bottom: 14px;
+}
+
+.ai-disclaimer-icon {
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
 .ai-summary {

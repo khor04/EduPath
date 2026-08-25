@@ -194,6 +194,12 @@
   border-left: 4px solid #4c9de8;
 }
 
+.motivation-box.equal {
+  background-color: #f1eefc;
+  color: #5b4d94;
+  border-left: 4px solid #7776B3;
+}
+
 .motivation-box.below {
   background-color: #fff6e8;
   color: #8a6a2f;

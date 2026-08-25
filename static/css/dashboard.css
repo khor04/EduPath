@@ -88,10 +88,10 @@
   width: 100% !important;
 }
 
-/* Chart heights */
-#dashboardGpaTrend {
-  height: 300px !important;
-}
+/* Chart heights are set via inline style on .chart-canvas-wrapper
+   in the template — Chart.js (with maintainAspectRatio: false)
+   reads the CANVAS'S PARENT container's height, not the canvas's
+   own CSS, so the fixed height has to live on that wrapper. */
 
 #dashboardHistogram {
   height: 270px !important;
@@ -131,6 +131,18 @@
   font-size: 14px;
   font-weight: bold;
   color:rgb(66, 126, 237);
+}
+
+.motivation-box.above {
+  color: #1c5f9c;
+}
+
+.motivation-box.equal {
+  color: #5b4d94;
+}
+
+.motivation-box.below {
+  color: #8a6a2f;
 }
 
 /* Bottom cards */

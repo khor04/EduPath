@@ -18,15 +18,6 @@ function getHistogramColors(userIndex) {
     );
 }
 
-function getUserIndex(userGPA) {
-  if (!userGPA || isNaN(userGPA)) return 0;
-
-  return Math.max(
-    0,
-    Math.min(Math.floor((userGPA - 2.4) / 0.2), 7)
-  );
-}
-
 // ================================
 // INIT HISTOGRAM CHART
 // ================================
@@ -144,6 +135,12 @@ const messagesAbove = [
   "You're building strong habits this semester."
 ];
 
+const messagesEqual = [
+  "You're right on pace with your cohort — solid, steady footing.",
+  "You're tracking exactly with the department average.",
+  "Right in step with your peers this semester."
+];
+
 const messagesBelow = [
   "Consistent effort across semesters can turn this around.",
   "Progress often isn't linear — stay focused on your own growth.",
@@ -156,11 +153,25 @@ function pickMessage(pool) {
 
 function setMotivationMessage(performanceBand) {
   const el = document.getElementById("motivationMessage");
-  const isAbove = performanceBand === "above";
 
-  el.textContent = isAbove ? pickMessage(messagesAbove) : pickMessage(messagesBelow);
-  el.classList.remove("above", "below");
-  el.classList.add(isAbove ? "above" : "below");
+  let pool;
+  let styleClass;
+
+  if (performanceBand === "above") {
+    pool = messagesAbove;
+    styleClass = "above";
+  } else if (performanceBand === "equal") {
+    pool = messagesEqual;
+    styleClass = "equal";
+  } else {
+    // "slightly_below" and "below" share the same tone
+    pool = messagesBelow;
+    styleClass = "below";
+  }
+
+  el.textContent = pickMessage(pool);
+  el.classList.remove("above", "equal", "below");
+  el.classList.add(styleClass);
 }
 
 async function loadBenchmark() {
@@ -220,7 +231,7 @@ async function loadBenchmark() {
     // ================================
     // Histogram update
     // ================================
-    const userIndex = getUserIndex(data.user_gpa);
+    const userIndex = data.user_bin_index ?? 0;
     histogramChart.data.userIndex = userIndex;
     histogramChart.data.datasets[0].data = data.histogram || [];
     histogramChart.data.datasets[0].backgroundColor =
@@ -289,10 +300,17 @@ async function loadTrend() {
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               display: true
             }
+          },
+          layout: {
+            padding: { top: 20 }
+          },
+          scales: {
+            y: { beginAtZero: true, max: 4.5 }
           }
         }
       }

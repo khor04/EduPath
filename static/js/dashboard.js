@@ -19,6 +19,8 @@ if (gpaCtx) {
       }]
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       interaction: { mode: "nearest", intersect: false },
       plugins: {
         legend: { display: false },
@@ -32,8 +34,11 @@ if (gpaCtx) {
       elements: {
         point: { radius: 5, hoverRadius: 8, hitRadius: 20 }
       },
+      layout: {
+        padding: { top: 20 }
+      },
       scales: {
-        y: { beginAtZero: true, suggestedMax: 4.1 }
+        y: { beginAtZero: true, max: 4.5 }
       }
     }
   });
@@ -46,11 +51,6 @@ function getHistogramColors(userIndex) {
   return Array(8)
     .fill("#c7d6ef")
     .map((color, index) => (index === userIndex ? "#4c78c8" : color));
-}
-
-function getUserIndex(userGPA) {
-  if (!userGPA || isNaN(userGPA)) return 0;
-  return Math.max(0, Math.min(Math.floor((userGPA - 2.4) / 0.2), 7));
 }
 
 // ================================
@@ -96,6 +96,12 @@ const messagesAbove = [
   "You're building strong habits this semester."
 ];
 
+const messagesEqual = [
+  "You're right on pace with your cohort — solid, steady footing.",
+  "You're tracking exactly with the department average.",
+  "Right in step with your peers this semester."
+];
+
 const messagesBelow = [
   "Consistent effort across semesters can turn this around.",
   "Progress often isn't linear — stay focused on your own growth.",
@@ -109,10 +115,25 @@ function pickMessage(pool) {
 function setMotivationMessage(performanceBand) {
   const el = document.getElementById("motivationMessage");
   if (!el) return;
-  const isAbove = performanceBand === "above";
-  el.textContent = isAbove ? pickMessage(messagesAbove) : pickMessage(messagesBelow);
-  el.classList.remove("above", "below");
-  el.classList.add(isAbove ? "above" : "below");
+
+  let pool;
+  let styleClass;
+
+  if (performanceBand === "above") {
+    pool = messagesAbove;
+    styleClass = "above";
+  } else if (performanceBand === "equal") {
+    pool = messagesEqual;
+    styleClass = "equal";
+  } else {
+    // "slightly_below" and "below" share the same tone
+    pool = messagesBelow;
+    styleClass = "below";
+  }
+
+  el.textContent = pickMessage(pool);
+  el.classList.remove("above", "equal", "below");
+  el.classList.add(styleClass);
 }
 
 // ================================
@@ -178,8 +199,7 @@ async function loadDashboardBenchmark() {
       document.getElementById("benchmarkInsight").textContent =
         "Not enough peer data available for this semester yet.";
       document.getElementById("dashboardSampleSize").textContent =
-        `Based on anonymized data (${data.sample_size ?? 0} student${data.sample_size === 1 ? "" : "s"} so far)`;
-
+        `Based on anonymized peer data (${data.sample_size ?? 0} other student${data.sample_size === 1 ? "" : "s"})`;
       const el = document.getElementById("motivationMessage");
       el.textContent = "";
       el.classList.remove("above", "below");
@@ -192,12 +212,12 @@ async function loadDashboardBenchmark() {
     }
 
     document.getElementById("dashboardSampleSize").textContent =
-      `Based on anonymized data from ${data.sample_size} students in your cohort (including you)`;
+      `Based on anonymized data from ${data.sample_size} other student${data.sample_size === 1 ? "" : "s"} in your cohort`;
 
     document.getElementById("benchmarkInsight").textContent = data.insight ?? "-";
     setMotivationMessage(data.performance_band);
 
-    const userIndex = getUserIndex(data.user_gpa);
+    const userIndex = data.user_bin_index ?? 0;
     histogramChart.data.userIndex = userIndex;
     histogramChart.data.datasets[0].data = data.histogram || [];
     histogramChart.data.datasets[0].backgroundColor = getHistogramColors(userIndex);
