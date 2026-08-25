@@ -267,6 +267,50 @@
     </div>
 
   </div>
+
+  <!-- Per-Course CGPA Simulator -->
+  <div class="course-sim-card">
+
+    <div class="prediction-header">
+      <div>
+        <p class="card-label">WHAT-IF SIMULATOR</p>
+        <h2>Per-Course CGPA Simulator</h2>
+        <p class="mini-text">What happens to my CGPA if I get this grade in this course?</p>
+      </div>
+    </div>
+
+    <div class="course-sim-add-row">
+      <button type="button" id="addRetakeBtn" class="course-sim-btn" disabled>+ Retake a Course</button>
+      <button type="button" id="addFutureBtn" class="course-sim-btn">+ Add Future Course</button>
+      <button type="button" id="clearAllSimBtn" class="course-sim-btn course-sim-clear-btn">Clear All</button>
+    </div>
+
+    <table class="course-sim-table" id="courseSimTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Credits</th>
+          <th>Hypothetical Grade</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="courseSimBody"></tbody>
+    </table>
+
+    <p id="courseSimEmptyMsg" class="empty-message">
+      Add a retake or a future course above to see the projected impact on your CGPA.
+    </p>
+
+    <div class="course-sim-result" id="courseSimResult" style="display:none;">
+      <p>Current CGPA: <strong id="courseSimCurrentCGPA">-</strong></p>
+      <p>Projected CGPA: <strong id="courseSimProjectedCGPA">-</strong></p>
+      <p>Change: <strong id="courseSimChange">-</strong></p>
+    </div>
+
+    <p id="courseSimError" class="prediction-error"></p>
+
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 from models.transcript import Transcript
 from models.semester import Semester
+from models.course import Course
 from models.target_cgpa import TargetCGPA
 from extensions import db
 from datetime import datetime
@@ -9,7 +10,7 @@ from zoneinfo import ZoneInfo
 import json
 from dotenv import load_dotenv
 from services.gemini_service import generate_academic_plan
-from services.cgpa_services import calculate_cgpa_credits
+from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa
 
 analysis_bp = Blueprint("analysis", __name__)
 
@@ -146,7 +147,81 @@ def save_target_cgpa():
             "success": False,
             "message": f"Failed to save target CGPA plan: {str(e)}"
         })
-    
+
+
+@analysis_bp.route("/api/my-courses")
+@login_required
+def my_courses():
+
+    courses = (
+        db.session.query(Course)
+        .join(Semester, Course.semester_id == Semester.semester_id)
+        .join(Transcript, Semester.transcript_id == Transcript.transcript_id)
+        .filter(Transcript.user_id == current_user.user_id)
+        .order_by(
+            Semester.academic_session,
+            Semester.semester_no,
+            Course.course_code
+        )
+        .all()
+    )
+
+    return jsonify([
+        {
+            "course_id": c.course_id,
+            "course_code": c.course_code,
+            "course_name": c.course_name,
+            "credit_hour": c.credit_hour,
+            "grade": c.grade
+        }
+        for c in courses
+    ])
+
+
+@analysis_bp.route("/api/simulate-cgpa", methods=["POST"])
+@login_required
+def simulate_cgpa_route():
+
+    data = request.get_json()
+
+    if not data or "entries" not in data:
+        return jsonify({
+            "success": False,
+            "message": "No simulation data received."
+        })
+
+    entries = data["entries"]
+
+    if not entries:
+        return jsonify({
+            "success": False,
+            "message": "Add at least one course to simulate."
+        })
+
+    try:
+        current = calculate_cgpa_credits(current_user.user_id)
+        projected = simulate_cgpa(current_user.user_id, entries)
+
+        return jsonify({
+            "success": True,
+            "current_cgpa": current["cgpa"],
+            "projected_cgpa": projected["cgpa"],
+            "change": round(projected["cgpa"] - current["cgpa"], 2)
+        })
+
+    except ValueError as e:
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Failed to simulate CGPA: {str(e)}"
+        })
+
+
 #helper function
 def detect_trend(history):
     if len(history) < 2:

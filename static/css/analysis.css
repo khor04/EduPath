@@ -258,6 +258,101 @@
   font-size: 16px;
 }
 
+/* Per-Course CGPA Simulator */
+.course-sim-card {
+  background: white;
+  padding: 18px;
+  margin-bottom: 28px;
+}
+
+.course-sim-add-row {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.course-sim-btn {
+  background: #7776B3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.course-sim-btn:disabled {
+  background: #c9c8dc;
+  cursor: not-allowed;
+}
+
+.course-sim-clear-btn {
+  background: white;
+  color: #666;
+  border: 1px solid #ccc;
+  margin-left: auto;
+}
+
+.course-sim-clear-btn:hover {
+  background: #f5f5f5;
+}
+
+.course-sim-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+
+.course-sim-table th,
+.course-sim-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 13px;
+}
+
+.course-sim-table select,
+.course-sim-table input[type="text"],
+.course-sim-table input[type="number"] {
+  width: 100%;
+  padding: 5px 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.course-sim-table input[type="number"] {
+  width: 70px;
+}
+
+.sim-remove-btn {
+  background: none;
+  border: none;
+  color: #c0392b;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#courseSimEmptyMsg {
+  text-align: center;
+  padding: 24px 20px;
+  color: #888;
+  font-size: 13px;
+}
+
+.course-sim-result {
+  display: flex;
+  gap: 24px;
+  background: #f6f6fb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.course-sim-result p {
+  margin: 0;
+}
+
 /*ai suggestion part*/
 .semester-plan-section h4 {
   font-size: medium;

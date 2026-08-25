@@ -730,3 +730,212 @@ document.getElementById("feasibilityInfoIcon")
   }
 
 }
+
+// ==========================================================
+// Per-Course CGPA Simulator
+// ==========================================================
+
+const GRADE_OPTIONS = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"];
+
+let userCourses = [];
+let simRowCounter = 0;
+
+async function loadUserCourses() {
+  const retakeBtn = document.getElementById("addRetakeBtn");
+  retakeBtn.disabled = true;
+
+  try {
+    const response = await fetch("/api/my-courses");
+    userCourses = await response.json();
+  } catch (err) {
+    console.error("Failed to load courses for simulator:", err);
+    userCourses = [];
+  }
+
+  retakeBtn.disabled = userCourses.length === 0;
+}
+
+function buildGradeSelect() {
+  const options = GRADE_OPTIONS
+    .map(g => `<option value="${g}">${g}</option>`)
+    .join("");
+  return `<select class="sim-grade-select">${options}</select>`;
+}
+
+function updateCourseSimVisibility() {
+  const hasRows = document.getElementById("courseSimBody").children.length > 0;
+
+  document.getElementById("courseSimTable").style.display = hasRows ? "table" : "none";
+  document.getElementById("courseSimEmptyMsg").style.display = hasRows ? "none" : "block";
+
+  if (!hasRows) {
+    document.getElementById("courseSimResult").style.display = "none";
+  }
+}
+
+function addRetakeRow() {
+  if (!userCourses.length) {
+    document.getElementById("courseSimError").innerText =
+      "You don't have any completed courses to retake yet.";
+    return;
+  }
+
+  document.getElementById("courseSimError").innerText = "";
+
+  const row = document.createElement("tr");
+  row.id = `sim-row-${simRowCounter++}`;
+  row.dataset.type = "retake";
+
+  const courseOptions = userCourses
+    .map(c =>
+      `<option value="${c.course_id}" data-credits="${c.credit_hour}">` +
+      `${c.course_code} - ${c.course_name} (current: ${c.grade})</option>`
+    )
+    .join("");
+
+  row.innerHTML = `
+    <td><select class="sim-course-select">${courseOptions}</select></td>
+    <td class="sim-credits-display">${userCourses[0].credit_hour}</td>
+    <td>${buildGradeSelect()}</td>
+    <td><button type="button" class="sim-remove-btn">✕</button></td>
+  `;
+
+  document.getElementById("courseSimBody").appendChild(row);
+  updateCourseSimVisibility();
+  recomputeSimulation();
+}
+
+function addFutureRow() {
+  const row = document.createElement("tr");
+  row.id = `sim-row-${simRowCounter++}`;
+  row.dataset.type = "future";
+
+  row.innerHTML = `
+    <td><input type="text" class="sim-course-label" placeholder="Course name (optional)"></td>
+    <td><input type="number" class="sim-credits-input" min="1" step="1" value="3"></td>
+    <td>${buildGradeSelect()}</td>
+    <td><button type="button" class="sim-remove-btn">✕</button></td>
+  `;
+
+  document.getElementById("courseSimBody").appendChild(row);
+  updateCourseSimVisibility();
+  recomputeSimulation();
+}
+
+function collectSimEntries() {
+  const entries = [];
+  const rows = document.getElementById("courseSimBody").children;
+
+  for (const row of rows) {
+    const grade = row.querySelector(".sim-grade-select").value;
+
+    if (row.dataset.type === "retake") {
+      const courseSelect = row.querySelector(".sim-course-select");
+
+      entries.push({
+        type: "retake",
+        course_id: parseInt(courseSelect.value),
+        grade: grade
+      });
+
+    } else {
+      const credits = parseFloat(
+        row.querySelector(".sim-credits-input").value
+      ) || 0;
+
+      entries.push({
+        type: "future",
+        credits: credits,
+        grade: grade
+      });
+    }
+  }
+
+  return entries;
+}
+
+async function recomputeSimulation() {
+  const entries = collectSimEntries();
+
+  if (entries.length === 0) {
+    document.getElementById("courseSimResult").style.display = "none";
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/simulate-cgpa", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ entries })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      document.getElementById("courseSimError").innerText =
+        data.message || "Unable to simulate.";
+      document.getElementById("courseSimResult").style.display = "none";
+      return;
+    }
+
+    document.getElementById("courseSimError").innerText = "";
+    document.getElementById("courseSimResult").style.display = "block";
+    document.getElementById("courseSimCurrentCGPA").innerText =
+      data.current_cgpa.toFixed(2);
+    document.getElementById("courseSimProjectedCGPA").innerText =
+      data.projected_cgpa.toFixed(2);
+
+    const change = data.change;
+    const changeEl = document.getElementById("courseSimChange");
+    const sign = change > 0 ? "+" : "";
+
+    changeEl.innerText = `${sign}${change.toFixed(2)}`;
+    changeEl.style.color =
+      change > 0 ? "#1c8a4c" : (change < 0 ? "#c0392b" : "#444");
+
+  } catch (err) {
+    console.error("simulate-cgpa error:", err);
+    document.getElementById("courseSimError").innerText =
+      "Failed to simulate CGPA. Please try again.";
+  }
+}
+
+// Event delegation on the table body, since rows are added
+// dynamically — one listener handles grade/course changes and
+// row removal for every row, present or future.
+document.getElementById("courseSimBody").addEventListener("change", function (e) {
+
+  if (e.target.classList.contains("sim-course-select")) {
+    const row = e.target.closest("tr");
+    const selectedOption = e.target.selectedOptions[0];
+    row.querySelector(".sim-credits-display").innerText =
+      selectedOption ? selectedOption.dataset.credits : "-";
+  }
+
+  recomputeSimulation();
+});
+
+document.getElementById("courseSimBody").addEventListener("input", function (e) {
+  if (e.target.classList.contains("sim-credits-input")) {
+    recomputeSimulation();
+  }
+});
+
+document.getElementById("courseSimBody").addEventListener("click", function (e) {
+  if (e.target.classList.contains("sim-remove-btn")) {
+    e.target.closest("tr").remove();
+    updateCourseSimVisibility();
+    recomputeSimulation();
+  }
+});
+
+document.getElementById("addRetakeBtn").addEventListener("click", addRetakeRow);
+document.getElementById("addFutureBtn").addEventListener("click", addFutureRow);
+
+document.getElementById("clearAllSimBtn").addEventListener("click", function () {
+  document.getElementById("courseSimBody").innerHTML = "";
+  document.getElementById("courseSimError").innerText = "";
+  updateCourseSimVisibility();
+});
+
+loadUserCourses();
