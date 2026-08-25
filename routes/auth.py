@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
-import re
+from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -140,15 +140,10 @@ def register():
             flash("Please select a batch.", "error")
             return redirect(url_for("auth.register"))
 
-        password_pattern = r'^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\|,.<>/?]).{8,}$'
-
-        if not re.match(password_pattern, password):
-            flash(
-                "Password must be at least 8 characters long and contain at least 1 digit and 1 special character.",
-                "error"
-            )
+        if not is_valid_password(password):
+            flash(PASSWORD_REQUIREMENT_MESSAGE, "error")
             return redirect(url_for("auth.register"))
-        
+
         if password != confirm_password:
             flash("Passwords do not match.", "error")
             return redirect(url_for("auth.register"))
@@ -258,7 +253,7 @@ def forgot_password():
         if user:
             send_reset_email(user)
 
-            return redirect(url_for("auth.forgot_password", modal="email_sent"))
+            return redirect(url_for("auth.forgot_password", modal="email_sent", email=email))
 
         flash("Email not found.", "error")
         return redirect(url_for("auth.forgot_password"))
@@ -284,6 +279,10 @@ def reset_password(token):
     if request.method == "POST":
 
         password = request.form.get("password")
+
+        if not is_valid_password(password):
+            flash(PASSWORD_REQUIREMENT_MESSAGE, "error")
+            return redirect(url_for("auth.reset_password", token=token))
 
         user.password = generate_password_hash(password)
         db.session.commit()

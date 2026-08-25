@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models.users import User
 import cloudinary.uploader
 import cloudinary
-import re
+from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE
 from routes.auth import send_verification_email
 from datetime import datetime
 from zoneinfo import ZoneInfo
@@ -103,8 +103,6 @@ def change_password():
     new_password = request.form.get("new_password")
     confirm_password = request.form.get("confirm_password")
 
-    password_pattern = r'^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\|,.<>/?]).{8,}$'
-       
     if not current_password or not new_password or not confirm_password:
         flash("Please fill in all password fields.", "error")
         return redirect(url_for("profile.profile", modal="password_error"))
@@ -112,10 +110,9 @@ def change_password():
     if not check_password_hash(current_user.password, current_password):
         flash("Current password is incorrect.", "error")
         return redirect(url_for("profile.profile", modal="password_error"))
-    
-    if not re.match(password_pattern, new_password):
-        flash(
-            "New password must be at least 8 characters long and contain 1 digit and 1 special character.","error")
+
+    if not is_valid_password(new_password):
+        flash(PASSWORD_REQUIREMENT_MESSAGE, "error")
         return redirect(url_for("profile.profile", modal = "password_error"))
     
     if current_password == new_password:
