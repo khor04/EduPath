@@ -112,6 +112,17 @@ background:#fff8e1;
   vertical-align: middle;
 }
 
+.transcript-table tr.needs-review td {
+  background: #ffe5e5;
+}
+
+.transcript-table tr.needs-review td:empty::before {
+  content: "Missing \2014 please fill in";
+  color: red;
+  font-size: 11px;
+  font-style: italic;
+}
+
 .transcript-table th:nth-child(1),
 .transcript-table td:nth-child(1) {
   width: 160px;

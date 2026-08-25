@@ -116,8 +116,9 @@ function renderExtractedData(semesters) {
 
         //generate course rows that is editable
         sem.courses.forEach(course => {
+            const rowClass = course.needs_review ? ' class="needs-review"' : '';
             rows += `
-                <tr>
+                <tr${rowClass}>
                     <td contenteditable="true">${course.course_code}</td>
                     <td contenteditable="true">${course.course_name}</td>
                     <td contenteditable="true">${course.credits}</td>
@@ -159,7 +160,19 @@ function renderExtractedData(semesters) {
 `;
     });
 
-    alert("Transcript extracted successfully. Please verify before final submission.");
+    const hasIncompleteCourses = semesters.some(
+        sem => sem.courses.some(course => course.needs_review)
+    );
+
+    if (hasIncompleteCourses) {
+        alert(
+            "Transcript extracted, but some course rows (highlighted in red) " +
+            "could not be fully read. Please fill in the missing fields " +
+            "before final submission."
+        );
+    } else {
+        alert("Transcript extracted successfully. Please verify before final submission.");
+    }
 }
 
 function toggleHistory(header) {
