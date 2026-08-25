@@ -89,26 +89,41 @@
 
         <div class="case-card best-case">
           <h3>Best Case</h3>
-          <p>Assumes student scores GPA 4.00 for all remaining credits.</p>
+          <p>Assumes GPA 4.00 for all remaining credits.</p>
           <span>Projected CGPA:</span>
           <h2 id="bestCase">3.85</h2>
         </div>
 
         <div class="case-card realistic-case">
           <h3>Realistic Case</h3>
-          <p>Assumes student maintains current academic performance.</p>
+          <p>Assumes you maintain your current academic performance.</p>
           <span>Projected CGPA:</span>
           <h2 id="realisticCase">3.78</h2>
         </div>
 
         <div class="case-card worst-case">
-          <h3>Worst Case</h3>
-          <p>Assumes GPA decreases based on recent trend.</p>
+          <h3>Estimated Worst Case</h3>
+          <p>Based on historical GPA volatility and overall academic trend.</p>
           <span>Projected CGPA:</span>
           <h2 id="worstCase">3.72</h2>
         </div>
 
       </div>
+
+      <details class="scenario-explainer">
+        <summary>How are these scenarios calculated?</summary>
+        <div class="scenario-explainer-content">
+          <p><strong>Best Case</strong> — Assumes a 4.00 GPA for all remaining credits.</p>
+          <p><strong>Realistic Case</strong> — Assumes your latest GPA is maintained.</p>
+          <p>
+            <strong>Estimated Worst Case</strong> — Uses your historical semester-to-semester
+            GPA changes to estimate volatility and considers your overall academic trend.
+            The estimated decline is bounded to prevent unusually large changes from
+            producing unrealistic results. This is a statistical estimate for planning
+            purposes, not a guaranteed outcome.
+          </p>
+        </div>
+      </details>
 
       <!-- AI GPA Target Planner -->
       <div class="ai-plan-card" id="aiPlanCard" style="display:none;">

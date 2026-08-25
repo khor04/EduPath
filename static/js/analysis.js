@@ -5,13 +5,6 @@ document.getElementById("currentCredits").innerText = currentCredits;
 let latestGPA = 0;
 latestGPA = gpaValues[gpaValues.length - 1];
 
-//recent trend calculation (gpa change between last two semester)
-let recentTrend = 0;
-if (gpaValues.length >= 2) {
-  recentTrend =
-    gpaValues[gpaValues.length - 1] -
-    gpaValues[gpaValues.length - 2];
-}
 // GPA Trend Chart
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -75,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let latestRequiredGPA = 0;
 let latestStatus = "";
+let hasCalculated = false;
 
 // Update slider values live
 document.getElementById("targetCGPA").addEventListener("input", function () {
@@ -105,14 +99,75 @@ function calculateRequiredGPA(targetCGPA, currentCGPA, currentCredits, remaining
   return requiredGPA;
 }
 
+// ==========================================================
+// Worst-case decline estimate
+//
+// Uses the student's FULL semester-to-semester GPA history —
+// not just the latest transition — so one anomalous semester
+// doesn't single-handedly dominate the estimate:
+//   - Volatility = population standard deviation of GPA changes,
+//     bounded to [0.20, 0.50].
+//   - Trend = average GPA change, nudging the decline down for
+//     an improving trend (some "protection") or up for a
+//     declining one, capped at ±0.15 either way.
+// With fewer than 3 semesters there isn't enough history to
+// compute a meaningful trend/volatility, so this falls back to
+// simpler, still-bounded heuristics.
+// ==========================================================
+function computeWorstCaseDecline(gpaHistory) {
+  const n = gpaHistory.length;
+
+  // 0-1 semesters: no deltas at all — use the flat safety floor.
+  if (n < 2) {
+    return 0.20;
+  }
+
+  const deltas = [];
+  for (let i = 1; i < n; i++) {
+    deltas.push(gpaHistory[i] - gpaHistory[i - 1]);
+  }
+
+  // Exactly 2 semesters: a single delta isn't enough to separate
+  // "trend" from "volatility" — treat its magnitude as the
+  // decline signal directly, still bounded to [0.20, 0.50].
+  if (deltas.length === 1) {
+    return Math.min(Math.max(Math.abs(deltas[0]), 0.20), 0.50);
+  }
+
+  // 3+ semesters: combine historical volatility and overall trend.
+  const meanDelta = deltas.reduce((sum, d) => sum + d, 0) / deltas.length;
+
+  const variance =
+    deltas.reduce((sum, d) => sum + Math.pow(d - meanDelta, 2), 0) / deltas.length;
+  const stdDev = Math.sqrt(variance);
+
+  const baseDecline = Math.min(Math.max(stdDev, 0.20), 0.50);
+  const trendAdjustment = Math.min(Math.abs(meanDelta) * 0.5, 0.15);
+
+  if (meanDelta > 0) {
+    // Improving trend gives some protection — reduces the decline.
+    return Math.max(baseDecline - trendAdjustment, 0.20);
+  } else if (meanDelta < 0) {
+    // Declining trend makes the scenario more conservative.
+    return baseDecline + trendAdjustment;
+  }
+
+  return baseDecline;
+}
+
 // Main calculation
 function calculatePrediction() {
-  console.log(recentTrend);
 
   document.getElementById("predictionOutput").style.display = "block";
   document.getElementById("aiPlanCard").style.display = "block";
   const targetCGPA = parseFloat(document.getElementById("targetCGPA").value);
   const remainingCredits = parseInt(document.getElementById("remainingCredits").value);
+
+  if (targetCGPA <= 0) {
+    alert("Please set a target CGPA greater than 0.");
+    document.getElementById("predictionOutput").style.display = "none";
+    return;
+  }
 
   if (remainingCredits <= 0) {
     alert("Please enter remaining credits greater than 0.");
@@ -129,15 +184,31 @@ function calculatePrediction() {
 
   const roundedRequiredGPA = Number(requiredGPA.toFixed(2));
   latestRequiredGPA = roundedRequiredGPA;
+  hasCalculated = true;
+
   //assume future gpa = 4.00 across the remaining semester
   const bestCase = projectCGPA(currentCGPA, currentCredits, remainingCredits, 4.0);
-  //assume future gpa = latest gpa
-  const realisticCase = projectCGPA(currentCGPA, currentCredits, remainingCredits, latestGPA);
-  //recent trend(gpa change between last two semester)
-  let worstGPA = latestGPA - Math.max(Math.abs(recentTrend), 0.20);
-  worstGPA = Math.max(0.0, worstGPA); //prevent negative worstGPA
 
-  const worstCase = projectCGPA(currentCGPA, currentCredits, remainingCredits, worstGPA);
+  // Realistic/Worst case both need a GPA history (latestGPA) to
+  // work from. A student with no transcript uploaded yet has none
+  // (gpaValues is empty, so latestGPA is undefined) — show that
+  // plainly instead of letting it silently compute to NaN.
+  const hasGpaHistory = gpaValues && gpaValues.length > 0;
+
+  let realisticCase = "No transcript data found";
+  let worstCase = "No transcript data found";
+
+  if (hasGpaHistory) {
+    //assume future gpa = latest gpa
+    realisticCase = projectCGPA(currentCGPA, currentCredits, remainingCredits, latestGPA);
+
+    // Estimated worst-case GPA, based on the student's full
+    // history (volatility + trend), not just the last semester.
+    const decline = computeWorstCaseDecline(gpaValues);
+    const worstGPA = Math.max(0.0, Math.min(4.0, latestGPA - decline));
+
+    worstCase = projectCGPA(currentCGPA, currentCredits, remainingCredits, worstGPA);
+  }
 
   document.getElementById("bestCase").innerText = bestCase;
   document.getElementById("realisticCase").innerText = realisticCase;
@@ -199,8 +270,12 @@ document.addEventListener("input", function (e) {
 // SAVE TARGET CGPA PLAN
 document.getElementById("saveTargetBtn").addEventListener("click", function () {
 
-  // Prevent saving before calculation
-  if (latestRequiredGPA === 0) {
+  // Prevent saving before calculation. Uses an explicit flag
+  // rather than checking latestRequiredGPA === 0, since a
+  // required GPA of exactly 0.00 is itself a valid, reachable
+  // calculated result (e.g. current CGPA already meets the
+  // target) — that shouldn't be mistaken for "hasn't calculated".
+  if (!hasCalculated) {
     alert("Please calculate prediction before saving.");
     return;
   }
@@ -266,6 +341,7 @@ function resetPrediction() {
   // Reset temporary prediction variables
   latestRequiredGPA = 0;
   latestStatus = "";
+  hasCalculated = false;
 
   updateCreditsBalance();
 }

@@ -196,6 +196,35 @@
   background: #ffd8c9;
 }
 
+.scenario-explainer {
+  margin-top: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.scenario-explainer summary {
+  cursor: pointer;
+  color: #7776B3;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.scenario-explainer-content {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.scenario-explainer-content p {
+  margin-bottom: 8px;
+}
+
+.scenario-explainer-content p:last-child {
+  margin-bottom: 0;
+}
+
 .empty-message {
   text-align: center;
   padding: 80px 20px;
