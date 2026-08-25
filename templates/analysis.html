@@ -35,7 +35,7 @@
       <div>
         <p class="card-label">PREDICTION ENGINE</p>
         <h2>Target CGPA Simulator</h2>
-        <p class="mini-text">What GPA do I need overall until graduate?</p>
+        <p class="mini-text">What GPA do I need to reach my target CGPA?</p>
       </div>
 
       <button class="save-btn" id="saveTargetBtn">Save</button>
@@ -47,21 +47,47 @@
     </div>
 
     <p class="instruction">
-      In order to calculate the needed CGPA to achieve final goal, please adjust the slider to the required number
+      Set your target CGPA and how many credits you have left until graduation,
+      then click Calculate to see the GPA you'd need for those remaining credits.
     </p>
 
     <div class="slider-row">
 
       <div class="slider-group">
         <label>Target CGPA:</label>
-        <span id="targetValue" class="slider-value"></span>
-        <input type="range" id="targetCGPA" min="0.00" max="4.00" step="0.01" value="0">
+        <div class="slider-input-row">
+          <input type="range" id="targetCGPA" min="0.00" max="4.00" step="0.01" value="0">
+          <input
+            type="number"
+            id="targetCGPANumber"
+            class="slider-number-input"
+            min="0.00"
+            max="4.00"
+            step="0.01"
+            value="0.00"
+          >
+        </div>
       </div>
 
       <div class="slider-group">
         <label>Total Remaining Credit:</label>
-        <span id="creditValue" class="slider-value"></span>
-        <input type="range" id="remainingCredits" min="0" max="128" step="1" value="0">
+        <div class="slider-input-row">
+          <input type="range" id="remainingCredits" min="0" max="128" step="1" value="0">
+          <input
+            type="number"
+            id="remainingCreditsNumber"
+            class="slider-number-input"
+            min="0"
+            max="128"
+            step="1"
+            value="0"
+          >
+        </div>
+        <p class="field-note">
+          You'll split this total across your remaining semesters below in the
+          AI GPA Target Planner — those per-semester credits will need to add
+          up to this number.
+        </p>
       </div>
 
     </div>
@@ -70,6 +96,8 @@
       <button onclick="calculatePrediction()" class="calculate-btn">Calculate</button>
       <button onclick="resetPrediction()" class="reset-btn">Reset</button>
     </div>
+
+    <p id="predictionError" class="prediction-error"></p>
 
     <!-- Result Box -->
     <div id="predictionOutput" style="display: none;">

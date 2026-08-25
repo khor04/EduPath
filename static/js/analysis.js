@@ -70,13 +70,35 @@ let latestRequiredGPA = 0;
 let latestStatus = "";
 let hasCalculated = false;
 
-// Update slider values live
-document.getElementById("targetCGPA").addEventListener("input", function () {
-  document.getElementById("targetValue").innerText = parseFloat(this.value).toFixed(2);
+// Keep each slider and its paired number input in sync, in both
+// directions, so a student can either drag or type an exact value
+// (a slider alone can't reliably hit precise values like 3.67).
+const targetCGPASlider = document.getElementById("targetCGPA");
+const targetCGPANumber = document.getElementById("targetCGPANumber");
+const remainingCreditsSlider = document.getElementById("remainingCredits");
+const remainingCreditsNumber = document.getElementById("remainingCreditsNumber");
+
+targetCGPASlider.addEventListener("input", function () {
+  targetCGPANumber.value = parseFloat(this.value).toFixed(2);
 });
 
-document.getElementById("remainingCredits").addEventListener("input", function () {
-  document.getElementById("creditValue").innerText = this.value;
+targetCGPANumber.addEventListener("input", function () {
+  let value = parseFloat(this.value);
+  if (isNaN(value)) return;
+  value = Math.min(4.00, Math.max(0.00, value));
+  targetCGPASlider.value = value;
+});
+
+remainingCreditsSlider.addEventListener("input", function () {
+  remainingCreditsNumber.value = this.value;
+  updateCreditsBalance();
+});
+
+remainingCreditsNumber.addEventListener("input", function () {
+  let value = parseInt(this.value);
+  if (isNaN(value)) return;
+  value = Math.min(128, Math.max(0, value));
+  remainingCreditsSlider.value = value;
   updateCreditsBalance();
 });
 
@@ -155,25 +177,31 @@ function computeWorstCaseDecline(gpaHistory) {
   return baseDecline;
 }
 
+function setPredictionError(message) {
+  document.getElementById("predictionError").innerText = message || "";
+}
+
 // Main calculation
 function calculatePrediction() {
 
-  document.getElementById("predictionOutput").style.display = "block";
-  document.getElementById("aiPlanCard").style.display = "block";
   const targetCGPA = parseFloat(document.getElementById("targetCGPA").value);
   const remainingCredits = parseInt(document.getElementById("remainingCredits").value);
 
   if (targetCGPA <= 0) {
-    alert("Please set a target CGPA greater than 0.");
+    setPredictionError("Please set a target CGPA greater than 0.");
     document.getElementById("predictionOutput").style.display = "none";
     return;
   }
 
   if (remainingCredits <= 0) {
-    alert("Please enter remaining credits greater than 0.");
+    setPredictionError("Please enter remaining credits greater than 0.");
     document.getElementById("predictionOutput").style.display = "none";
     return;
   }
+
+  setPredictionError("");
+  document.getElementById("predictionOutput").style.display = "block";
+  document.getElementById("aiPlanCard").style.display = "block";
 
   const requiredGPA = calculateRequiredGPA(
     targetCGPA,
@@ -276,14 +304,16 @@ document.getElementById("saveTargetBtn").addEventListener("click", function () {
   // calculated result (e.g. current CGPA already meets the
   // target) — that shouldn't be mistaken for "hasn't calculated".
   if (!hasCalculated) {
-    alert("Please calculate prediction before saving.");
+    setPredictionError("Please calculate prediction before saving.");
     return;
   }
 
   if (latestRequiredGPA > 4.005) {
-    alert("Target CGPA plan cannot be saved because the goal is not achievable.");
+    setPredictionError("Target CGPA plan cannot be saved because the goal is not achievable.");
     return;
   }
+
+  setPredictionError("");
 
   const targetCGPA = parseFloat(
     document.getElementById("targetCGPA").value
@@ -318,12 +348,13 @@ document.getElementById("saveTargetBtn").addEventListener("click", function () {
 // Reset
 function resetPrediction() {
   document.getElementById("predictionOutput").style.display = "none";
+  setPredictionError("");
 
   document.getElementById("targetCGPA").value = 0;
   document.getElementById("remainingCredits").value = 0;
 
-  document.getElementById("targetValue").innerText = "0.00";
-  document.getElementById("creditValue").innerText = "0";
+  document.getElementById("targetCGPANumber").value = "0.00";
+  document.getElementById("remainingCreditsNumber").value = "0";
 
   document.getElementById("bestCase").innerText = "-";
   document.getElementById("realisticCase").innerText = "-";
@@ -347,8 +378,8 @@ function resetPrediction() {
 }
 
 // Set default slider display values on page load
-document.getElementById("targetValue").innerText = "0.00";
-document.getElementById("creditValue").innerText = "0";
+document.getElementById("targetCGPANumber").value = "0.00";
+document.getElementById("remainingCreditsNumber").value = "0";
 document.getElementById("predictionOutput").style.display = "none";
 
 function updateCreditsBalance() {
