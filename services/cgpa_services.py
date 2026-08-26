@@ -1,6 +1,7 @@
 from models.course import Course
 from models.semester import Semester
 from models.transcript import Transcript
+from models.target_cgpa import TargetCGPA
 from extensions import db
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -189,3 +190,176 @@ def simulate_cgpa(user_id, simulated_entries):
         )
 
     return _compute_cgpa_from_groups(_group_by_code(attempts))
+
+
+def project_cgpa(current_cgpa, current_credits, remaining_credits, assumed_gpa):
+    """
+    Credit-weighted CGPA projection — the server-side twin of
+    projectCGPA() in analysis.js. Kept here as the single shared
+    formula so the Target CGPA Simulator (client-side) and the
+    Dashboard's Performance Alert (server-side) can never drift
+    into computing "projected CGPA" two different ways.
+    """
+
+    total_credits = current_credits + remaining_credits
+
+    if total_credits <= 0:
+        return current_cgpa
+
+    return (
+        (current_cgpa * current_credits) + (assumed_gpa * remaining_credits)
+    ) / total_credits
+
+##reusable for dashboard and analysis page
+def detect_trend(history):
+    """
+    Classifies a chronological semester GPA history into a trend
+    label. `history` is a list of dicts with a "gpa" key.
+    """
+
+    if len(history) < 2:
+        return "Stable"
+
+    gpas = [h["gpa"] for h in history]  # eg: gpas = [3.53,3.81,4.0,4.0]
+    deltas = [gpas[i + 1] - gpas[i] for i in range(len(gpas) - 1)]  # semester-to-semester changes
+    avg_change = sum(deltas) / len(deltas)
+
+    # count positive & negative changes; ignore changes == 0
+    positive = sum(1 for d in deltas if d > 0)
+    negative = sum(1 for d in deltas if d < 0)
+    non_zero = positive + negative
+
+    # substantial swings in both directions = instability, not a
+    # clean improving/declining trend
+    is_volatile = (
+        max(deltas) - min(deltas) > 0.5
+        and positive > 0
+        and negative > 0
+    )
+
+    if non_zero > 0:
+        positive_ratio = positive / non_zero
+        negative_ratio = negative / non_zero
+    else:
+        positive_ratio = 0
+        negative_ratio = 0
+
+    # 0.75 = at least 75% of semester changes point the same way
+    if is_volatile:
+        return "Volatile"
+    elif positive_ratio >= 0.75 and avg_change > 0:
+        return "Improving"
+    elif negative_ratio >= 0.75 and avg_change < 0:
+        return "Declining"
+    elif avg_change >= 0.05:
+        return "Slightly Improving"
+    elif avg_change <= -0.05:
+        return "Slightly Declining"
+    else:
+        return "Stable"
+
+
+# A saved target's required GPA above this is "unusually high" —
+# close enough to the 4.00 ceiling that it's worth flagging even
+# though it may still be mathematically achievable.
+HIGH_REQUIRED_GPA_THRESHOLD = 3.85
+
+# A projected CGPA has to fall short of the target by more than
+# this to count as "meaningfully" below it — avoids flagging a
+# trivial, rounding-level near-miss.
+TARGET_SHORTFALL_BUFFER = 0.05
+
+
+def get_performance_alert(user_id):
+    """
+    Returns a single, prioritized Performance Alert for the
+    dashboard, or None if there's nothing currently worth flagging.
+
+    Two independent trigger groups feed into one alert:
+      - Target-based (only evaluated if the student has SAVED a
+        target CGPA plan — no saved target is not itself a
+        problem, it just means this half can't be evaluated yet).
+      - Trend-based (evaluated for any student with 2+ semesters,
+        no target required).
+
+    Priority order (first match wins — only one alert is ever
+    returned, never a list, since a target-based concern is more
+    directly actionable than a general trend observation):
+      1. Projected CGPA meaningfully below a saved target.
+      2. Required GPA for a saved target is unusually high.
+      3. Volatile GPA trend.
+      4. Declining / Slightly Declining GPA trend.
+    """
+
+    semesters = (
+        db.session.query(Semester)
+        .join(Transcript, Semester.transcript_id == Transcript.transcript_id)
+        .filter(Transcript.user_id == user_id)
+        .filter(Semester.semester_gpa != None)
+        .order_by(Semester.academic_session, Semester.semester_no)
+        .all()
+    )
+
+    gpa_history = [{"gpa": float(s.semester_gpa)} for s in semesters]
+
+    # ---- Target-based checks ----
+    target_plan = TargetCGPA.query.filter_by(user_id=user_id).first()
+
+    if target_plan and target_plan.target_cgpa and target_plan.remaining_credits:
+
+        if gpa_history:
+            cgpa_result = calculate_cgpa_credits(user_id)
+            latest_gpa = gpa_history[-1]["gpa"]
+
+            projected = project_cgpa(
+                cgpa_result["cgpa"],
+                cgpa_result["credits"],
+                target_plan.remaining_credits,
+                latest_gpa
+            )
+
+            if projected < target_plan.target_cgpa - TARGET_SHORTFALL_BUFFER:
+                return {
+                    "type": "target_below",
+                    "message": (
+                        f"Based on your recent performance, you may fall short of your "
+                        f"target CGPA of {target_plan.target_cgpa:.2f}. Consider reviewing "
+                        f"your study plan or adjusting your target."
+                    )
+                }
+
+        if (
+            target_plan.required_gpa
+            and target_plan.required_gpa > HIGH_REQUIRED_GPA_THRESHOLD
+        ):
+            return {
+                "type": "required_high",
+                "message": (
+                    f"Reaching your target CGPA now requires an average GPA of "
+                    f"{target_plan.required_gpa:.2f} in your remaining credits — close to "
+                    f"the maximum possible. This target may be worth revisiting."
+                )
+            }
+
+    # ---- Trend-based checks ----
+    trend = detect_trend(gpa_history)
+
+    if trend == "Volatile":
+        return {
+            "type": "volatile",
+            "message": (
+                "Your GPA has been fluctuating significantly between semesters. "
+                "Consistent performance across semesters can help stabilize your CGPA trajectory."
+            )
+        }
+
+    if trend in ("Declining", "Slightly Declining"):
+        return {
+            "type": "declining",
+            "message": (
+                "Your recent GPA shows a declining pattern. Maintaining or improving your "
+                "upcoming semester results could help prevent further CGPA decline."
+            )
+        }
+
+    return None

@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from models.transcript import Transcript
 from models.semester import Semester
 from models.target_cgpa import TargetCGPA
-from services.cgpa_services import calculate_cgpa_credits
+from services.cgpa_services import calculate_cgpa_credits, get_performance_alert
 
 dashboard_bp = Blueprint("dashboard", __name__)
 
@@ -63,6 +63,8 @@ def dashboard():
     target_cgpa = round(target_plan.target_cgpa, 2) if target_plan else None
     required_gpa = round(target_plan.required_gpa, 2) if target_plan else None
 
+    performance_alert = get_performance_alert(current_user.user_id)
+
     return render_template(
         "dashboard.html",
         active_page="dashboard",
@@ -73,5 +75,6 @@ def dashboard():
         required_gpa=required_gpa,
         last_updated=last_updated,
         gpa_labels=gpa_labels,
-        gpa_values=gpa_values
+        gpa_values=gpa_values,
+        performance_alert=performance_alert
     )

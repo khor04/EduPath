@@ -73,6 +73,13 @@
     <div class="empty-message">
       No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction. </div>
     {% endif %}
+
+    {% if performance_alert %}
+    <div class="performance-alert">
+      <strong>⚠️ Performance Alert</strong>
+      <p>{{ performance_alert.message }}</p>
+    </div>
+    {% endif %}
   </div>
 
   <!-- Benchmark Section -->

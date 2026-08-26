@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 import json
 from dotenv import load_dotenv
 from services.gemini_service import generate_academic_plan
-from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa
+from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa, detect_trend
 
 analysis_bp = Blueprint("analysis", __name__)
 
@@ -223,48 +223,6 @@ def simulate_cgpa_route():
 
 
 #helper function
-def detect_trend(history):
-    if len(history) < 2:
-        return "Stable"
-
-    gpas = [h["gpa"] for h in history] #eg:gpas = [3.53,3.81,4.0,4.0]
-    deltas = [gpas[i+1] - gpas[i] for i in range(len(gpas)-1)] #detect semester-to-semester changes(represent improvement or decline) eg:[0.28,0.19,0]
-    avg_change = sum(deltas) / len(deltas) #eg: 0.16
-
-    #count positive & negative changes
-    #ignore changes=0, because unchanged semester treated as stable
-    positive = sum(1 for d in deltas if d > 0) #2
-    negative = sum(1 for d in deltas if d < 0) #0
-    non_zero = positive + negative #2
-
-    #identify substantial fluctuations between semesters, distinguish normal academic variation from significant performance instability
-    is_volatile = (
-        max(deltas) - min(deltas) > 0.5 
-        and positive > 0 
-        and negative > 0
-    )
-
-    if non_zero > 0:
-        positive_ratio = positive / non_zero 
-        negative_ratio = negative / non_zero
-    else:
-        positive_ratio = 0
-        negative_ratio = 0
-    
-    #0.75 defined to consider at least 75% of semester changes are positive
-    if is_volatile:
-        return "Volatile"
-    elif positive_ratio >= 0.75 and avg_change > 0:
-        return "Improving"
-    elif negative_ratio >= 0.75 and avg_change < 0:
-        return "Declining"
-    elif avg_change >= 0.05:
-        return "Slightly Improving"
-    elif avg_change <= -0.05:
-        return "Slightly Declining"
-    else:
-        return "Stable"
-    
 def determine_feasibility(current_cgpa, target_cgpa, remaining_sems_credits, trend, required_gpa):
     total_remaining_credits = sum(remaining_sems_credits)
 
