@@ -13,8 +13,18 @@
     Overview of your performance trend and predict needed GPA to achieve target CGPA
   </p>
 
+  <nav class="section-jump-nav">
+    <a href="#performance-section">Performance</a>
+    <span class="section-jump-sep">·</span>
+    <a href="#target-cgpa-section">Target CGPA</a>
+    <span class="section-jump-sep">·</span>
+    <a href="#aiPlanCard">AI Planner</a>
+    <span class="section-jump-sep">·</span>
+    <a href="#whatif-section">What-If</a>
+  </nav>
+
   <!-- GPA Progression -->
-  <div class="analysis-card">
+  <div class="analysis-card" id="performance-section">
     <p class="card-label">PERFORMANCE TREND</p>
     <h2>GPA Progression</h2>
 
@@ -29,7 +39,7 @@
   </div>
 
   <!-- Prediction Engine -->
-  <div class="prediction-card">
+  <div class="prediction-card" id="target-cgpa-section">
 
     <div class="prediction-header">
       <div>
@@ -110,10 +120,11 @@
         <p id="bestPossibleText">
           Best possible CGPA you may achieve is <b>3.85</b>
         </p>
+        <p id="expectedRangeText" style="display:none;"></p>
       </div>
 
       <!-- Projection Cards -->
-      <div class="case-row">
+      <div class="case-row" id="caseRow">
 
         <div class="case-card best-case">
           <h3>Best Case</h3>
@@ -138,7 +149,7 @@
 
       </div>
 
-      <details class="scenario-explainer">
+      <details class="scenario-explainer" id="scenarioExplainer">
         <summary>How are these scenarios calculated?</summary>
         <div class="scenario-explainer-content">
           <p><strong>Best Case</strong> — Assumes a 4.00 GPA for all remaining credits.</p>
@@ -153,35 +164,46 @@
         </div>
       </details>
 
-      <!-- AI GPA Target Planner -->
-      <div class="ai-plan-card" id="aiPlanCard" style="display:none;">
+    </div>
+  </div>
 
-        <div class="ai-header">
-          <h3>🤖 AI-Assisted GPA Target Planning</h3>
-          <p>
-            Generate a personalized semester-by-semester GPA target plan and academic guidance based on your performance
-            trend and remaining credit hours.
-          </p>
+  <!-- AI GPA Target Planner -->
+  <div class="ai-plan-card" id="aiPlanCard">
+
+    <div class="ai-header">
+      <h3>🤖 AI-Assisted GPA Target Planning</h3>
+      <p>
+        Generate a personalized semester-by-semester GPA target plan and academic guidance based on your performance
+        trend and remaining credit hours.
+      </p>
+    </div>
+
+    <div id="aiPlanLockedPrompt" class="ai-plan-locked-prompt">
+      <p>Set a target CGPA first to generate a personalized academic plan.</p>
+      <a href="#target-cgpa-section" class="ai-plan-goto-link">Go to Target CGPA Simulator ↑</a>
+    </div>
+
+    <div id="aiPlanBody" style="display:none;">
+
+      <!-- Remaining Semester Inputs -->
+      <div class="semester-plan-section">
+
+        <h4>Remaining Semester Credit Distribution</h4>
+
+        <div id="semesterInputs"></div>
+
+        <button type="button" id="addSemesterBtn">
+          + Add Semester
+        </button>
+        <div class="credit-balance">
+          <strong id="creditsBalance">0 / 0 credits allocated</strong>
+          <p id="creditsWarning" class="prediction-error"></p>
         </div>
-
-        <!-- Remaining Semester Inputs -->
-        <div class="semester-plan-section">
-
-          <h4>Remaining Semester Credit Distribution</h4>
-
-          <div id="semesterInputs"></div>
-
-          <button type="button" id="addSemesterBtn">
-            + Add Semester
-          </button>
-          <div class="credit-balance">
-            Credits Left to Allocate: <strong id="creditsBalance">0</strong>
-          </div>
 
       </div>
 
       <div class="ai-button-row">
-        <button onclick="generateAIPlan()">
+        <button type="button" id="generateAIPlanBtn" onclick="generateAIPlan()" disabled>
           Generate AI Plan
         </button>
       </div>
@@ -267,10 +289,8 @@
 
     </div>
 
-  </div>
-
   <!-- Per-Course CGPA Simulator -->
-  <div class="course-sim-card">
+  <div class="course-sim-card" id="whatif-section">
 
     <div class="prediction-header">
       <div>
@@ -310,9 +330,9 @@
 
     <p id="courseSimError" class="prediction-error"></p>
 
-    <div class="scenario-save-row">
-      <button type="button" id="saveScenarioABtn" class="course-sim-btn scenario-save-btn" disabled>Save as Scenario A</button>
-      <button type="button" id="saveScenarioBBtn" class="course-sim-btn scenario-save-btn" disabled>Save as Scenario B</button>
+    <div class="scenario-save-row" id="scenarioSaveRow" style="display:none;">
+      <button type="button" id="saveScenarioABtn" class="course-sim-btn scenario-save-btn">Save as Scenario A</button>
+      <button type="button" id="saveScenarioBBtn" class="course-sim-btn scenario-save-btn">Save as Scenario B</button>
     </div>
 
     <div class="scenario-compare" id="scenarioCompare" style="display:none;">

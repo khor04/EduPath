@@ -201,7 +201,8 @@ function calculatePrediction() {
 
   setPredictionError("");
   document.getElementById("predictionOutput").style.display = "block";
-  document.getElementById("aiPlanCard").style.display = "block";
+  document.getElementById("aiPlanLockedPrompt").style.display = "none";
+  document.getElementById("aiPlanBody").style.display = "block";
 
   const requiredGPA = calculateRequiredGPA(
     targetCGPA,
@@ -245,9 +246,54 @@ function calculatePrediction() {
   const resultStatus = document.getElementById("resultStatus");
   const resultMessage = document.getElementById("resultMessage");
   const bestPossibleText = document.getElementById("bestPossibleText");
+  const expectedRangeText = document.getElementById("expectedRangeText");
   const resultBox = document.getElementById("resultBox");
+  const caseRow = document.getElementById("caseRow");
+  const scenarioExplainer = document.getElementById("scenarioExplainer");
 
-  if (roundedRequiredGPA > 4.005) {
+  if (targetCGPA <= currentCGPA) {
+    // The target is already met by current standing alone — this
+    // is a distinct case from "required GPA computes to a low or
+    // negative number" (that can still happen when target > current
+    // but remaining credits heavily outweigh current credits, and
+    // it means something different: "even underperforming gets you
+    // there," not "you're already there"). Checking target vs.
+    // current directly is what actually answers "have I already
+    // hit my goal," so it's checked first, ahead of the required-
+    // GPA math.
+    //
+    // The Best/Realistic/Worst Case breakdown answers "what GPA do
+    // I need," which is no longer the relevant question once the
+    // target's already met — showing it here would be noise, not
+    // useful. Swap it for a simpler, direct message instead.
+    latestStatus = "Target Already Achieved";
+    resultStatus.innerText = "TARGET ALREADY ACHIEVED";
+    resultStatus.style.color = "green";
+
+    resultMessage.innerHTML =
+      `Your current CGPA (<b>${currentCGPA.toFixed(2)}</b>) is already at or above ` +
+      `your target of <b>${targetCGPA.toFixed(2)}</b>.`;
+
+    const margin = (currentCGPA - targetCGPA).toFixed(2);
+    bestPossibleText.innerHTML =
+      `You are <b>${margin}</b> CGPA point${margin === "0.00" ? "" : "s"} above your target. ` +
+      `Your remaining courses can still affect your final CGPA.`;
+
+    if (hasGpaHistory) {
+      expectedRangeText.style.display = "block";
+      expectedRangeText.innerHTML =
+        `Expected final CGPA range: <b>${worstCase}</b> – <b>${bestCase}</b>, ` +
+        `depending on your performance in the remaining ${remainingCredits} credits.`;
+    } else {
+      expectedRangeText.style.display = "none";
+    }
+
+    caseRow.style.display = "none";
+    scenarioExplainer.style.display = "none";
+
+    resultBox.style.background = "#d9ffd4";
+
+  } else if (roundedRequiredGPA > 4.005) {
     latestStatus = "Not Achievable";
     resultStatus.innerText = "NOT ACHIEVABLE!";
     resultStatus.style.color = "red";
@@ -258,20 +304,11 @@ function calculatePrediction() {
     bestPossibleText.innerHTML =
       `Best possible CGPA you may achieve is <b>${bestCase}</b>, assuming 4.00 for all remaining ${remainingCredits} credits.`;
 
+    expectedRangeText.style.display = "none";
+    caseRow.style.display = "grid";
+    scenarioExplainer.style.display = "block";
+
     resultBox.style.background = "#fff8bd";
-
-  } else if (roundedRequiredGPA < 0) {
-    latestStatus = "Already Achievable";
-    resultStatus.innerText = "ALREADY ACHIEVABLE!";
-    resultStatus.style.color = "green";
-
-    resultMessage.innerHTML =
-      `Your current CGPA is already above the target CGPA.`;
-
-    bestPossibleText.innerHTML =
-      `Maintaining your current performance gives a projected CGPA of <b>${realisticCase}</b>.`;
-
-    resultBox.style.background = "#d9ffd4";
 
   } else {
     latestStatus = "Achievable";
@@ -282,6 +319,10 @@ function calculatePrediction() {
       `Required average GPA: <b>${roundedRequiredGPA.toFixed(2)}</b> for the remaining ${remainingCredits} credits.`;
     bestPossibleText.innerHTML =
       `Best possible CGPA you may achieve is <b>${bestCase}</b>.`;
+
+    expectedRangeText.style.display = "none";
+    caseRow.style.display = "grid";
+    scenarioExplainer.style.display = "block";
 
     resultBox.style.background = "#d9ffd4";
   }
@@ -350,6 +391,9 @@ function resetPrediction() {
   document.getElementById("predictionOutput").style.display = "none";
   setPredictionError("");
 
+  document.getElementById("aiPlanBody").style.display = "none";
+  document.getElementById("aiPlanLockedPrompt").style.display = "block";
+
   document.getElementById("targetCGPA").value = 0;
   document.getElementById("remainingCredits").value = 0;
 
@@ -396,20 +440,30 @@ function updateCreditsBalance() {
 
   const balance = sliderCredits - allocatedCredits;
 
-  const balanceElement =
-    document.getElementById("creditsBalance");
+  const balanceElement = document.getElementById("creditsBalance");
+  const warningElement = document.getElementById("creditsWarning");
+  const generateBtn = document.getElementById("generateAIPlanBtn");
 
   balanceElement.innerText =
-    `Allocated: ${allocatedCredits}/${sliderCredits}`;
+    `${allocatedCredits} / ${sliderCredits} credits allocated`;
 
-  if (balance < 0) {
-    balanceElement.style.color = "red";
-  }
-  else if (balance > 0) {
+  if (balance > 0) {
     balanceElement.style.color = "orange";
+    warningElement.innerText =
+      `⚠️ Allocate ${balance} more credit${balance === 1 ? "" : "s"} to generate your AI plan.`;
+    generateBtn.disabled = true;
+  }
+  else if (balance < 0) {
+    balanceElement.style.color = "red";
+    const over = Math.abs(balance);
+    warningElement.innerText =
+      `⚠️ Remove ${over} credit${over === 1 ? "" : "s"} — you've allocated more than your remaining credits.`;
+    generateBtn.disabled = true;
   }
   else {
     balanceElement.style.color = "green";
+    warningElement.innerText = "";
+    generateBtn.disabled = false;
   }
 }
 
@@ -457,7 +511,7 @@ function updateSemesterLabels() {
 
 // generateAIPlan with correct sem numbering
 async function generateAIPlan() {
-  if (latestRequiredGPA <= 0) {
+  if (!hasCalculated) {
     alert("Please calculate prediction first.");
     return;
   }
@@ -471,12 +525,12 @@ async function generateAIPlan() {
     allocatedCredits += parseInt(input.value) || 0;
   });
 
+  // The Generate button is disabled by updateCreditsBalance() until
+  // these match, so this should be unreachable in normal use — kept
+  // as a defensive fallback in case of a stale/unexpected state.
   if (allocatedCredits !== sliderCredits) {
-
-    alert(
-      `Semester credits (${allocatedCredits}) must equal Remaining Credits (${sliderCredits}).`
-    );
-
+    document.getElementById("creditsWarning").innerText =
+      `⚠️ Semester credits (${allocatedCredits}) must equal Remaining Credits (${sliderCredits}).`;
     return;
   }
 
@@ -860,8 +914,7 @@ function collectSimEntries() {
 let lastSimResult = null;
 
 function setSaveScenarioButtonsEnabled(enabled) {
-  document.getElementById("saveScenarioABtn").disabled = !enabled;
-  document.getElementById("saveScenarioBBtn").disabled = !enabled;
+  document.getElementById("scenarioSaveRow").style.display = enabled ? "flex" : "none";
 }
 
 async function recomputeSimulation() {

@@ -15,11 +15,69 @@
   margin-bottom: 25px;
 }
 
-.analysis-card,
-.prediction-card {
+.section-jump-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: white;
-  padding: 18px;
+  border-radius: 8px;
+  padding: 10px 16px;
+  margin-bottom: 22px;
+  font-size: 13px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.section-jump-nav a {
+  color: #7776B3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.section-jump-nav a:hover {
+  text-decoration: underline;
+}
+
+.section-jump-sep {
+  color: #ccc;
+}
+
+.ai-plan-locked-prompt {
+  background: #f6f6fb;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  color: #555;
+  font-size: 13.5px;
+}
+
+.ai-plan-locked-prompt p {
+  margin: 0 0 8px;
+}
+
+.ai-plan-goto-link {
+  color: #7776B3;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ai-plan-goto-link:hover {
+  text-decoration: underline;
+}
+
+/* Shared container style for all four first-class Analysis page
+   sections (Performance, Target CGPA, AI Planner, What-If) — one
+   consistent card language, kept separate from each section's own
+   internal content styling below. */
+.analysis-card,
+.prediction-card,
+.course-sim-card,
+.ai-plan-card {
+  background: white;
+  padding: 24px;
   margin-bottom: 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .card-label {
@@ -259,11 +317,8 @@
 }
 
 /* Per-Course CGPA Simulator */
-.course-sim-card {
-  background: white;
-  padding: 18px;
-  margin-bottom: 28px;
-}
+/* Container styling is in the shared .analysis-card/.prediction-card/
+   .course-sim-card/.ai-plan-card rule above. */
 
 .course-sim-add-row {
   display: flex;
@@ -431,14 +486,8 @@
   font-weight: bold;
 }
 
-.ai-plan-card {
-  margin-top: 30px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-}
+/* Container styling is in the shared .analysis-card/.prediction-card/
+   .course-sim-card/.ai-plan-card rule above. */
 
 .ai-header {
   margin-bottom: 20px;
@@ -484,6 +533,14 @@
   background: #bae6fd;
 }
 
+.credit-balance {
+  margin-top: 14px;
+}
+
+.credit-balance #creditsWarning {
+  margin: 4px 0 0;
+}
+
 .ai-button-row {
   text-align: center;
   margin-top: 20px;
@@ -496,12 +553,20 @@
   padding: 12px 30px;
   border-radius: 10px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
 }
 
-.ai-button-row button:hover {
+.ai-button-row button:hover:not(:disabled) {
   background: #1d4ed8;
+}
+
+.ai-button-row button:disabled {
+  background: #c9d3e6;
+  color: #7c869c;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .ai-disclaimer {
