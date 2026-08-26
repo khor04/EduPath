@@ -854,8 +854,21 @@ function collectSimEntries() {
   return entries;
 }
 
+// The most recently computed result, kept in sync with whatever
+// is currently in the table — this is what "Save as Scenario"
+// snapshots, so it must never be stale relative to the rows.
+let lastSimResult = null;
+
+function setSaveScenarioButtonsEnabled(enabled) {
+  document.getElementById("saveScenarioABtn").disabled = !enabled;
+  document.getElementById("saveScenarioBBtn").disabled = !enabled;
+}
+
 async function recomputeSimulation() {
   const entries = collectSimEntries();
+
+  lastSimResult = null;
+  setSaveScenarioButtonsEnabled(false);
 
   if (entries.length === 0) {
     document.getElementById("courseSimResult").style.display = "none";
@@ -893,10 +906,86 @@ async function recomputeSimulation() {
     changeEl.style.color =
       change > 0 ? "#1c8a4c" : (change < 0 ? "#c0392b" : "#444");
 
+    lastSimResult = {
+      currentCgpa: data.current_cgpa,
+      projectedCgpa: data.projected_cgpa,
+      change: data.change
+    };
+    setSaveScenarioButtonsEnabled(true);
+
   } catch (err) {
     console.error("simulate-cgpa error:", err);
     document.getElementById("courseSimError").innerText =
       "Failed to simulate CGPA. Please try again.";
+  }
+}
+
+// Human-readable one-line description of a simulator row, used
+// when snapshotting a scenario for the comparison panel.
+function describeSimRow(row) {
+  const grade = row.querySelector(".sim-grade-select").value;
+
+  if (row.dataset.type === "retake") {
+    const courseSelect = row.querySelector(".sim-course-select");
+    const selectedOption = courseSelect.selectedOptions[0];
+    const courseLabel = selectedOption ? selectedOption.textContent.split(" (current:")[0] : "Course";
+    return `Retake ${courseLabel} → ${grade}`;
+  }
+
+  const labelInput = row.querySelector(".sim-course-label");
+  const credits = row.querySelector(".sim-credits-input").value;
+  const label = labelInput.value.trim() || "New course";
+  return `${label} (${credits}cr) → ${grade}`;
+}
+
+const savedScenarios = { A: null, B: null };
+
+function saveScenario(slot) {
+  if (!lastSimResult) return;
+
+  const rows = document.getElementById("courseSimBody").children;
+  const descriptions = Array.from(rows).map(describeSimRow);
+
+  savedScenarios[slot] = {
+    descriptions: descriptions,
+    projectedCgpa: lastSimResult.projectedCgpa,
+    change: lastSimResult.change
+  };
+
+  renderScenarioCompare();
+}
+
+function clearScenario(slot) {
+  savedScenarios[slot] = null;
+  renderScenarioCompare();
+}
+
+function renderScenarioCompare() {
+  const anySaved = savedScenarios.A || savedScenarios.B;
+  document.getElementById("scenarioCompare").style.display = anySaved ? "flex" : "none";
+
+  for (const slot of ["A", "B"]) {
+    const scenario = savedScenarios[slot];
+    const col = document.getElementById(`scenarioCol${slot}`);
+
+    if (!scenario) {
+      col.style.display = "none";
+      continue;
+    }
+
+    col.style.display = "block";
+
+    document.getElementById(`scenarioEntries${slot}`).innerHTML =
+      scenario.descriptions.map(d => `<li>${d}</li>`).join("");
+
+    document.getElementById(`scenarioCgpa${slot}`).innerText =
+      scenario.projectedCgpa.toFixed(2);
+
+    const changeEl = document.getElementById(`scenarioChange${slot}`);
+    const sign = scenario.change > 0 ? "+" : "";
+    changeEl.innerText = `${sign}${scenario.change.toFixed(2)}`;
+    changeEl.style.color =
+      scenario.change > 0 ? "#1c8a4c" : (scenario.change < 0 ? "#c0392b" : "#444");
   }
 }
 
@@ -936,6 +1025,16 @@ document.getElementById("clearAllSimBtn").addEventListener("click", function () 
   document.getElementById("courseSimBody").innerHTML = "";
   document.getElementById("courseSimError").innerText = "";
   updateCourseSimVisibility();
+  recomputeSimulation();
+});
+
+document.getElementById("saveScenarioABtn").addEventListener("click", () => saveScenario("A"));
+document.getElementById("saveScenarioBBtn").addEventListener("click", () => saveScenario("B"));
+
+document.getElementById("scenarioCompare").addEventListener("click", function (e) {
+  if (e.target.classList.contains("scenario-clear-btn")) {
+    clearScenario(e.target.dataset.slot);
+  }
 });
 
 loadUserCourses();

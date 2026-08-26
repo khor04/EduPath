@@ -178,16 +178,16 @@
             Credits Left to Allocate: <strong id="creditsBalance">0</strong>
           </div>
 
-        </div>
+      </div>
 
-        <div class="ai-button-row">
-          <button onclick="generateAIPlan()">
-            Generate AI Plan
-          </button>
-        </div>
+      <div class="ai-button-row">
+        <button onclick="generateAIPlan()">
+          Generate AI Plan
+        </button>
+      </div>
 
-        <!-- AI Result -->
-        <div id="aiResultSection" style="display:none;">
+      <!-- AI Result -->
+      <div id="aiResultSection" style="display:none;">
 
           <div class="ai-disclaimer">
             <span class="ai-disclaimer-icon">ⓘ</span>
@@ -264,6 +264,7 @@
         </div>
 
       </div>
+
     </div>
 
   </div>
@@ -308,6 +309,35 @@
     </div>
 
     <p id="courseSimError" class="prediction-error"></p>
+
+    <div class="scenario-save-row">
+      <button type="button" id="saveScenarioABtn" class="course-sim-btn scenario-save-btn" disabled>Save as Scenario A</button>
+      <button type="button" id="saveScenarioBBtn" class="course-sim-btn scenario-save-btn" disabled>Save as Scenario B</button>
+    </div>
+
+    <div class="scenario-compare" id="scenarioCompare" style="display:none;">
+
+      <div class="scenario-compare-col" id="scenarioColA" style="display:none;">
+        <div class="scenario-compare-header">
+          <h4>Scenario A</h4>
+          <button type="button" class="scenario-clear-btn" data-slot="A">✕</button>
+        </div>
+        <ul class="scenario-entry-list" id="scenarioEntriesA"></ul>
+        <p>Projected CGPA: <strong id="scenarioCgpaA">-</strong></p>
+        <p>Change: <strong id="scenarioChangeA">-</strong></p>
+      </div>
+
+      <div class="scenario-compare-col" id="scenarioColB" style="display:none;">
+        <div class="scenario-compare-header">
+          <h4>Scenario B</h4>
+          <button type="button" class="scenario-clear-btn" data-slot="B">✕</button>
+        </div>
+        <ul class="scenario-entry-list" id="scenarioEntriesB"></ul>
+        <p>Projected CGPA: <strong id="scenarioCgpaB">-</strong></p>
+        <p>Change: <strong id="scenarioChangeB">-</strong></p>
+      </div>
+
+    </div>
 
   </div>
 
