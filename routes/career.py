@@ -23,9 +23,8 @@ def career():
 
     if not concept_profile:
         return render_template(
-            "career.html",
+            "career_locked.html",
             active_page="career",
-            has_profile=False,
         )
 
     competency_profile = build_competency_profile(concept_profile)
@@ -45,7 +44,6 @@ def career():
     return render_template(
         "career.html",
         active_page="career",
-        has_profile=True,
         strengths=strengths,
         improvement_courses=improvement_courses,
         careers=careers,

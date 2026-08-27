@@ -14,12 +14,6 @@
         O*NET occupational data.
     </p>
 
-    {% if not has_profile %}
-    <div class="empty-message">
-        No transcript data found. Please upload your transcript to generate your skill profile.
-    </div>
-    {% else %}
-
     <div class="skill-section">
         <p class="section-label">SKILL PROFILE</p>
 
@@ -152,18 +146,14 @@
         {% endif %}
     </div>
 
-    {% endif %}
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-{% if has_profile %}
 <script>
   const careerRadarLabels = JSON.parse('{{ radar_labels | tojson | safe }}');
   const careerRadarValues = JSON.parse('{{ radar_values | tojson | safe }}');
 </script>
-{% endif %}
 <script src="{{ url_for('static', filename='js/career.js') }}"></script>
 
 {% endblock %}

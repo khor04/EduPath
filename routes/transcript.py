@@ -9,6 +9,9 @@ from models.transcript import Transcript
 from models.semester import Semester
 from models.course import Course
 from models.target_cgpa import TargetCGPA
+from models.skill_profile import SkillProfile
+from models.career_recommendation import CareerRecommendation
+from models.feedback import Feedback
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -1375,6 +1378,35 @@ def delete_transcript_data():
         # Delete semesters
         Semester.query.filter(
             Semester.transcript_id.in_(transcript_ids)
+        ).delete(
+            synchronize_session=False
+        )
+
+        # Delete feedback -- must go before CareerRecommendation, which
+        # it references via career_id.
+        career_ids = [
+            c.career_id for c in
+            CareerRecommendation.query.filter_by(user_id=current_user.user_id).all()
+        ]
+        if career_ids:
+            Feedback.query.filter(
+                Feedback.career_id.in_(career_ids)
+            ).delete(
+                synchronize_session=False
+            )
+
+        # Delete career recommendations and skill profile -- both
+        # reference transcript_id (non-nullable, no cascade) and must
+        # go before the Transcript rows themselves, or the DELETE on
+        # transcript fails with a foreign key violation.
+        CareerRecommendation.query.filter_by(
+            user_id=current_user.user_id
+        ).delete(
+            synchronize_session=False
+        )
+
+        SkillProfile.query.filter_by(
+            user_id=current_user.user_id
         ).delete(
             synchronize_session=False
         )
