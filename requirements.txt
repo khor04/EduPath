@@ -7,3 +7,5 @@ pdfplumber
 requests
 werkzeug
 google-generativeai
+xhtml2pdf
+matplotlib

@@ -233,3 +233,21 @@ if (semesterSelector) {
   semesterSelector.addEventListener("change", loadDashboardBenchmark);
   loadDashboardBenchmark();
 }
+
+// ================================
+// Report actions
+// ================================
+const previewReportBtn = document.querySelector(".preview-report-btn");
+const downloadReportBtn = document.querySelector(".download-report-btn");
+
+if (previewReportBtn) {
+  previewReportBtn.addEventListener("click", () => {
+    window.open("/dashboard/report/preview", "_blank");
+  });
+}
+
+if (downloadReportBtn) {
+  downloadReportBtn.addEventListener("click", () => {
+    window.location.href = "/dashboard/report/download";
+  });
+}

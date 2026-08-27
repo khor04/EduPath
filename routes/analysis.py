@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 import json
 from dotenv import load_dotenv
 from services.gemini_service import generate_academic_plan
-from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa, detect_trend
+from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa, detect_trend, determine_feasibility
 
 analysis_bp = Blueprint("analysis", __name__)
 
@@ -220,40 +220,6 @@ def simulate_cgpa_route():
             "success": False,
             "message": f"Failed to simulate CGPA: {str(e)}"
         })
-
-
-#helper function
-def determine_feasibility(current_cgpa, target_cgpa, remaining_sems_credits, trend, required_gpa):
-    total_remaining_credits = sum(remaining_sems_credits)
-
-    if total_remaining_credits == 0:
-        return "Impossible" if current_cgpa < target_cgpa else "Achieved"
-
-    if required_gpa > 4.0:
-        return "Impossible"
-
-    #adjust feasibiltiy based on trend
-    trend_boost = {
-        "Improving": 0.20,
-        "Slightly Improving": 0.10,
-        "Stable": 0.0,
-        "Volatile": -0.05,
-        "Slightly Declining": -0.10,
-        "Declining": -0.20,
-    }.get(trend, 0)
-
-    #base tolerance is 0.25 — meaning if the required GPA is within 0.25 of current CGPA, it's considered Achievable.
-    adjusted_threshold = 0.25 + trend_boost
-    cgpa_gap = required_gpa - current_cgpa
-
-    if cgpa_gap <= 0:#already exceed target
-        return "Achievable"
-    elif cgpa_gap <= adjusted_threshold:#small gap
-        return "Achievable"
-    elif cgpa_gap <= adjusted_threshold + 0.20: #medium gap
-        return "Challenging"
-    else:
-        return "Very Challenging" #large gap
 
 
 @analysis_bp.route("/generate-ai-plan", methods=["POST"])

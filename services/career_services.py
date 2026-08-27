@@ -370,10 +370,24 @@ def get_or_create_course_mappings(courses):
     per call) rather than one call per course.
     """
     result = {}
-    uncached = []
 
+    # One bulk lookup instead of one query per course -- on a full
+    # cache hit (the common case after a student's first visit) this
+    # turns N round trips to the DB into 1, which matters a lot more
+    # than it sounds once you're talking to a remote Postgres instance
+    # instead of a local one.
+    all_codes = list({code for code, _ in courses})
+    cached_rows = (
+        CourseSkillMapping.query.filter(CourseSkillMapping.course_code.in_(all_codes)).all()
+        if all_codes else []
+    )
+    cached_by_code = {}
+    for r in cached_rows:
+        cached_by_code.setdefault(r.course_code, []).append(r)
+
+    uncached = []
     for course_code, course_title in courses:
-        cached = CourseSkillMapping.query.filter_by(course_code=course_code).all()
+        cached = cached_by_code.get(course_code)
         if cached:
             result[course_code] = {
                 "skills": [{"name": r.concept_name, "confidence": r.confidence} for r in cached if r.concept_type == "skill"],
@@ -460,14 +474,25 @@ def get_or_create_relevances(courses, programme):
     Batched the same way: as few Gemini calls as possible.
     """
     result = {}
-    uncached = []
 
+    # Same bulk-lookup change as get_or_create_course_mappings(), for
+    # the same reason -- one query for every course's cache status
+    # instead of one query per course.
+    all_codes = list({code for code, _, _ in courses})
+    cached_rows = (
+        ProgrammeCourseRelevance.query.filter(
+            ProgrammeCourseRelevance.course_code.in_(all_codes),
+            ProgrammeCourseRelevance.programme == programme,
+        ).all()
+        if all_codes else []
+    )
+    cached_by_code = {r.course_code: r.relevance_tier for r in cached_rows}
+
+    uncached = []
     for course_code, course_title, concepts in courses:
-        cached = ProgrammeCourseRelevance.query.filter_by(
-            course_code=course_code, programme=programme
-        ).first()
-        if cached:
-            result[course_code] = cached.relevance_tier
+        tier = cached_by_code.get(course_code)
+        if tier is not None:
+            result[course_code] = tier
         else:
             uncached.append((course_code, course_title, concepts))
 
@@ -959,12 +984,20 @@ def _career_match_tier(similarity):
     return "Moderate Match", "moderate"
 
 
-def match_careers(user_id, top_n=10):
+def match_careers(user_id, top_n=10, profile=None):
     """
     Ranks O*NET occupations by cosine similarity between the student's
     O*NET concept-level profile (build_student_profile()) and each
     occupation's Skill/Knowledge importance vector
     (OnetOccupationConcept.importance_normalized).
+
+    `profile` lets a caller that already ran build_student_profile()
+    pass its result straight in, instead of this function silently
+    recomputing it from scratch. build_student_profile() isn't free
+    (it resolves every course's O*NET concepts and programme
+    relevance), and the Dashboard, Career page, and Report all already
+    call it themselves right before calling this -- without `profile`,
+    that work happened twice in the same request.
 
     Purely deterministic -- Gemini's role ends at building the concept
     profile; nothing in this function is an LLM output, so re-running
@@ -990,7 +1023,7 @@ def match_careers(user_id, top_n=10):
 
     Empty list if the student has no profile yet.
     """
-    concept_profile = build_student_profile(user_id)
+    concept_profile = profile if profile is not None else build_student_profile(user_id)
     if not concept_profile:
         return []
 

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Academic Performance Summary Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 2cm 1.8cm;
+  }
+
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .toolbar {
+    margin-bottom: 18px;
+  }
+  .toolbar a {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #7776B3;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+
+  .report-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+  }
+  .report-subtitle {
+    font-size: 12px;
+    color: #555;
+    margin: 0 0 10px 0;
+  }
+  .report-meta {
+    font-size: 10px;
+    color: #777;
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    margin: 0 0 22px 0;
+  }
+
+  .report-section {
+    margin-top: 20px;
+    page-break-inside: avoid;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #333;
+    -pdf-keep-with-next: true;
+  }
+
+  table.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    page-break-inside: avoid;
+  }
+  table.report-table th,
+  table.report-table td {
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    text-align: left;
+    font-size: 10.5px;
+  }
+  table.report-table th {
+    font-weight: bold;
+  }
+  table.report-table.kv th {
+    width: 45%;
+  }
+
+  .hdr-purple th { background-color: #E7E1F6; }
+  .hdr-orange th { background-color: #FBE3CF; }
+  .hdr-yellow th { background-color: #FBF1C8; }
+  .hdr-blue   th { background-color: #DAE7F8; }
+  .hdr-green  th { background-color: #DDF1DD; }
+
+  .chart-image {
+    width: 480px;
+    margin: 4px 0 12px 0;
+  }
+
+  .section-note {
+    font-size: 10.5px;
+    color: #555;
+    margin: 0 0 8px 0;
+  }
+  .narrative {
+    font-size: 10.5px;
+    color: #333;
+    font-style: italic;
+    margin: 6px 0 0 0;
+  }
+  .footnote {
+    font-size: 9px;
+    color: #888;
+    margin: 6px 0 0 0;
+  }
+  .empty-note {
+    font-size: 10.5px;
+    color: #888;
+    font-style: italic;
+  }
+
+  .report-footer {
+    margin-top: 26px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 9px;
+    color: #888;
+  }
+</style>
+</head>
+<body>
+
+{% if not is_pdf %}
+<div class="toolbar">
+  <a href="/dashboard/report/download">Download PDF</a>
+</div>
+{% endif %}
+
+{% if not has_transcript %}
+
+<p class="empty-note">Upload your transcript to generate an academic performance report.</p>
+
+{% else %}
+
+<p class="report-title">Academic Performance Summary Report</p>
+<p class="report-subtitle">Automated Transcript Parsing and Predictive Analytics System</p>
+<p class="report-meta">Generated on {{ generated_on }} for {{ student_name }}</p>
+
+<div class="report-section">
+  <p class="section-title">Student Overview</p>
+  <table class="report-table kv hdr-purple">
+    <tr><th>Name</th><td>{{ student_name }}</td></tr>
+    <tr><th>Department</th><td>{{ student_department }}</td></tr>
+    <tr><th>Current CGPA</th><td>{{ "%.2f"|format(latest_cgpa) }}</td></tr>
+    <tr><th>Total Credits</th><td>{{ completed_credits }}</td></tr>
+    <tr><th>Latest Semester GPA</th><td>{{ "%.2f"|format(latest_semester_gpa) }}</td></tr>
+  </table>
+</div>
+
+<div class="report-section">
+  <p class="section-title">GPA Progression Trend</p>
+  <img class="chart-image" src="{{ gpa_chart }}" />
+  <table class="report-table hdr-orange">
+    <tr><th>Semester</th><th>GPA</th></tr>
+    {% for label, value in gpa_table %}
+    <tr><td>{{ label }}</td><td>{{ "%.2f"|format(value) }}</td></tr>
+    {% endfor %}
+  </table>
+  <p class="narrative">{{ trend_narrative }}</p>
+</div>
+
+<div class="report-section">
+  <p class="section-title">Target CGPA Prediction</p>
+  {% if has_target %}
+  <table class="report-table kv hdr-yellow">
+    <tr><th>Target CGPA</th><td>{{ "%.2f"|format(target_cgpa) }}</td></tr>
+    <tr><th>Required GPA</th><td>{{ "%.2f"|format(required_gpa) if required_gpa else "-" }}</td></tr>
+    <tr><th>Remaining Credits</th><td>{{ remaining_credits|int }}</td></tr>
+    <tr><th>Prediction Status</th><td>{{ prediction_status }}</td></tr>
+  </table>
+  {% else %}
+  <p class="empty-note">No target CGPA plan has been saved yet. Visit the Analysis &amp; Prediction page to set one.</p>
+  {% endif %}
+</div>
+
+<div class="report-section">
+  <p class="section-title">Benchmarking Summary</p>
+  {% if has_benchmark %}
+  <p class="section-note">Cohort: {{ cohort_label }}</p>
+  <table class="report-table hdr-blue">
+    <tr><th>Semester</th><th>Compared Students</th><th>Cohort Average GPA</th><th>Standing</th></tr>
+    {% for row in benchmark_rows %}
+    <tr>
+      <td>{{ row.label }}</td>
+      {% if row.has_data %}
+      <td>{{ row.compared_students }}</td>
+      <td>{{ "%.2f"|format(row.cohort_average) }}</td>
+      <td>{{ row.standing_label }}</td>
+      {% else %}
+      <td colspan="3">Not enough peer data available for this semester</td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p class="empty-note">Not enough peer data available yet for your cohort.</p>
+  {% endif %}
+</div>
+
+<div class="report-section">
+  <p class="section-title">Career Recommendation Summary</p>
+  {% if has_careers %}
+  <table class="report-table hdr-green">
+    <tr><th>Recommended Career</th><th>Match Level</th></tr>
+    {% for career in top_careers %}
+    <tr><td>{{ career.title }}</td><td>{{ "%.0f"|format(career.match_percentage) }}%</td></tr>
+    {% endfor %}
+  </table>
+  {% if matched_skills_sentence %}
+  <p class="narrative">Top matched skills include {{ matched_skills_sentence }}.</p>
+  {% endif %}
+  <p class="footnote">Match level reflects profile similarity to O*NET occupation data, not a probability of career success.</p>
+  {% else %}
+  <p class="empty-note">Upload your transcript to see career recommendations.</p>
+  {% endif %}
+</div>
+
+<div class="report-footer">
+  This report is generated from your transcript data for academic planning purposes. CGPA predictions,
+  career matches, and peer comparisons are statistical estimates, not guarantees — please consult your
+  academic advisor before making important decisions.
+</div>
+
+{% endif %}
+
+</body>
+</html>

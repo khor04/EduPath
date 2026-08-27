@@ -5,6 +5,7 @@ from extensions import db
 from models.transcript import Transcript
 from models.semester import Semester
 from models.users import User
+from services.benchmark_services import compute_cohort_standing
 
 benchmark_bp = Blueprint("benchmark", __name__)
 
@@ -69,11 +70,20 @@ def benchmark_data():
     if not session or not semester_no:
         return jsonify({"error": "Invalid parameters"})
 
-    # Peers only — the viewer is benchmarked AGAINST their cohort,
-    # not folded into it. Including yourself would (a) bias the
-    # average toward your own GPA, especially in small cohorts,
-    # and (b) let you back out another student's exact GPA once
-    # the cohort is just you + one other person.
+    standing = compute_cohort_standing(current_user, session, semester_no)
+
+    # "not enough data" covers both too few peers and no recorded GPA
+    # for this session/semester — compute_cohort_standing() can't tell
+    # the API response apart, but the caller doesn't need to either.
+    if standing is None:
+        return jsonify({
+            "error": "not_enough_data",
+            "sample_size": 0
+        })
+
+    # Histogram binning is a display-only concern of this live widget
+    # (not needed by the Dashboard Report), so it stays local here
+    # rather than living in compute_cohort_standing().
     cohort_gpas = (
         db.session.query(Semester.semester_gpa)
         .join(Transcript, Semester.transcript_id == Transcript.transcript_id)
@@ -89,60 +99,18 @@ def benchmark_data():
         .all()
     )
 
-    gpa_values = [g[0] for g in cohort_gpas]
-    sample_size = len(gpa_values)
-
-    # sample_size now counts OTHER peers only, so "< 2" means
-    # "fewer than 2 other peers" — the minimum needed so no
-    # individual peer's GPA can be isolated from the aggregate.
-    if sample_size < 2:
-        return jsonify({
-            "error": "not_enough_data",
-            "sample_size": sample_size
-        })
-
-    mean = round(sum(gpa_values) / sample_size, 2)
-
-    user_sem = (
-        db.session.query(Semester)
-        .join(Transcript, Semester.transcript_id == Transcript.transcript_id)
-        .filter(
-            Transcript.user_id == current_user.user_id,
-            Semester.academic_session == session,
-            Semester.semester_no == semester_no
-        )
-        .first()
-    )
-
-    user_gpa = user_sem.semester_gpa
-
     bins = [0] * BIN_COUNT
-    for gpa in gpa_values:
+    for (gpa,) in cohort_gpas:
         bins[compute_bin_index(gpa)] += 1
-
-    gap = round(mean - user_gpa, 2)
-
-    if gap == 0:
-        performance_band = "equal"
-        insight = f"Your GPA ({user_gpa:.2f}) matches the cohort average ({mean:.2f})."
-    elif gap < 0:
-        performance_band = "above"
-        insight = f"Your GPA ({user_gpa:.2f}) is above the cohort average ({mean:.2f})."
-    elif gap < 0.15:
-        performance_band = "slightly_below"
-        insight = f"Your GPA ({user_gpa:.2f}) is slightly below the cohort average ({mean:.2f})."
-    else:
-        performance_band = "below"
-        insight = f"Your GPA ({user_gpa:.2f}) is below the cohort average ({mean:.2f})."
 
     return jsonify({
         "histogram": bins,
-        "mean": mean,
-        "sample_size": sample_size,
-        "user_gpa": user_gpa,
-        "user_bin_index": compute_bin_index(user_gpa),
-        "insight": insight,
-        "performance_band": performance_band
+        "mean": standing["mean"],
+        "sample_size": standing["sample_size"],
+        "user_gpa": standing["user_gpa"],
+        "user_bin_index": compute_bin_index(standing["user_gpa"]),
+        "insight": standing["insight"],
+        "performance_band": standing["performance_band"]
     })
 @benchmark_bp.route("/api/benchmark-trend")
 @login_required

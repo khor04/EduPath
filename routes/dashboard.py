@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template
+import re
+from datetime import date
+
+from flask import Blueprint, render_template, Response
 from flask_login import login_required, current_user
 from models.transcript import Transcript
 from models.semester import Semester
@@ -11,6 +14,7 @@ from services.career_services import (
     identify_improvement_courses,
     match_careers,
 )
+from services.report_services import build_report_context, html_to_pdf_bytes
 
 dashboard_bp = Blueprint("dashboard", __name__)
 
@@ -99,7 +103,7 @@ def dashboard():
             for c in improvement_courses
         ]
 
-        dashboard_careers = match_careers(current_user.user_id, top_n=3)
+        dashboard_careers = match_careers(current_user.user_id, top_n=3, profile=concept_profile)
         dashboard_strong_careers = [c["title"] for c in dashboard_careers if c["tier_class"] == "strong"]
         dashboard_moderate_careers = [c["title"] for c in dashboard_careers if c["tier_class"] == "moderate"]
 
@@ -120,4 +124,30 @@ def dashboard():
         dashboard_strong_careers=dashboard_strong_careers,
         dashboard_moderate_careers=dashboard_moderate_careers,
         performance_alert=performance_alert
+    )
+
+
+@dashboard_bp.route("/dashboard/report/preview")
+@login_required
+def report_preview():
+    context = build_report_context(current_user.user_id)
+    return render_template("report.html", is_pdf=False, **context)
+
+
+@dashboard_bp.route("/dashboard/report/download")
+@login_required
+def report_download():
+    context = build_report_context(current_user.user_id)
+    html = render_template("report.html", is_pdf=True, **context)
+    pdf_bytes = html_to_pdf_bytes(html)
+
+    # Sanitized so an unusual username can't inject extra headers or
+    # produce a malformed Content-Disposition filename.
+    safe_username = re.sub(r"[^A-Za-z0-9_-]", "_", current_user.username)
+    filename = f"academic_report_{safe_username}_{date.today().isoformat()}.pdf"
+
+    return Response(
+        pdf_bytes,
+        mimetype="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )

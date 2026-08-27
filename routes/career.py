@@ -32,7 +32,7 @@ def career():
 
     strengths = top_strengths(competency_profile, top_n=5)
     improvement_courses = identify_improvement_courses(current_user.user_id, top_n=5)
-    careers = match_careers(current_user.user_id, top_n=6)
+    careers = match_careers(current_user.user_id, top_n=6, profile=concept_profile)
     save_skill_profile(current_user.user_id, competency_profile, top_n=5)
 
     name_to_career_id = save_career_recommendations(current_user.user_id, careers)
