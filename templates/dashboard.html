@@ -115,44 +115,64 @@
   <div class="bottom-grid">
 
     <div class="summary-card">
-      <h3>Academic Strength and Weakness</h3>
+      <h3>Academic Strengths & Areas for Improvement</h3>
 
+      {% if not has_skill_data %}
+      <p class="empty-message">Upload your transcript to see your competency profile.</p>
+      {% else %}
       <div class="summary-list">
-        <strong>Strength:</strong>
+        <strong>Strengths · Skills:</strong>
         <ul>
-          <li>Programming</li>
-          <li>Data Analytics</li>
-          <li>Probability & Statistics</li>
+          {% for competency in dashboard_strengths %}
+          <li>{{ competency }}</li>
+          {% else %}
+          <li>Not enough data yet</li>
+          {% endfor %}
         </ul>
       </div>
 
       <div class="summary-list">
-        <strong>Weaknesses:</strong>
+        <strong>Areas for Improvement · Courses:</strong>
         <ul>
-          <li>Project Management</li>
-          <li>Geography</li>
-          <li>Business</li>
+          {% for w in dashboard_weaknesses %}
+          <li>{{ w.course_title }} ({{ w.grade }})</li>
+          {% else %}
+          <li>None identified</li>
+          {% endfor %}
         </ul>
       </div>
+      {% endif %}
     </div>
 
     <div class="summary-card">
       <h3>Recommended Career Pathways</h3>
 
+      {% if not has_skill_data %}
+      <p class="empty-message">Upload your transcript to see career recommendations.</p>
+      {% else %}
       <div class="career-match">
         <strong class="strong-match">STRONG MATCH</strong>
         <ul>
-          <li>Software Developer</li>
-          <li>Data Analyst</li>
+          {% for title in dashboard_strong_careers %}
+          <li>{{ title }}</li>
+          {% else %}
+          <li>None yet</li>
+          {% endfor %}
         </ul>
       </div>
 
       <div class="career-match">
         <strong class="moderate-match">MODERATE MATCH</strong>
         <ul>
-          <li>Quantitative Analyst</li>
+          {% for title in dashboard_moderate_careers %}
+          <li>{{ title }}</li>
+          {% else %}
+          <li>None yet</li>
+          {% endfor %}
         </ul>
       </div>
+      <a href="{{ url_for('career.career') }}" class="dashboard-career-link">See full career recommendations &rarr;</a>
+      {% endif %}
     </div>
 
   </div>

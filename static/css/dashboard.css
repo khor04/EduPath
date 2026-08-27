@@ -205,11 +205,27 @@
 }
 
 .moderate-match {
-  color: #00a651;
+  color: #d4a017;
 }
 
 .career-match {
   margin-bottom: 18px;
+}
+
+.dashboard-career-link {
+  font-size: 13px;
+  color: #168bd1;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.dashboard-career-link:hover {
+  text-decoration: underline;
+}
+
+.summary-card .empty-message {
+  padding: 20px 0;
+  font-size: 13px;
 }
 
 #dashboardHistogram {

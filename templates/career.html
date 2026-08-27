@@ -10,9 +10,15 @@
 
     <h1 class="page-title">Career Recommendation</h1>
     <p class="page-subtitle">
-        Aim to present a summarized skill profile derived from academic transcript data,
-        highlighting key strengths, areas for improvement, and corresponding career recommendations.
+        A personalized academic competency and career profile based on your transcript and
+        O*NET occupational data.
     </p>
+
+    {% if not has_profile %}
+    <div class="empty-message">
+        No transcript data found. Please upload your transcript to generate your skill profile.
+    </div>
+    {% else %}
 
     <div class="skill-section">
         <p class="section-label">SKILL PROFILE</p>
@@ -33,117 +39,52 @@
                 </div>
 
                 <div class="strength-buttons">
-                    <button onclick="showSkillDetail('Programming')">Programming</button>
-                    <button onclick="showSkillDetail('Data Analytics')">Data Analytics</button>
-                    <button onclick="showSkillDetail('AI')">AI</button>
-                    <button onclick="showSkillDetail('System Design')">System Design</button>
-                    <button onclick="showSkillDetail('Mathematics')">Mathematics</button>
+                    {% for row in strengths %}
+                    <button onclick="showSkillDetail('{{ row.competency_name }}')">{{ row.competency_name }}</button>
+                    {% endfor %}
                 </div>
 
-                <div id="Programming" class="strength-detail hidden">
-                    <strong>Related Courses:</strong>
-                    <p>• Web Programming (A)</p>
-                    <p>• Mobile Application Development (A)</p>
-                    <p>• Data Structure (A-)</p>
+                {% for row in strengths %}
+                <div id="{{ row.competency_name | replace(' ', '') }}" class="strength-detail hidden">
+                    <strong>Courses contributing to this competency:</strong>
+                    {% for c in row.courses %}
+                    <p>&bull; {{ c.course_title }} ({{ c.grade }})</p>
+                    {% endfor %}
                 </div>
-
-                <div id="DataAnalytics" class="strength-detail hidden">
-                    <strong>Related Courses:</strong>
-                    <p>• Intro to Data Science (A)</p>
-                    <p>• Database (A-)</p>
-                </div>
-
-                <div id="AI" class="strength-detail hidden">
-                    <strong>Related Courses:</strong>
-                    <p>• Machine Learning (A-)</p>
-                    <p>• Artificial Intelligence (B+)</p>
-                </div>
-
-                <div id="SystemDesign" class="strength-detail hidden">
-                    <strong>Related Courses:</strong>
-                    <p>• System Analysis and Design (A)</p>
-                    <p>• Information System (B+)</p>
-                </div>
-
-                <div id="Mathematics" class="strength-detail hidden">
-                    <strong>Related Courses:</strong>
-                    <p>• Probalistic & Statistics (B)</p>
-                    <p>• Computing Mathematics(B+)</p>
-                </div>
+                {% endfor %}
             </div>
 
-            <!-- Area for Improvement -->
+            <!-- Areas to Strengthen -->
             <div class="skill-card improvement-card">
                 <div class="card-heading">
                     <i class="bi bi-graph-down-arrow improvement-icon"></i>
                     <div>
-                        <h2>Area for Improvement</h2>
-                        <p>Skill areas that may require further improvement</p>
+                        <h2>Areas to Strengthen</h2>
+                        <p>Courses where your performance was comparatively lower within your programme</p>
                     </div>
                 </div>
 
+                {% if not improvement_courses %}
+                <p class="growth-empty">No courses currently fall below the improvement threshold — nice work.</p>
+                {% endif %}
+
+                {% for row in improvement_courses %}
                 <div class="growth-item">
                     <div class="growth-top clickable">
-                        <span>Project Management <i class="bi bi-caret-down-fill toggle-icon"></i>
+                        <span>{{ row.course_title }} <i class="bi bi-caret-down-fill toggle-icon"></i>
                         </span>
-                        <span>32%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div style="width:32%"></div>
+                        <span>{{ row.grade }}</span>
                     </div>
 
                     <!-- Hidden content -->
                     <div class="growth-detail hidden">
-                        <strong>Related Courses:</strong>
-                        <p>• Project Management (B+)</p></br>
-                        <strong>Suggested Improvement:</strong>
-                        <p>• Practice project planning</p>
-                        <p>• Learn Agile methodology</p>
+                        <strong>Related Competencies:</strong>
+                        <p>{{ row.competencies | join(', ') }}</p>
+                        <strong>Programme relevance:</strong>
+                        <p>{{ row.relevance_tier }}</p>
                     </div>
                 </div>
-
-                <div class="growth-item">
-                    <div class="growth-top clickable">
-                        <span>Networking <i class="bi bi-caret-down-fill toggle-icon"></i>
-                        </span>
-                        <span>40%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div style="width:40%"></div>
-                    </div>
-
-                    <!-- Hidden content -->
-                    <div class="growth-detail hidden">
-                        <strong>Related Courses:</strong>
-                        <p>• Network Technology Foundation (B)</p>
-                        <p>• Internet of Things (B-)</p></br>
-                        <strong>Suggested Improvement:</strong>
-                        <p>• Practice more on Netacad</p>
-                        <p>• Learning knowledge on routing</p>
-                    </div>
-                </div>
-
-
-                <div class="growth-item">
-                    <div class="growth-top clickable">
-                        <span>Business <i class="bi bi-caret-down-fill toggle-icon"></i>
-                        </span>
-                        <span>45%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div style="width:45%"></div>
-                    </div>
-
-                    <!-- Hidden content -->
-                    <div class="growth-detail hidden">
-                        <strong>Related Courses:</strong>
-                        <p>• E-commerce (A-)</p></br>
-
-                        <strong>Suggested Improvement:</strong>
-                        <p>• Learning how business operate</p>
-                        <p>• Study digital marking techinques</p>
-                    </div>
-                </div>
+                {% endfor %}
 
             </div>
 
@@ -152,128 +93,77 @@
 
     <!-- Career Recommendations -->
     <div class="career-section">
-        <p class="section-label">Recommended Career Pathways</p>
+        <p class="section-label">RECOMMENDED CAREER PATHWAYS</p>
         <div class="career-title-row">
-
-    <h2>Suggest suitable careers based on your strengths</h2>
-
-    <div class="match-info-wrapper">
-
-        <i class="bi bi-info-circle info-icon"></i>
-
-        <div class="match-guide hidden">
-
-            <h4>Match Score Guide</h4>
-
-            <table>
-                <tr>
-                    <th>Match Score</th>
-                    <th>Match Level</th>
-                </tr>
-
-                <tr>
-                    <td>85 - 100</td>
-                    <td>Strong Match</td>
-                </tr>
-
-                <tr>
-                    <td>70 - 84</td>
-                    <td>Moderate Match</td>
-                </tr>
-
-                <tr>
-                    <td>50 - 69</td>
-                    <td>Potential Match</td>
-                </tr>
-
-                <tr>
-                    <td>Below 50</td>
-                    <td>Weak Match</td>
-                </tr>
-
-            </table>
-
+            <h2>Top career matches based on your O*NET skill profile</h2>
         </div>
+        <p class="career-methodology-note">
+            Ranked by profile similarity between your O*NET-mapped skill profile and real occupation
+            data from the O*NET database (1,016 occupations). Similarity indicates how closely your
+            O*NET skill profile matches the occupation's knowledge profile — it is not a probability
+            of career success.
+        </p>
 
-    </div>
-
-</div>
-
+        {% if not careers %}
+        <div class="empty-message">
+            No career matches could be computed from your current transcript yet.
+        </div>
+        {% else %}
         <div class="career-grid">
-
+            {% for c in careers %}
+            {% set desc_id = "desc-" ~ (c.onet_soc_code | replace("-", "") | replace(".", "")) %}
             <div class="career-card">
-                <div class="career-img">
-                    <img src="/static/images/softwareDeveloper.png" alt="Software Developer">
-                    <span class="badge">STRONG MATCH • 88%</span>
-                </div>
+                <i class="bi bi-info-circle career-info-icon" onclick="toggleCareerDescription('{{ desc_id }}')"></i>
                 <div class="career-body">
-                    <h3>Software Developer</h3>
-                    <p>Focus on building robust and scalable applications or web pages.</p></br>
-                    <strong>Matched Skills:</strong>
+                    <h3>{{ c.title }}</h3>
+                    <p id="{{ desc_id }}" class="career-description hidden">{{ c.description }}</p>
+                    <p class="career-score career-tier-{{ c.tier_class }}">
+                        {{ c.match_percentage }}% profile similarity
+                        <span class="career-tier-badge career-tier-{{ c.tier_class }}">{{ c.tier }}</span>
+                    </p>
+                    <strong>Why this matches you:</strong>
                     <ul>
-                        <li>Programming</li>
-                        <li>System Design</li>
+                        {% for competency in c.matched_competencies %}
+                        <li>{{ competency }}</li>
+                        {% endfor %}
                     </ul>
+
+                    <div class="career-feedback hidden" id="feedback-{{ c.career_id }}">
+                        <div class="career-feedback-buttons">
+                            <button onclick="submitCareerFeedback({{ c.career_id }}, 1)" title="Very Poor">😞</button>
+                            <button onclick="submitCareerFeedback({{ c.career_id }}, 2)" title="Poor">😐</button>
+                            <button onclick="submitCareerFeedback({{ c.career_id }}, 3)" title="Neutral">🙂</button>
+                            <button onclick="submitCareerFeedback({{ c.career_id }}, 4)" title="Good">😊</button>
+                            <button onclick="submitCareerFeedback({{ c.career_id }}, 5)" title="Excellent">😍</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="career-card">
-                <div class="career-img">
-                    <img src="/static/images/systemAnalyst.png" alt="System Analyst">
-
-                    <span class="badge">STRONG MATCH • 80% </span>
-                </div>
-                <div class="career-body">
-                    <h3>System Analyst</h3>
-                    <p>Acts as a bridge between business stakeholders and IT teams.</p></br>
-                    <strong>Matched Skills:</strong>
-                    <ul>
-                        <li>Data Analytics</li>
-                        <li>Programming</li>
-                        <li>System Design</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="career-card">
-                <div class="career-img">
-                    <img src="/static/images/quantAnalyst.png" alt="Quant Analyst">
-
-                    <span class="badge moderate">MODERATE MATCH • 67%</span>
-                </div>
-                <div class="career-body">
-                    <h3>Quantitative Analysts</h3>
-                    <p>Work in financial technology to model risk and uncertainty using advanced probability.</p></br>
-                    <strong>Matched Skills:</strong>
-                    <ul>
-                        <li>AI</li>
-                        <li>Mathematics</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Feedback -->
-    <div class="feedback-section">
-        <h2>Feedback</h2>
-        <p>How well do these recommendations match your career interests?</p>
-
-        <div class="rating-row">
-            <button class="rating-btn">😞<span>Very Poor</span></button>
-            <button class="rating-btn">😐<span>Poor</span></button>
-            <button class="rating-btn">🙂<span>Neutral</span></button>
-            <button class="rating-btn">😊<span>Good</span></button>
-            <button class="rating-btn">😍<span>Excellent</span></button>
+            {% endfor %}
         </div>
 
-        <button class="submit-feedback">Submit</button>
+        <div class="career-feedback-toggle-row">
+            <button class="career-feedback-toggle-btn" onclick="toggleAllCareerFeedback()">Rate These Recommendations</button>
+        </div>
+        <p class="career-feedback-intro hidden" id="careerFeedbackIntro">
+            How well does each career recommendation match your career interests? Rate each one below —
+            you may rate one, several, or all of them.
+        </p>
+        {% endif %}
     </div>
+
+    {% endif %}
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if has_profile %}
+<script>
+  const careerRadarLabels = JSON.parse('{{ radar_labels | tojson | safe }}');
+  const careerRadarValues = JSON.parse('{{ radar_values | tojson | safe }}');
+</script>
+{% endif %}
 <script src="{{ url_for('static', filename='js/career.js') }}"></script>
 
 {% endblock %}

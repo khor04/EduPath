@@ -4,16 +4,10 @@ const radarCtx = document.getElementById("skillRadar");
 const radarChart = new Chart(radarCtx, {
   type: "radar",
   data: {
-    labels: [
-      "Programming",
-      "Data Analytics",
-      "AI",
-      "System Design",
-      "Mathematics"
-    ],
+    labels: careerRadarLabels,
     datasets: [{
       label: "Skill Score",
-      data: [85, 72, 68, 62, 55],
+      data: careerRadarValues,
       backgroundColor: "rgba(22, 139, 209, 0.18)",
       borderColor: "#168bd1",
       pointBackgroundColor: "#168bd1",
@@ -22,7 +16,12 @@ const radarChart = new Chart(radarCtx, {
   },
   options: {
   layout: {
-    padding: 10
+    padding: {
+      top: 30,
+      bottom: 30,
+      left: 50,
+      right: 50
+    }
   },
   interaction: {
     mode: "nearest",
@@ -44,6 +43,11 @@ const radarChart = new Chart(radarCtx, {
       max: 100,
       ticks: {
         stepSize: 25
+      },
+      pointLabels: {
+        font: {
+          size: 11
+        }
       }
     }
   }
@@ -108,12 +112,40 @@ infoIcon.addEventListener("click", () => {
     matchGuide.classList.toggle("hidden");
 });
 
-// Feedback selection
-const ratingButtons = document.querySelectorAll(".rating-btn");
+function toggleCareerDescription(descId) {
+  const target = document.getElementById(descId);
+  if (target) {
+    target.classList.toggle("hidden");
+  }
+}
 
-ratingButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    ratingButtons.forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
+// Per-career feedback
+function toggleAllCareerFeedback() {
+  const intro = document.getElementById("careerFeedbackIntro");
+  if (intro) {
+    intro.classList.toggle("hidden");
+  }
+  document.querySelectorAll(".career-feedback").forEach(el => {
+    el.classList.toggle("hidden");
   });
-});
+}
+
+function submitCareerFeedback(careerId, rating) {
+  const container = document.getElementById(`feedback-${careerId}`);
+  if (!container) return;
+
+  fetch(`/career/feedback/${careerId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rating: rating }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        container.innerHTML = '<p class="career-feedback-thanks">Thank you for your feedback!</p>';
+      } else {
+        console.error("Feedback submission failed:", data.error);
+      }
+    })
+    .catch(error => console.error("Feedback submission failed:", error));
+}

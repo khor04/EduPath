@@ -6,7 +6,7 @@ def generate_academic_plan(prompt):
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
     try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        model = genai.GenerativeModel("gemini-3.6-flash")
 
         print("Using model:", model.model_name)
 
