@@ -352,6 +352,101 @@ footer {
   text-decoration: underline;
 }
 
+/* ---- Motion: button + card hover feedback -----------------------
+   Small, user-triggered, always on regardless of reduced-motion
+   (that preference targets autoplaying/scroll-driven motion, not
+   micro hover feedback). None of these buttons had any hover state
+   before this. */
+.hero-btn,
+.cta-btn,
+.register-btn,
+.login-btn {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-btn:hover,
+.cta-btn:hover,
+.register-btn:hover,
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(17, 17, 17, 0.18);
+}
+
+.feature-card {
+  transition: opacity 0.6s ease, transform 0.3s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 26px rgba(17, 17, 17, 0.09);
+}
+
+/* ---- Motion: scroll-reveal + hero entrance -----------------------
+   Skipped entirely under prefers-reduced-motion -- elements simply
+   render in their final resting state with no animation.
+
+   The hidden starting state is also scoped to :where(.js-anim-ready),
+   a class landing.js adds the instant it runs -- so if that script
+   ever fails to load (blocked, network hiccup), these elements were
+   never hidden in the first place instead of staying permanently
+   invisible with no JS around to reveal them. Wrapped in :where()
+   specifically so this guard contributes zero specificity -- plain
+   ".js-anim-ready" would out-rank ".in-view" (2 classes + the "html"
+   type selector beats 2 classes alone), which is exactly what
+   happened the first time this shipped: the hidden rule kept
+   winning the cascade even after JS added .in-view, so nothing past
+   the hero ever appeared. */
+@media (prefers-reduced-motion: no-preference) {
+
+  html:where(.js-anim-ready) .feature-card,
+  html:where(.js-anim-ready) .step-item,
+  html:where(.js-anim-ready) .cta {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  html:where(.js-anim-ready) .step-item,
+  html:where(.js-anim-ready) .cta {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .feature-card.in-view,
+  .step-item.in-view,
+  .cta.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  html:where(.js-anim-ready) .step-line {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease 0.15s;
+  }
+
+  .step-line.in-view {
+    transform: scaleX(1);
+  }
+
+  .hero-content > * {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: heroReveal 0.7s ease forwards;
+  }
+
+  .hero-content .system-label { animation-delay: 0.1s; }
+  .hero-content h1            { animation-delay: 0.25s; }
+  .hero-content .hero-desc    { animation-delay: 0.4s; }
+  .hero-content .hero-btn     { animation-delay: 0.55s; }
+  .hero-content .privacy-text { animation-delay: 0.7s; }
+
+  @keyframes heroReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 /* Responsive */
 @media (max-width: 1000px) {
   .feature-grid {

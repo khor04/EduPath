@@ -1098,12 +1098,25 @@ def save_career_recommendations(user_id, careers):
     if latest_transcript is None:
         raise ValueError("Student has no transcript to attach these recommendations to.")
 
+    # Bulk lookup instead of one query per career, same fix as the
+    # course-mapping/relevance caches -- this was costing /career one
+    # round trip per recommended career just to check get-vs-create,
+    # plus another one (via flush()) for every newly-inserted row.
+    career_names = [c["title"] for c in careers]
+    existing_rows = (
+        CareerRecommendation.query.filter(
+            CareerRecommendation.user_id == user_id,
+            CareerRecommendation.career_name.in_(career_names),
+        ).all()
+        if career_names else []
+    )
+    existing_by_name = {row.career_name: row for row in existing_rows}
+
     name_to_id = {}
+    new_rows = []
 
     for rank, career in enumerate(careers, start=1):
-        existing = CareerRecommendation.query.filter_by(
-            user_id=user_id, career_name=career["title"]
-        ).first()
+        existing = existing_by_name.get(career["title"])
 
         if existing:
             existing.career_score = career["similarity"]
@@ -1121,9 +1134,13 @@ def save_career_recommendations(user_id, careers):
                 rank=rank,
             )
             db.session.add(row)
-            db.session.flush()  # populate row.career_id before commit
-            name_to_id[career["title"]] = row.career_id
+            new_rows.append((career["title"], row))
 
+    # One flush (via commit) for the whole batch populates career_id
+    # on every newly-added row -- no need to flush per row.
     db.session.commit()
+
+    for title, row in new_rows:
+        name_to_id[title] = row.career_id
 
     return name_to_id
