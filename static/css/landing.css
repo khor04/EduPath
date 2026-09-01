@@ -7,7 +7,7 @@
 
 body {
   min-height: 100vh;
-  min-width: 1000px;
+  overflow-x: hidden;
   background: #E8F9FF;
   color: #111;
 }
@@ -29,7 +29,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 22px;
-  min-width: 1000px;
 }
 
 .brand {
@@ -305,7 +304,7 @@ body {
 
 .cta h2 {
   font-size: 36px;
-  font-weight: 500px;
+  font-weight: 500;
   line-height: 1.25;
   margin-bottom: 15px;
 }
@@ -326,7 +325,6 @@ body {
 /* Footer */
 footer {
   width: 100%;
-  min-width: 1000px;
   background: #7776B3;
   color: white;
   text-align: center;
@@ -484,6 +482,32 @@ footer {
 
   .hero {
     height: 520px;
+  }
+
+  /* The desktop layout absolutely-positions this over the hero image
+     with fixed left/top offsets and a fixed max-width -- at phone
+     widths that pushed text past the right edge instead of wrapping.
+     Anchoring both left and right lets it fill whatever width is
+     actually available instead of assuming a >=1000px canvas. */
+  .hero-content {
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    max-width: none;
+  }
+
+  .hero-content h1 {
+    font-size: 30px;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .system-label {
+    font-size: 13px;
+    padding: 8px 12px;
   }
 
   .features,

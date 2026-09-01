@@ -108,14 +108,29 @@ function initMeanChart() {
     type: "doughnut",
     data: {
       datasets: [{
-        data: [0, 4]
+        data: [0, 4],
+        // A clean white progress ring on the card's own blue, instead
+        // of Chart.js's default red/blue palette, which had no
+        // relationship to the card and just looked arbitrary. The
+        // border color matches the card background so segments read
+        // as one continuous ring cut into two arcs, not two shapes.
+        backgroundColor: ["#FFFFFF", "rgba(255, 255, 255, 0.22)"],
+        borderColor: "#4578c9",
+        borderWidth: 3,
+        borderRadius: 10,
+        spacing: 3
       }]
     },
     options: {
-      cutout: "70%",
+      cutout: "72%",
+      rotation: -90,
+      circumference: 360,
       plugins: {
         legend: {
           display: false
+        },
+        tooltip: {
+          enabled: false
         }
       }
     }
