@@ -1,0 +1,333 @@
+.chat-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  font-family: inherit;
+}
+
+.chat-toggle-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* The thought bubble the robot is "thinking" -- a speech-bubble shape
+   with two shrinking trailing dots leading down to its head, the
+   classic comic-strip thought-bubble convention. */
+.chat-toggle-bubble {
+  background: white;
+  color: #4c4a80;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  white-space: nowrap;
+  margin-bottom: 3px;
+}
+
+.chat-toggle-bubble-dot {
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.14);
+  margin-bottom: 2px;
+}
+
+.chat-toggle-bubble-dot-lg {
+  width: 12px;
+  height: 12px;
+  align-self: flex-end;
+  margin-right: 14px;
+}
+
+.chat-toggle-bubble-dot-sm {
+  width: 7px;
+  height: 7px;
+  align-self: flex-end;
+  margin-right: 24px;
+}
+
+.chat-toggle-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #7776B3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-toggle-avatar i {
+  font-size: 32px;
+  color: white;
+}
+
+.chat-toggle-btn:hover .chat-toggle-avatar {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.24);
+}
+
+/* While the panel is open, it visually occupies the bubble's spot --
+   collapse to just the avatar so the label isn't floating above a
+   now-redundant panel. Reverts the moment the panel is closed. */
+.chat-toggle-btn.compact .chat-toggle-bubble,
+.chat-toggle-btn.compact .chat-toggle-bubble-dot {
+  display: none;
+}
+
+/* A slow, gentle idle bob so the robot reads as "alive"/thinking
+   rather than a static icon -- skipped under prefers-reduced-motion,
+   same convention as the landing page's scroll-reveal motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .chat-toggle-avatar {
+    animation: chatBotBob 2.4s ease-in-out infinite;
+  }
+
+  @keyframes chatBotBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .chat-toggle-btn:hover .chat-toggle-avatar {
+    animation-play-state: paused;
+  }
+}
+
+.chat-panel {
+  position: absolute;
+  right: 0;
+  /* Clears the compact avatar (64px) + a small gap -- not the full
+     pill+dots height. The button always collapses to .compact the
+     instant the panel opens (same click handler), so the panel is
+     never actually visible while the full stack is showing. */
+  bottom: 80px;
+  width: 374px;
+  max-height: 528px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-panel.hidden,
+.chat-error.hidden {
+  display: none;
+}
+
+.chat-panel-header {
+  background: #7776B3;
+  color: white;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.chat-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-greeting p {
+  font-size: 13.5px;
+  color: #333;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.chat-suggestions-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7776B3;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px !important;
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chat-suggestion-chip {
+  text-align: left;
+  background: #f2f1fb;
+  border: 1px solid #e2e0f5;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  color: #4c4a80;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.chat-suggestion-chip:hover {
+  background: #e6e4f7;
+}
+
+.chat-message {
+  max-width: 85%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background: #7776B3;
+  color: white;
+  border-bottom-right-radius: 3px;
+}
+
+.chat-message.assistant {
+  align-self: flex-start;
+  background: #f2f1fb;
+  color: #222;
+  border-bottom-left-radius: 3px;
+}
+
+/* Typography for the markdown-lite renderer's output (bold, italic,
+   bulleted/numbered lists, paragraphs) -- tightened from browser
+   defaults, which are sized for full pages, not a small chat bubble. */
+.chat-message.assistant p {
+  margin: 0 0 8px 0;
+}
+
+.chat-message.assistant p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-message.assistant ul,
+.chat-message.assistant ol {
+  margin: 0 0 8px 0;
+  padding-left: 20px;
+}
+
+.chat-message.assistant ul:last-child,
+.chat-message.assistant ol:last-child {
+  margin-bottom: 0;
+}
+
+.chat-message.assistant li {
+  margin-bottom: 3px;
+}
+
+.chat-message.assistant strong {
+  color: #4c4a80;
+}
+
+.chat-message-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #7776B3;
+  text-decoration: none;
+}
+
+.chat-message-link:hover {
+  text-decoration: underline;
+}
+
+.chat-message.loading {
+  align-self: flex-start;
+  color: #888;
+  font-style: italic;
+}
+
+.chat-error {
+  margin: 0 16px 10px;
+  padding: 8px 10px;
+  background: #fdecea;
+  color: #a33;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.chat-input-row input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 13px;
+  outline: none;
+}
+
+.chat-input-row input:focus {
+  border-color: #7776B3;
+}
+
+.chat-input-row button {
+  background: #7776B3;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.chat-input-row button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Near-full-screen on phones instead of a small floating box -- the
+   same fixed-size-card-on-a-narrow-viewport problem that squeezed the
+   Benchmarking cards would squeeze this too if left at 340px wide. */
+@media (max-width: 480px) {
+  .chat-widget {
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .chat-panel {
+    position: fixed;
+    right: 12px;
+    left: 12px;
+    bottom: 80px;
+    top: 24px;
+    width: auto;
+    max-height: none;
+  }
+}

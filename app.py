@@ -25,6 +25,7 @@ def create_app():
     from routes.benchmark import benchmark_bp
     from routes.profile import profile_bp
     from routes.info import info_bp
+    from routes.chat import chat_bp
 
 
     app.register_blueprint(auth_bp)
@@ -35,6 +36,7 @@ def create_app():
     app.register_blueprint(benchmark_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(info_bp)
+    app.register_blueprint(chat_bp)
 
 
     # Landing page only
