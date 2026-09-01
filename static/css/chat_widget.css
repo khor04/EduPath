@@ -308,6 +308,19 @@
   font-size: 12.5px;
 }
 
+/* Permanent, not tied to the greeting -- stays visible once history
+   exists or the greeting is hidden, since that's exactly when a
+   student is most likely to be reading AI-generated interpretation. */
+.chat-disclaimer {
+  margin: 0;
+  padding: 6px 16px;
+  font-size: 10.5px;
+  color: #999;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
 .chat-input-row {
   display: flex;
   align-items: center;
