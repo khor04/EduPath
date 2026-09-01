@@ -163,3 +163,24 @@ def get_deep_link_module(message):
         if any(kw in lowered for kw in keywords):
             return module_key
     return None
+
+
+# Maps get_performance_alert()'s "type" to a ready-to-send follow-up
+# question -- clicking the proactive alert in the chat greeting sends
+# this straight to /api/chat, the same as clicking a suggestion chip,
+# so the student can act on the flag in one click instead of typing
+# their own question about it.
+_ALERT_FOLLOWUP_QUESTIONS = {
+    "target_below": "Why does it look like I might fall short of my target CGPA, and what can I do about it?",
+    "required_high": "My required GPA looks very high -- is my target still realistic, and what are my options?",
+    "volatile": "Why has my GPA been fluctuating, and how can I make my performance more consistent?",
+    "declining": "Why is my GPA declining, and what should I focus on to turn it around?",
+}
+
+
+def get_alert_followup_question(alert_type):
+    """Falls back to a generic prompt for any alert type not in the map."""
+    return _ALERT_FOLLOWUP_QUESTIONS.get(
+        alert_type,
+        "I noticed something worth discussing about my academic progress -- can you help?"
+    )

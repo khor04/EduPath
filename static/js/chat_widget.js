@@ -139,6 +139,30 @@
     try {
       const res = await fetch("/api/chat/suggestions");
       const data = await res.json();
+
+      // Proactive nudge -- the same declining-trend/at-risk-target
+      // check the Dashboard's Performance Alert banner already runs.
+      // Shown once, above the suggestions, so the assistant can flag
+      // something worth discussing instead of only ever responding
+      // to what's asked. Clickable, like a suggestion chip: sends the
+      // paired follow-up question straight to the AI in one click.
+      if (data.alert && greetingEl) {
+        const alertEl = document.createElement("button");
+        alertEl.type = "button";
+        alertEl.className = "chat-proactive-alert";
+
+        const icon = document.createElement("i");
+        icon.className = "bi bi-lightbulb-fill";
+        alertEl.appendChild(icon);
+
+        const text = document.createElement("span");
+        text.textContent = data.alert.message;
+        alertEl.appendChild(text);
+
+        alertEl.addEventListener("click", () => sendMessage(data.alert.question));
+        greetingEl.insertBefore(alertEl, greetingEl.firstChild);
+      }
+
       (data.suggestions || []).forEach((question) => {
         const chip = document.createElement("button");
         chip.type = "button";

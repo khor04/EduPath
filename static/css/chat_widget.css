@@ -161,6 +161,41 @@
   line-height: 1.4;
 }
 
+/* Same amber "heads up" palette as the Dashboard's Performance Alert
+   banner (static/css/dashboard.css) -- deliberately reused, not a
+   new color invented for this one spot, since it's the same kind of
+   proactive flag just surfaced somewhere else. */
+.chat-proactive-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  background: #fff8e6;
+  color: #7a5c1e;
+  border: none;
+  border-left: 4px solid #e8b84c;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-family: inherit;
+  line-height: 1.4;
+  text-align: left;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.chat-proactive-alert:hover {
+  background: #fdefc9;
+}
+
+.chat-proactive-alert i {
+  color: #e8b84c;
+  font-size: 14px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
 .chat-suggestions-label {
   font-size: 11px;
   font-weight: 700;

@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify, url_for
 from flask_login import login_required, current_user
 
-from services.chat_services import build_chat_context, get_deep_link_module
+from services.chat_services import build_chat_context, get_deep_link_module, get_alert_followup_question
 from services.gemini_service import generate_chat_response
+from services.cgpa_services import get_performance_alert
 
 chat_bp = Blueprint("chat", __name__)
 
@@ -67,15 +68,37 @@ def chat_suggestions():
     a target-CGPA question if they've saved a target plan. Reuses the
     has_target/top_career_title build_chat_context() already computes
     as a byproduct of the summary, rather than recomputing them.
+
+    Also surfaces get_performance_alert() -- the same declining-trend/
+    at-risk-target check the Dashboard banner already shows -- so the
+    assistant can proactively flag something worth discussing instead
+    of only ever responding to what's asked. Not new logic: reuses the
+    exact function and thresholds the Dashboard already relies on, so
+    the two can never disagree about whether something's worth flagging.
     """
     context = build_chat_context(current_user.user_id)
 
+    alert = get_performance_alert(current_user.user_id)
+    alert_payload = None
+    if alert:
+        alert_payload = {
+            "message": alert["message"],
+            # Clicking the alert sends this straight to /api/chat, the
+            # same as clicking a suggestion chip -- lets the student
+            # act on the flag in one click instead of typing their own
+            # question about it.
+            "question": get_alert_followup_question(alert["type"]),
+        }
+
     if not context["has_data"]:
-        return jsonify({"suggestions": [
-            "What is the difference between GPA and CGPA?",
-            "What is the Pomodoro technique?",
-            "How can I take better lecture notes?",
-        ]})
+        return jsonify({
+            "suggestions": [
+                "What is the difference between GPA and CGPA?",
+                "What is the Pomodoro technique?",
+                "How can I take better lecture notes?",
+            ],
+            "alert": alert_payload,
+        })
 
     suggestions = []
     suggestions.append(
@@ -87,4 +110,4 @@ def chat_suggestions():
         suggestions.append(f"Why was {context['top_career_title']} recommended for me?")
     suggestions.append("How should I study more effectively?")
 
-    return jsonify({"suggestions": suggestions[:4]})
+    return jsonify({"suggestions": suggestions[:4], "alert": alert_payload})
