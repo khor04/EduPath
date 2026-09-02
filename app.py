@@ -20,6 +20,7 @@ def create_app():
     from routes.auth import auth_bp
     from routes.dashboard import dashboard_bp
     from routes.transcript import transcript_bp
+    from routes.record import record_bp
     from routes.analysis import analysis_bp
     from routes.career import career_bp
     from routes.benchmark import benchmark_bp
@@ -31,6 +32,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(transcript_bp)
+    app.register_blueprint(record_bp)
     app.register_blueprint(analysis_bp)
     app.register_blueprint(career_bp)
     app.register_blueprint(benchmark_bp)

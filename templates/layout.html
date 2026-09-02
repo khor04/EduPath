@@ -55,6 +55,10 @@
                     <a href="/upload"><i class="bi bi-file-earmark-arrow-up"></i> Transcript Upload</a>
                 </li>
 
+                <li class="{% if active_page == 'record' %}active{% endif %}">
+                    <a href="/academic-record"><i class="bi bi-journal-text"></i> Academic Record</a>
+                </li>
+
                 <li class="{% if active_page == 'analysis' %}active{% endif %}">
                     <a href="/analysis"><i class="bi bi-graph-up"></i> Analysis & Prediction</a>
                 </li>

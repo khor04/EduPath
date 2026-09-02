@@ -1,0 +1,217 @@
+.record-page {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.page-title {
+  color: #7776B3;
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #666;
+  max-width: 640px;
+  margin-bottom: 20px;
+}
+
+.record-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+}
+
+.record-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.record-summary-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.record-summary-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #7776B3;
+}
+
+.record-summary-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-left: auto;
+  font-size: 12px;
+  color: #888;
+}
+
+.record-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+
+.record-semesters {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.semester-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.semester-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  color: #333;
+}
+
+.semester-header::-webkit-details-marker {
+  display: none;
+}
+
+.semester-header::before {
+  content: "\25BC";
+  font-size: 10px;
+  color: #7776B3;
+  margin-right: 10px;
+  transition: transform 0.15s ease;
+}
+
+.semester-card:not([open]) .semester-header::before {
+  transform: rotate(-90deg);
+}
+
+.semester-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.semester-session {
+  font-size: 12px;
+  font-weight: 500;
+  color: #999;
+}
+
+.semester-gpa {
+  font-size: 13px;
+  font-weight: 700;
+  color: #7776B3;
+  background: #f2f1fb;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.semester-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid #f0f0f0;
+}
+
+.semester-table {
+  width: 100%;
+  min-width: 480px;
+  /* Fixed layout, not auto -- with auto, each semester's table sizes
+     its own columns to its own content, so a semester with a longer
+     course name pushes its Credit/Grade columns further right than
+     the semester card stacked below it, breaking alignment between
+     cards. Fixed widths keep every semester table's columns identical
+     regardless of content; long names wrap instead of widening. */
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.semester-table th:nth-child(1),
+.semester-table td:nth-child(1) {
+  width: 18%;
+}
+
+.semester-table th:nth-child(2),
+.semester-table td:nth-child(2) {
+  width: 52%;
+}
+
+.semester-table th:nth-child(3),
+.semester-table td:nth-child(3) {
+  width: 15%;
+}
+
+.semester-table th:nth-child(4),
+.semester-table td:nth-child(4) {
+  width: 15%;
+}
+
+.semester-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 10px 20px;
+  background: #fafafa;
+}
+
+.semester-table td {
+  padding: 10px 20px;
+  border-top: 1px solid #f5f5f5;
+  color: #333;
+  overflow-wrap: break-word;
+}
+
+.semester-table td:nth-child(3),
+.semester-table th:nth-child(3) {
+  text-align: center;
+}
+
+.semester-table td:nth-child(4),
+.semester-table th:nth-child(4) {
+  font-weight: 700;
+}
+
+.semester-empty {
+  padding: 16px 20px;
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .record-summary {
+    gap: 16px;
+  }
+
+  .record-summary-meta {
+    margin-left: 0;
+  }
+
+  .semester-title {
+    flex-direction: column;
+    gap: 0;
+  }
+}

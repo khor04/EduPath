@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/academic_record.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="record-page">
+
+  <h1 class="page-title">Academic Record</h1>
+  <p class="page-subtitle">
+    This record is based on your uploaded transcript and is for reference within EduPath. 
+    For official academic results, please refer to your university portal.
+  </p>
+
+  <div class="record-summary">
+    <div class="record-summary-item">
+      <span class="record-summary-label">Overall CGPA</span>
+      <span class="record-summary-value">{{ "%.2f"|format(cgpa) if cgpa is not none else "--" }}</span>
+    </div>
+    <div class="record-summary-item">
+      <span class="record-summary-label">Credits Completed</span>
+      <span class="record-summary-value">{{ credits }}</span>
+    </div>
+    <div class="record-summary-meta">
+      <span>Last updated: {{ last_updated.strftime("%d %B %Y") if last_updated else "--" }}</span>
+      <span>Source: Uploaded transcript</span>
+    </div>
+  </div>
+
+  <a href="{{ url_for('transcript.upload') }}" class="btn btn-outline-primary record-upload-btn">
+    <i class="bi bi-file-earmark-arrow-up"></i> Upload New Transcript
+  </a>
+
+  <div class="record-semesters">
+    {% for sem in semesters %}
+    <details class="semester-card" {% if loop.first %}open{% endif %}>
+      <summary class="semester-header">
+        <span class="semester-title">
+          Semester {{ sem.semester_no }} <span class="semester-session">{{ sem.academic_session }}</span>
+        </span>
+        <span class="semester-gpa">
+          GPA: {{ "%.2f"|format(sem.semester_gpa) if sem.semester_gpa is not none else "--" }}
+        </span>
+      </summary>
+
+      {% if sem.courses %}
+      <div class="semester-table-wrap">
+        <table class="semester-table">
+          <thead>
+            <tr>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Credit</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in sem.courses %}
+            <tr>
+              <td>{{ course.course_code }}</td>
+              <td>{{ course.course_name or "--" }}</td>
+              <td>{{ "%g"|format(course.credit_hour) if course.credit_hour is not none else "--" }}</td>
+              <td>{{ course.grade or "--" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="semester-empty">No courses recorded for this semester.</p>
+      {% endif %}
+    </details>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}
