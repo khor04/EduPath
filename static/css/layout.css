@@ -8,7 +8,6 @@
 html, body {
   height: 100%;
   margin: 0;
-  min-width:1000px;
 }
 
 .page-wrapper {
@@ -21,7 +20,6 @@ html, body {
 .topbar {
   height: 70px;
   width: 100%;
-  min-width:1000px;
   background: #7776B3;
 
   display: flex;
@@ -152,7 +150,6 @@ footer {
   font-size: 16px;
   font-weight: 500;
   flex-shrink: 0;
-  min-width: 1000px;
 }
 
 .footer-links {
@@ -173,8 +170,40 @@ footer {
 
 @media (max-width: 768px) {
 
+  .page-layout {
+    flex-direction: column;
+    min-height: auto;
+  }
+
   .sidebar {
-    width: 220px;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .sidebar .menu {
+    display: flex;
+    overflow-x: auto;
+    padding-top: 10px;
+    gap: 8px;
+  }
+
+  .sidebar .menu li {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .sidebar .menu li a {
+    white-space: nowrap;
+  }
+
+  .logout {
+    justify-content: center;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 15px;
   }
 
   .header-links {
@@ -187,5 +216,19 @@ footer {
 
   .content {
     padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 14px;
+  }
+
+  .logo_design {
+    height: 40px;
+  }
+
+  .logo_text {
+    height: 20px;
   }
 }

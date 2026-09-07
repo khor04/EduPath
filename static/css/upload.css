@@ -1,6 +1,7 @@
 .upload-page {
   max-width: 1050px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .page-title,
@@ -176,6 +177,14 @@ background:#fff8e1;
 
 .semester-panel table {
   margin-top: 10px;
+}
+
+.semester-panel details {
+  overflow-x: auto;
+}
+
+.transcript-table {
+  min-width: 560px;
 }
 
 .history-list {
@@ -406,5 +415,36 @@ details[open] summary::before {
 #deleteTranscriptModal .btn-danger {
     border-radius: 8px;
     font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .drop-zone {
+    height: auto;
+    padding: 30px 15px;
+  }
+
+  .verification-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .action-buttons {
+    width: 100%;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+
+  .history-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .page-title,
+  .section-title {
+    font-size: 24px;
+  }
 }
 

@@ -60,3 +60,17 @@ button:hover {
   margin-top: 10px;
 }
 
+@media (max-width: 768px) {
+  .contact-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 0 16px;
+    min-height: calc(100vh - 160px);
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+}
+

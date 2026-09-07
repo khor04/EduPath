@@ -35,9 +35,3 @@ Tech Stack
    python app.py
    ```
 
-## Demo Account
-
-For evaluation purposes, a demo student account with a sample transcript already uploaded is available:
-
-- Email: kchooi0425@gmail.com
-- Password: !Testing123

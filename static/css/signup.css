@@ -13,6 +13,7 @@ body {
   justify-content: center;
   align-items: center;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .signup-container {
@@ -60,7 +61,7 @@ body {
 
 .signup-form h2 {
   text-align: center;
-  font-size: clamp(60px, 4vw, 56px);
+  font-size: clamp(32px, 4vw, 56px);
   margin-bottom: 15px;
 }
 
@@ -232,7 +233,7 @@ button:hover {
 
 .login-form h2 {
   text-align: center;
-  font-size: clamp(60px, 4vw, 56px);
+  font-size: clamp(32px, 4vw, 56px);
   margin-bottom: 15px;
 }
 
@@ -395,5 +396,53 @@ button:hover {
     color: red;
     font-size: 0.85rem;
     margin-top: 5px;
+}
+
+/* Mobile: stack the two panels instead of a fixed 40/60 split */
+@media (max-width: 768px) {
+  .signup-container {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    flex-direction: column;
+  }
+
+  .left-panel,
+  .right-panel {
+    width: 100%;
+  }
+
+  .left-panel {
+    padding: 25px 0;
+  }
+
+  .logo-icon {
+    width: 110px;
+    margin-bottom: 15px;
+  }
+
+  .logo_name {
+    width: 160px;
+  }
+
+  .right-panel {
+    padding: 25px 20px 40px;
+  }
+
+  .signup-form,
+  .login-form {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .flash-box {
+    width: 90%;
+    font-size: 18px;
+  }
+
+  .email-modal-box {
+    width: 90%;
+  }
 }
 
