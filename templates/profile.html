@@ -22,6 +22,7 @@
         {% endwith %}
 
         <form method="POST" action="{{ url_for('profile.profile') }}" id="profileForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <div class="profile-header">
                 <img src="{{ user.profile_picture if user.profile_picture else url_for('static', filename='images/people icon.png') }}"
@@ -85,6 +86,7 @@
 <!-- Change Password Modal -->
 <div class="modal" id="passwordModal">
     <form method="POST" action="{{ url_for('profile.change_password') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="modal-box">
             <span class="close" onclick="closeModal('passwordModal')">&times;</span>
             <h3>Change Password</h3>
@@ -140,6 +142,7 @@
             </button>
 
             <form method="POST" action="{{ url_for('profile.delete_account') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="delete-confirm-btn">
                     Yes
                 </button>
@@ -151,6 +154,7 @@
 <!-- Upload Picture Modal -->
 <div class="modal" id="pictureModal">
     <form method="POST" action="{{ url_for('profile.upload_picture') }}" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="modal-box">
             <span class="close" onclick="closeModal('pictureModal')">&times;</span>
             <h3>Upload Profile Picture</h3>

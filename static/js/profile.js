@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch("/check-current-password", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCsrfToken()
                 },
                 body: JSON.stringify({
                     current_password: currentPassword.value

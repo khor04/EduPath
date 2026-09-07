@@ -39,6 +39,7 @@
             {% endwith %}
 
             <form class="login-form" method="POST" action="{{ url_for('auth.verify_code_page') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <h2>Verify Email</h2>
 
                 <p style="font-size: 13px; margin-bottom: 15px;">

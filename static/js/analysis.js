@@ -367,7 +367,8 @@ document.getElementById("saveTargetBtn").addEventListener("click", function () {
   fetch("/save-target-cgpa", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCsrfToken()
     },
     body: JSON.stringify({
       target_cgpa: targetCGPA,
@@ -559,7 +560,7 @@ async function generateAIPlan() {
   try {
     const response = await fetch("/generate-ai-plan", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
       body: JSON.stringify({
         currentCGPA: currentCGPA,
         currentCredits: currentCredits,
@@ -931,7 +932,7 @@ async function recomputeSimulation() {
   try {
     const response = await fetch("/api/simulate-cgpa", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
       body: JSON.stringify({ entries })
     });
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, jsonify
 from markupsafe import Markup
-from extensions import db,mail
+from extensions import db, mail, limiter
 from models.users import User
 from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -110,6 +110,7 @@ EduPath System
     mail.send(msg)
 
 @auth_bp.route("/check-availability", methods=["POST"])
+@limiter.limit("15 per minute")
 def check_availability():
     try:
         data = request.get_json(silent=True) or {}
@@ -236,6 +237,7 @@ def register():
 
 
 @auth_bp.route("/verify-code", methods=["GET", "POST"])
+@limiter.limit("20 per minute", methods=["POST"])
 def verify_code_page():
 
     if request.method == "POST":
@@ -293,6 +295,7 @@ def verify_code_page():
 
 
 @auth_bp.route("/resend-code", methods=["POST"])
+@limiter.limit("10 per minute")
 def resend_code():
     email = (request.form.get("email") or "").strip()
 
@@ -315,6 +318,7 @@ def resend_code():
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
+@limiter.limit("10 per minute", methods=["POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
@@ -343,6 +347,7 @@ def login():
     return render_template("login.html")
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
+@limiter.limit("10 per minute", methods=["POST"])
 def forgot_password():
 
     if request.method == "POST":

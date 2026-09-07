@@ -46,7 +46,8 @@ document.getElementById("confirmDeleteTranscriptBtn").addEventListener("click", 
     fetch("/delete-transcript-data", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCsrfToken()
         }
     })
     .then(res => res.json())
@@ -85,6 +86,7 @@ function uploadPDF(file) {
 
     fetch("/upload-transcript", {
         method: "POST",
+        headers: { "X-CSRFToken": getCsrfToken() },
         body: formData
     })
         .then(res => res.json())
@@ -230,7 +232,7 @@ document.getElementById("finalizeBtn").addEventListener("click", function () {
 
     fetch("/save-transcript", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
         body: JSON.stringify({ semesters })
     })
         .then(res => res.json())

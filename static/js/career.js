@@ -136,7 +136,7 @@ function submitCareerFeedback(careerId, rating) {
 
   fetch(`/career/feedback/${careerId}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
     body: JSON.stringify({ rating: rating }),
   })
     .then(response => response.json())

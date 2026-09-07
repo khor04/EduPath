@@ -1,6 +1,7 @@
+import os
 from flask import Flask, render_template
 from config import Config
-from extensions import db, login_manager, mail
+from extensions import db, login_manager, mail, csrf, limiter
 
 def create_app():
     app = Flask(__name__)
@@ -10,6 +11,8 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
     mail.init_app(app)
+    csrf.init_app(app)
+    limiter.init_app(app)
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -70,4 +73,5 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    debug_mode = os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(debug=debug_mode)

@@ -197,7 +197,7 @@ async function forceAvailabilityCheck() {
 
     const res = await fetch("/check-availability", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
         body: JSON.stringify({
             username: usernameInput.value.trim(),
             email
@@ -237,7 +237,7 @@ async function checkAvailability() {
 
         const res = await fetch("/check-availability", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
             body: JSON.stringify({ username, email })
         });
 

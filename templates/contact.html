@@ -15,6 +15,7 @@
     <h1>Contact Us</h1>
 
     <form id="contactForm" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <label>Name</label>
         <input type="text" id="name" name="name" placeholder="Your name">
