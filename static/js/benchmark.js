@@ -7,6 +7,21 @@ let histogramChart = null;
 let meanChart = null;
 let trendChart = null;
 
+// Whether the page has already made its one-time "does the initially
+// selected semester have enough peer data" decision. Set on the FIRST
+// loadBenchmark() call (page entry) regardless of outcome, so the
+// not-enough-data popup can only ever appear once per page visit --
+// later dropdown changes just update the Insights box/charts, they
+// never re-trigger it, even if the newly selected semester also lacks
+// data.
+let entryDataCheckDone = false;
+
+function showNotEnoughDataModal() {
+  const modalEl = document.getElementById("notEnoughDataModal");
+  if (!modalEl || typeof bootstrap === "undefined") return;
+  new bootstrap.Modal(modalEl).show();
+}
+
 // ================================
 // Utility functions
 // ================================
@@ -185,7 +200,7 @@ function setMotivationMessage(performanceBand) {
   }
 
   el.textContent = pickMessage(pool);
-  el.classList.remove("above", "equal", "below");
+  el.classList.remove("above", "equal", "below", "info");
   el.classList.add(styleClass);
 }
 
@@ -208,15 +223,20 @@ async function loadBenchmark() {
 
     const data = await response.json();
 
+    const isEntryCheck = !entryDataCheckDone;
+    entryDataCheckDone = true;
+
     if (data.error) {
       document.getElementById("benchmarkInsight").textContent =
-        "Not enough peer data available for this semester yet.";
+        "Not enough peer data available for your programme, batch and semester yet.";
       document.getElementById("sampleSize").textContent = data.sample_size ?? 0;
       document.getElementById("departmentMeanValue").textContent = "-";
 
       const el = document.getElementById("motivationMessage");
-      el.textContent = "";
-      el.classList.remove("above", "below");
+      el.textContent =
+        "Peer comparison will become available when enough students from your programme, batch and semester are available.";
+      el.classList.remove("above", "equal", "below");
+      el.classList.add("info");
 
       histogramChart.data.userIndex = null;
       histogramChart.data.datasets[0].data = [];
@@ -225,6 +245,10 @@ async function loadBenchmark() {
 
       meanChart.data.datasets[0].data = [0, 4];
       meanChart.update();
+
+      if (isEntryCheck) {
+        showNotEnoughDataModal();
+      }
 
       return;
     }

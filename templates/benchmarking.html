@@ -129,6 +129,27 @@
 
 </div>
 
+<!-- Shown once, only if the initially-selected semester lacks enough
+     peer data -- see benchmark.js's entryDataCheckDone gate. Later
+     dropdown changes never reopen it, they just update the page. -->
+<div class="modal fade" id="notEnoughDataModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Peer Benchmarking Not Available</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Not enough peer data is available for your programme, batch and semester yet.</p>
+        <p>Peer comparison will become available when enough students from your programme, batch and semester are available.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/benchmark.js') }}"></script>
 

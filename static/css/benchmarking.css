@@ -204,6 +204,14 @@
   border-left: 4px solid #e8b84c;
 }
 
+.motivation-box.info {
+  background-color: #f4f4f8;
+  color: #666;
+  border-left: 4px solid #c9c9d6;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
 @media (max-width: 1100px) {
     .benchmark-grid {
         grid-template-columns: 1fr;
