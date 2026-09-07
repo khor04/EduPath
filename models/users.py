@@ -19,7 +19,11 @@ class User(UserMixin, db.Model):
     profile_picture=db.Column(db.String(500), default=None)
     is_verified = db.Column(db.Boolean, default=False)
 
-    email_pending = db.Column(db.String(120), nullable=True) 
+    email_pending = db.Column(db.String(120), nullable=True)
+
+    verification_code_hash = db.Column(db.String(255), nullable=True)
+    verification_expires_at = db.Column(db.DateTime, nullable=True)
+    verification_attempts = db.Column(db.Integer, default=0)
 
     def get_id(self):
         return str(self.user_id)

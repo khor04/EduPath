@@ -6,9 +6,15 @@ from flask_login import login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
-from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE
+from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN
+import secrets
+from datetime import datetime, timedelta
 
 auth_bp = Blueprint("auth", __name__)
+
+VERIFICATION_CODE_TTL = timedelta(hours=1)
+RESEND_COOLDOWN = timedelta(seconds=60)
+MAX_VERIFICATION_ATTEMPTS = 5
 
 def generate_token(user_id):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
@@ -22,30 +28,52 @@ def verify_token(token, expiration=3600):
         return user_id
     except:
         return None
-      
-def send_verification_email(user):
-    token = generate_token(user.user_id)
 
-    verify_url = url_for("auth.verify_email", token=token, _external=True)
+def generate_verification_code():
+    return f"{secrets.randbelow(1000000):06d}"
+
+def resend_on_cooldown(user):
+    if not user.verification_expires_at:
+        return False
+
+    sent_at = user.verification_expires_at - VERIFICATION_CODE_TTL
+    return datetime.utcnow() < sent_at + RESEND_COOLDOWN
+
+def issue_verification_code(user):
+    code = generate_verification_code()
+
+    user.verification_code_hash = generate_password_hash(code)
+    user.verification_expires_at = datetime.utcnow() + VERIFICATION_CODE_TTL
+    user.verification_attempts = 0
+
+    db.session.commit()
+
+    send_verification_email(user, code)
+
+    return code
+
+def send_verification_email(user, code):
+    recipient = user.email_pending or user.email
 
     msg = Message(
-    subject="Verify Your EduPath Account",
-    recipients=[user.email_pending or user.email]
+        subject="Verify Your EduPath Account",
+        recipients=[recipient]
     )
 
-    msg.body = f"""
-Hi {user.username},
+    msg.body = f"""Please verify your identity, {user.username}
 
+Here is your verification code:
 
-Please click the link below to verify your email:
+{code}
 
-{verify_url}
+This code is valid for 1 hour and can only be used once.
 
-This link will expire in 1 hour.
-If you did NOT request this change, ignore this email.
+Please don't share this code with anyone: we'll never ask for it on the phone or via email.
 
-Regards,
-EduPath System
+If you didn't request this, you can safely ignore this email. No account will be verified without this code.
+
+Thanks,
+EduPath team
 """
 
     mail.send(msg)
@@ -140,6 +168,10 @@ def register():
             flash("Please select a batch.", "error")
             return redirect(url_for("auth.register"))
 
+        if not is_um_email(email):
+            flash(f"Only @{UM_EMAIL_DOMAIN} email addresses can register.", "error")
+            return redirect(url_for("auth.register"))
+
         if not is_valid_password(password):
             flash(PASSWORD_REQUIREMENT_MESSAGE, "error")
             return redirect(url_for("auth.register"))
@@ -149,19 +181,41 @@ def register():
             return redirect(url_for("auth.register"))
 
         existing_user = User.query.filter_by(email=email).first()
+
         if existing_user:
-            flash(
-                Markup('Email already registered. <a href="' + url_for("auth.login") + '">Login here</a>'),
-                "error"
+            if existing_user.is_verified:
+                flash(
+                    Markup(
+                        'Email already registered. <a href="' + url_for("auth.login") + '">Login here</a> '
+                        'or <a href="' + url_for("auth.forgot_password") + '">reset your password</a>.'
+                    ),
+                    "error"
+                )
+                return redirect(url_for("auth.register"))
+
+            expired = (
+                not existing_user.verification_expires_at
+                or datetime.utcnow() > existing_user.verification_expires_at
             )
-            return redirect(url_for("auth.register"))
+
+            if expired:
+                db.session.delete(existing_user)
+                db.session.commit()
+            else:
+                if resend_on_cooldown(existing_user):
+                    flash("An account with this email is already pending verification. Check your email for the code we already sent.", "success")
+                else:
+                    issue_verification_code(existing_user)
+                    flash("An account with this email is already pending verification. We've sent you a new code.", "success")
+
+                return redirect(url_for("auth.verify_code_page", email=email))
 
         existing_username = User.query.filter_by(username=username).first()
 
         if existing_username:
             flash("Username already exists.", "error")
             return redirect(url_for("auth.register"))
-        
+
         new_user = User(
             username=username,
             email=email,
@@ -173,52 +227,92 @@ def register():
 
         db.session.add(new_user)
         db.session.commit()
-        send_verification_email(new_user)
+        issue_verification_code(new_user)
 
-        flash("Account created. Please verify your email before login.", "success")
-        return redirect(url_for("auth.login"))
+        flash("Account created. Please check your email for a verification code.", "success")
+        return redirect(url_for("auth.verify_code_page", email=email))
 
     return render_template("signup.html")
 
 
-@auth_bp.route("/verify-email/<token>")
-def verify_email(token):
-    user_id = verify_token(token)
+@auth_bp.route("/verify-code", methods=["GET", "POST"])
+def verify_code_page():
 
-    if not user_id:
-        flash("Invalid or expired verification link.", "error")
-        return redirect(url_for("auth.login"))
+    if request.method == "POST":
+        email = (request.form.get("email") or "").strip()
+        code = (request.form.get("code") or "").strip()
 
-    user = User.query.get(user_id)
+        user = User.query.filter(
+            (User.email == email) | (User.email_pending == email)
+        ).first()
 
-    if not user:
-        flash("User not found.", "error")
-        return redirect(url_for("auth.register"))
+        if not user or not user.verification_code_hash or not user.verification_expires_at:
+            flash("Invalid verification session. Please request a new code.", "error")
+            return redirect(url_for("auth.verify_code_page", email=email))
 
-    
-    #case 1: email change
-    if user.email_pending:
-    
-        user.email = user.email_pending
-        user.email_pending = None
+        if datetime.utcnow() > user.verification_expires_at:
+            flash("This code has expired. Please request a new one.", "error")
+            return redirect(url_for("auth.verify_code_page", email=email))
 
+        if not check_password_hash(user.verification_code_hash, code):
+            user.verification_attempts += 1
+
+            if user.verification_attempts >= MAX_VERIFICATION_ATTEMPTS:
+                user.verification_code_hash = None
+                user.verification_expires_at = None
+                user.verification_attempts = 0
+                db.session.commit()
+
+                flash("Too many incorrect attempts. Please request a new code.", "error")
+                return redirect(url_for("auth.verify_code_page", email=email))
+
+            db.session.commit()
+
+            remaining = MAX_VERIFICATION_ATTEMPTS - user.verification_attempts
+            flash(f"Incorrect code. {remaining} attempt(s) remaining.", "error")
+            return redirect(url_for("auth.verify_code_page", email=email))
+
+        if user.email_pending:
+            user.email = user.email_pending
+            user.email_pending = None
+            success_msg = "Email updated and verified successfully! Please log in."
+        else:
+            user.is_verified = True
+            success_msg = "Email verified successfully! You can now log in."
+
+        user.verification_code_hash = None
+        user.verification_expires_at = None
+        user.verification_attempts = 0
         db.session.commit()
 
-        flash("Email updated and verified successfully!", "success")
+        flash(success_msg, "success")
         return redirect(url_for("auth.login"))
 
-    #case 2: signup / normal verify
-    if user.is_verified:
-        flash("Email verified successfully!", "success")
-        return redirect(url_for("auth.login"))
-    
-    user.is_verified = True
-        
-    db.session.commit()
+    email = request.args.get("email", "")
+    return render_template("verify_code.html", email=email)
 
-    flash("Email verified successfully!", "success")
-    return redirect(url_for("auth.login"))
-    
+
+@auth_bp.route("/resend-code", methods=["POST"])
+def resend_code():
+    email = (request.form.get("email") or "").strip()
+
+    user = User.query.filter(
+        (User.email == email) | (User.email_pending == email)
+    ).first()
+
+    if not user or (user.is_verified and not user.email_pending):
+        flash("No pending verification found for this email.", "error")
+        return redirect(url_for("auth.verify_code_page", email=email))
+
+    if resend_on_cooldown(user):
+        flash("Please wait a moment before requesting another code.", "error")
+        return redirect(url_for("auth.verify_code_page", email=email))
+
+    issue_verification_code(user)
+
+    flash("A new verification code has been sent.", "success")
+    return redirect(url_for("auth.verify_code_page", email=email))
+
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -231,7 +325,13 @@ def login():
         if user and check_password_hash(user.password, password):
 
             if not user.is_verified:
-                flash("Please verify your email before logging in.", "error")
+                flash(
+                    Markup(
+                        'Please verify your email before logging in. '
+                        '<a href="' + url_for("auth.verify_code_page", email=user.email) + '">Enter verification code</a>'
+                    ),
+                    "error"
+                )
                 return redirect(url_for("auth.login"))
 
             login_user(user)

@@ -1,5 +1,15 @@
 import re
 
+UM_EMAIL_DOMAIN = "siswa.um.edu.my"
+
+
+def is_um_email(email):
+    if not email:
+        return False
+
+    return email.strip().lower().endswith("@" + UM_EMAIL_DOMAIN)
+
+
 PASSWORD_PATTERN = re.compile(
     r'^(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\'":\\|,.<>/?]).{8,}$'
 )

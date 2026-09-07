@@ -178,31 +178,46 @@ let emailValid = false;
 let requestCounter = 0;
 let allowSubmit = false;
 
+const UM_EMAIL_DOMAIN = "@siswa.um.edu.my";
+
+function isUmEmail(email) {
+    return email.toLowerCase().endsWith(UM_EMAIL_DOMAIN);
+}
+
 // ================================
 // Real-time Username & Email Check
 // ================================
 async function forceAvailabilityCheck() {
+    const email = emailInput.value.trim();
+
+    if (!isUmEmail(email)) {
+        emailValid = false;
+        emailError.textContent = `Email must be a ${UM_EMAIL_DOMAIN} address`;
+    }
+
     const res = await fetch("/check-availability", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             username: usernameInput.value.trim(),
-            email: emailInput.value.trim()
+            email
         })
     });
 
     const data = await res.json();
 
     usernameValid = !data.username_taken;
-    emailValid = !data.email_taken;
 
     usernameError.textContent = data.username_taken
         ? "Username already taken"
         : "";
 
-    emailError.textContent = data.email_taken
-        ? "Email already registered"
-        : "";
+    if (isUmEmail(email)) {
+        emailValid = !data.email_taken;
+        emailError.textContent = data.email_taken
+            ? "Email already registered"
+            : "";
+    }
 }
 
 async function checkAvailability() {
@@ -214,6 +229,11 @@ async function checkAvailability() {
 
         const username = usernameInput.value.trim();
         const email = emailInput.value.trim();
+
+        if (email && !isUmEmail(email)) {
+            emailValid = false;
+            emailError.textContent = `Email must be a ${UM_EMAIL_DOMAIN} address`;
+        }
 
         const res = await fetch("/check-availability", {
             method: "POST",
@@ -227,15 +247,17 @@ async function checkAvailability() {
         if (currentRequest !== requestCounter) return;
 
         usernameValid = !data.username_taken;
-        emailValid = !data.email_taken;
 
         usernameError.textContent = data.username_taken
             ? "Username already taken"
             : "";
 
-        emailError.textContent = data.email_taken
-            ? "Email already registered"
-            : "";
+        if (!email || isUmEmail(email)) {
+            emailValid = !data.email_taken;
+            emailError.textContent = data.email_taken
+                ? "Email already registered"
+                : "";
+        }
 
     }, 400);
 }

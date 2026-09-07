@@ -5,8 +5,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models.users import User
 import cloudinary.uploader
 import cloudinary
-from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE
-from routes.auth import send_verification_email
+from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN
+from routes.auth import issue_verification_code
+from routes.transcript import delete_all_transcript_related_data
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -66,12 +67,28 @@ def profile():
         # EMAIL CHANGED LOGIC
         if new_email != current_user.email:
 
+            if not is_um_email(new_email):
+                flash(f"Only @{UM_EMAIL_DOMAIN} email addresses are allowed.", "error")
+                return redirect(url_for("profile.profile"))
+
             # check duplicate email
             existing_user = User.query.filter_by(email=new_email).first()
             if existing_user:
-                flash("Email already registered.", "error")
-                return redirect(url_for("profile.profile"))
-            
+                if existing_user.is_verified:
+                    flash("Email already registered.", "error")
+                    return redirect(url_for("profile.profile"))
+
+                expired = (
+                    not existing_user.verification_expires_at
+                    or datetime.utcnow() > existing_user.verification_expires_at
+                )
+
+                if expired:
+                    db.session.delete(existing_user)
+                    db.session.commit()
+                else:
+                    flash("That email is already pending verification on another account.", "error")
+                    return redirect(url_for("profile.profile"))
 
             # update email + mark unverified
             current_user.email_pending = new_email
@@ -79,14 +96,14 @@ def profile():
 
             db.session.commit()
 
-            # send NEW verification email using your existing function
-            send_verification_email(current_user)
+            # send verification code to the new email
+            issue_verification_code(current_user)
 
             logout_user()
 
-            flash("Verification sent to new email. Please verify before login.", "success")
+            flash("Verification code sent to your new email. Please verify before logging in.", "success")
 
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("auth.verify_code_page", email=new_email))
         
 
         # no email change
@@ -153,13 +170,21 @@ def check_current_password():
 def delete_account():
     user_id = current_user.user_id
 
-    logout_user()
+    try:
+        delete_all_transcript_related_data(user_id)
 
-    user = User.query.get(user_id)
+        user = User.query.get(user_id)
+        if user:
+            db.session.delete(user)
 
-    if user:
-        db.session.delete(user)
         db.session.commit()
+
+    except Exception:
+        db.session.rollback()
+        flash("Failed to delete account. Please try again.", "error")
+        return redirect(url_for("profile.profile"))
+
+    logout_user()
 
     flash("Account deleted successfully.", "success")
     return redirect(url_for("auth.register"))

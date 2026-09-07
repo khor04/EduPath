@@ -26,6 +26,67 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def delete_all_transcript_related_data(user_id):
+    """Delete every transcript-derived row for a user (courses, semesters,
+    feedback, career recommendations, skill profiles, transcripts, target CGPA).
+
+    Does not touch course_skill_mapping -- that's a shared course->skill
+    reference table, not per-user data. Does not commit; caller controls
+    the transaction so this can be combined with other deletes (e.g. the
+    user row itself) atomically.
+    """
+    transcript_ids = [
+        t.transcript_id
+        for t in Transcript.query.filter_by(user_id=user_id).all()
+    ]
+
+    if transcript_ids:
+        semester_ids = [
+            s.semester_id
+            for s in Semester.query.filter(Semester.transcript_id.in_(transcript_ids)).all()
+        ]
+
+        if semester_ids:
+            Course.query.filter(
+                Course.semester_id.in_(semester_ids)
+            ).delete(synchronize_session=False)
+
+        Semester.query.filter(
+            Semester.transcript_id.in_(transcript_ids)
+        ).delete(synchronize_session=False)
+
+    # Delete feedback -- must go before CareerRecommendation, which
+    # it references via career_id.
+    career_ids = [
+        c.career_id for c in
+        CareerRecommendation.query.filter_by(user_id=user_id).all()
+    ]
+    if career_ids:
+        Feedback.query.filter(
+            Feedback.career_id.in_(career_ids)
+        ).delete(synchronize_session=False)
+
+    # Delete career recommendations and skill profile -- both
+    # reference transcript_id (non-nullable, no cascade) and must
+    # go before the Transcript rows themselves, or the DELETE on
+    # transcript fails with a foreign key violation.
+    CareerRecommendation.query.filter_by(
+        user_id=user_id
+    ).delete(synchronize_session=False)
+
+    SkillProfile.query.filter_by(
+        user_id=user_id
+    ).delete(synchronize_session=False)
+
+    Transcript.query.filter_by(
+        user_id=user_id
+    ).delete(synchronize_session=False)
+
+    TargetCGPA.query.filter_by(
+        user_id=user_id
+    ).delete(synchronize_session=False)
+
+
 @transcript_bp.route("/upload")
 @login_required
 def upload():
@@ -1347,84 +1408,17 @@ def delete_transcript_data():
 
     try:
 
-        transcripts = Transcript.query.filter_by(
+        has_transcripts = Transcript.query.filter_by(
             user_id=current_user.user_id
-        ).all()
+        ).first() is not None
 
-        if not transcripts:
+        if not has_transcripts:
             return jsonify({
                 "success": False,
                 "message": "No transcript data found to delete."
             })
 
-        transcript_ids = [t.transcript_id for t in transcripts]
-
-        semesters = Semester.query.filter(
-            Semester.transcript_id.in_(transcript_ids)
-        ).all()
-
-        semester_ids = [
-            s.semester_id
-            for s in semesters
-        ]
-        
-        # Delete courses
-        Course.query.filter(
-            Course.semester_id.in_(semester_ids)
-        ).delete(
-            synchronize_session=False
-        )
-
-        # Delete semesters
-        Semester.query.filter(
-            Semester.transcript_id.in_(transcript_ids)
-        ).delete(
-            synchronize_session=False
-        )
-
-        # Delete feedback -- must go before CareerRecommendation, which
-        # it references via career_id.
-        career_ids = [
-            c.career_id for c in
-            CareerRecommendation.query.filter_by(user_id=current_user.user_id).all()
-        ]
-        if career_ids:
-            Feedback.query.filter(
-                Feedback.career_id.in_(career_ids)
-            ).delete(
-                synchronize_session=False
-            )
-
-        # Delete career recommendations and skill profile -- both
-        # reference transcript_id (non-nullable, no cascade) and must
-        # go before the Transcript rows themselves, or the DELETE on
-        # transcript fails with a foreign key violation.
-        CareerRecommendation.query.filter_by(
-            user_id=current_user.user_id
-        ).delete(
-            synchronize_session=False
-        )
-
-        SkillProfile.query.filter_by(
-            user_id=current_user.user_id
-        ).delete(
-            synchronize_session=False
-        )
-
-        # Delete transcripts
-        Transcript.query.filter_by(
-            user_id=current_user.user_id
-        ).delete(
-            synchronize_session=False
-        )
-
-        #delete target cgpa
-        TargetCGPA.query.filter_by(
-            user_id=current_user.user_id
-        ).delete(
-            synchronize_session=False
-        )
-
+        delete_all_transcript_related_data(current_user.user_id)
 
         db.session.commit()
 
