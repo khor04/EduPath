@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>EduPath Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="logo">
+            <img src="/static/images/Logo design for CGPA Hub-Photoroom.png" class="logo_design">
+            <img src="/static/images/EduPath.png" class="logo_text">
+            <span class="admin-badge">Admin</span>
+        </div>
+    </div>
+
+    <div class="page-layout">
+
+        <div class="sidebar">
+            <ul class="menu">
+                <li class="{% if active_admin_page == 'stats' %}active{% endif %}">
+                    <a href="{{ url_for('admin.admin_stats') }}"><i class="bi bi-bar-chart"></i> Platform Stats</a>
+                </li>
+
+                <li class="{% if active_admin_page == 'feedback' %}active{% endif %}">
+                    <a href="{{ url_for('admin.admin_feedback') }}"><i class="bi bi-star"></i> Career Feedback</a>
+                </li>
+
+                <li class="{% if active_admin_page == 'contact' %}active{% endif %}">
+                    <a href="{{ url_for('admin.admin_contact') }}"><i class="bi bi-envelope"></i> Contact Messages</a>
+                </li>
+            </ul>
+
+            <div class="logout">
+                <i class="bi bi-box-arrow-left"></i>
+                <a href="{{ url_for('auth.logout') }}" class="logout-btn"
+                    onclick="return confirm('Are you sure you want to logout?')">
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

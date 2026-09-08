@@ -1,0 +1,48 @@
+{% extends "admin/admin_layout.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Contact Messages</h1>
+<p class="page-subtitle">Messages submitted through the public Contact Us form, newest first.</p>
+
+{% if not messages %}
+<div class="admin-card">
+    <p class="empty-message">No messages received yet.</p>
+</div>
+{% else %}
+<div class="admin-card">
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Sender</th>
+                    <th>Message</th>
+                    <th>Date Received</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in messages %}
+                <tr>
+                    <td>{{ msg.name }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>
+                        {% if msg.user %}
+                        <span class="match-badge match-strong">Registered</span>
+                        <div class="sender-detail">{{ msg.user.faculty }} &middot; {{ msg.user.programme }}</div>
+                        {% else %}
+                        <span class="match-badge match-moderate">Anonymous</span>
+                        {% endif %}
+                    </td>
+                    <td class="admin-message-cell">{{ msg.message }}</td>
+                    <td>{{ msg.created_at.strftime("%d %b %Y, %H:%M") if msg.created_at else "-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -339,6 +339,10 @@ def login():
                 return redirect(url_for("auth.login"))
 
             login_user(user)
+
+            if user.is_admin:
+                return redirect(url_for("admin.admin_stats"))
+
             return redirect(url_for("dashboard.dashboard"))
 
         flash("Invalid email or password.", "error")

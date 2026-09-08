@@ -30,6 +30,7 @@ def create_app():
     from routes.profile import profile_bp
     from routes.info import info_bp
     from routes.chat import chat_bp
+    from routes.admin import admin_bp
 
 
     app.register_blueprint(auth_bp)
@@ -42,6 +43,7 @@ def create_app():
     app.register_blueprint(profile_bp)
     app.register_blueprint(info_bp)
     app.register_blueprint(chat_bp)
+    app.register_blueprint(admin_bp)
 
 
     # Landing page only

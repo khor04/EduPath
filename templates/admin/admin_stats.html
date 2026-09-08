@@ -1,0 +1,71 @@
+{% extends "admin/admin_layout.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Platform Stats</h1>
+<p class="page-subtitle">A quick snapshot of system-wide usage.</p>
+
+<div class="admin-stats-grid">
+    <div class="admin-stat-card">
+        <h3>Total Users</h3>
+        <p>{{ stats.total_users }}</p>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Verified Users</h3>
+        <p>{{ stats.verified_users }}</p>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Unverified Users</h3>
+        <p>{{ stats.unverified_users }}</p>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Transcripts</h3>
+        <p>{{ stats.total_transcripts }}</p>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Career Users</h3>
+        <p>{{ stats.career_users }}</p>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Target CGPA Plans</h3>
+        <p>{{ stats.target_cgpa_plans }}</p>
+    </div>
+</div>
+
+<div class="admin-breakdown-grid">
+
+    <div class="admin-card">
+        <p class="card-label">USERS BY FACULTY</p>
+        {% if not stats.users_by_faculty %}
+        <p class="empty-message">No users yet.</p>
+        {% else %}
+        <table class="admin-table">
+            {% for faculty, count in stats.users_by_faculty.items() %}
+            <tr>
+                <td>{{ faculty }}</td>
+                <td class="admin-count-cell">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <div class="admin-card">
+        <p class="card-label">USERS BY PROGRAMME</p>
+        {% if not stats.users_by_programme %}
+        <p class="empty-message">No users yet.</p>
+        {% else %}
+        <table class="admin-table">
+            {% for programme, count in stats.users_by_programme.items() %}
+            <tr>
+                <td>{{ programme }}</td>
+                <td class="admin-count-cell">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

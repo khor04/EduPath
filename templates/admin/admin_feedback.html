@@ -1,0 +1,69 @@
+{% extends "admin/admin_layout.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Career Feedback</h1>
+<p class="page-subtitle">
+    How students rated each career recommendation, compared against the algorithm's own similarity score.
+    Sorted lowest-rated first.
+</p>
+
+{% if not feedback_summary %}
+<div class="admin-card">
+    <p class="empty-message">No feedback has been submitted yet.</p>
+</div>
+{% else %}
+
+<div class="admin-stats-grid admin-feedback-overview">
+    <div class="admin-stat-card">
+        <h3>Average Rating</h3>
+        <p>{{ feedback_overview.avg_rating }} / 5</p>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Total Responses</h3>
+        <p>{{ feedback_overview.total_responses }}</p>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Career</th>
+                    <th>Avg Rating</th>
+                    <th># Responses</th>
+                    <th>Rating Distribution</th>
+                    <th>Avg Algorithm Score</th>
+                    <th>Match Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in feedback_summary %}
+                <tr class="{% if row.avg_rating <= 2.5 %}low-rating{% endif %}">
+                    <td>{{ row.career_name }}</td>
+                    <td class="admin-rating">{{ row.avg_rating }} / 5</td>
+                    <td>{{ row.num_ratings }}</td>
+                    <td>
+                        <div class="rating-distribution">
+                            {% for star in range(5, 0, -1) %}
+                            <span class="dist-row">
+                                {{ star }}★
+                                <span class="dist-count">{{ row.distribution[star] }}</span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td>{{ "%.1f"|format(row.avg_score * 100) }}%</td>
+                    <td>
+                        <span class="match-badge match-{{ row.match_level }}">{{ row.match_level }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

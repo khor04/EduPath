@@ -70,6 +70,24 @@ html, body {
   height: 35px;
 }
 
+.admin-panel-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.admin-panel-link:hover {
+  background: rgba(255, 255, 255, 0.28);
+  color: white;
+}
+
 /* Sidebar */
 .sidebar {
   width: 270px;

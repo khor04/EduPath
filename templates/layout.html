@@ -28,6 +28,11 @@
         </div>
         
         <div class="profile">
+            {% if current_user.is_authenticated and current_user.is_admin %}
+            <a href="{{ url_for('admin.admin_feedback') }}" class="admin-panel-link">
+                <i class="bi bi-shield-lock"></i> Admin Panel
+            </a>
+            {% endif %}
             {% if current_user.is_authenticated %}
             <a href="{{ url_for('profile.profile') }}">
                 {% if current_user.profile_picture %}

@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask_login import current_user
 from extensions import db
 from models.contact import ContactMessage
 
@@ -23,7 +24,8 @@ def contact():
         new_message = ContactMessage(
             name=name,
             email=email,
-            message=message
+            message=message,
+            user_id=current_user.user_id if current_user.is_authenticated else None
         )
 
         db.session.add(new_message)
