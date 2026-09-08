@@ -14,6 +14,7 @@ from models.career_recommendation import CareerRecommendation
 from models.feedback import Feedback
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from utils.validators import validate_course_row, MAX_COURSES_PER_SEMESTER
 
 
 transcript_bp = Blueprint("transcript", __name__)
@@ -1142,6 +1143,60 @@ def save_transcript():
             "success": False,
             "message": "No transcript data received."
         })
+
+    # =====================================================
+    # STEP 0: VALIDATE EVERY COURSE ROW (NO DB WRITE)
+    #
+    # The server is the source of truth here, not the client -- a
+    # submitted grade_point is never trusted, only the grade (once
+    # validated), with grade_point always re-derived server-side.
+    # Fails the whole request before any DB work starts rather than
+    # silently dropping or "fixing" bad rows.
+    # =====================================================
+    validation_errors = []
+    validated_semesters = []
+
+    for sem in data["semesters"]:
+        sem_label = f"Sem {sem.get('semester_no')} {sem.get('academic_session')}"
+        courses = sem.get("courses", [])
+
+        if len(courses) > MAX_COURSES_PER_SEMESTER:
+            validation_errors.append(
+                f"{sem_label}: a semester can have at most "
+                f"{MAX_COURSES_PER_SEMESTER} courses."
+            )
+            continue
+
+        seen_codes = set()
+        validated_courses = []
+
+        for course in courses:
+            cleaned, error = validate_course_row(course)
+
+            if error:
+                validation_errors.append(f"{sem_label}: {error}")
+                continue
+
+            if cleaned["course_code"] in seen_codes:
+                validation_errors.append(
+                    f"{sem_label}: duplicate course code "
+                    f"'{cleaned['course_code']}'."
+                )
+                continue
+
+            seen_codes.add(cleaned["course_code"])
+            validated_courses.append(cleaned)
+
+        validated_semesters.append({**sem, "courses": validated_courses})
+
+    if validation_errors:
+        return jsonify({
+            "success": False,
+            "message": "Transcript validation failed.",
+            "errors": validation_errors
+        })
+
+    data = {**data, "semesters": validated_semesters}
 
     try:
         saved = []
