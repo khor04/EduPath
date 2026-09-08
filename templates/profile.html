@@ -80,6 +80,32 @@
             </button>
         </div>
 
+        <hr>
+
+        <div class="benchmark-consent-section">
+            <h3>Peer Benchmarking Data Sharing</h3>
+            {% if user.benchmark_consent %}
+            <p>Your academic data is currently included anonymously in peer benchmarking.</p>
+            <form method="POST" action="{{ url_for('benchmark.benchmark_consent') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="next" value="profile">
+                <button type="submit" name="choice" value="no" class="change-btn"
+                    onclick="return confirm('Stop sharing your data with peer benchmarking? You will also lose access to view peer comparisons until you turn sharing back on.')">
+                    Turn Off
+                </button>
+            </form>
+            {% else %}
+            <p>Your academic data is currently not included in peer benchmarking.</p>
+            <form method="POST" action="{{ url_for('benchmark.benchmark_consent') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="next" value="profile">
+                <button type="submit" name="choice" value="yes" class="change-btn">
+                    Turn On
+                </button>
+            </form>
+            {% endif %}
+        </div>
+
     </div>
 </div>
 

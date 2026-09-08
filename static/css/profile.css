@@ -323,3 +323,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+.benchmark-consent-section {
+  margin-top: 20px;
+}
+
+.benchmark-consent-section h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.benchmark-consent-section p {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 12px;
+}

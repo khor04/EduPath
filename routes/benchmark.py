@@ -79,13 +79,21 @@ def benchmark():
 def benchmark_consent():
     choice = request.form.get("choice")
 
+    # Small whitelist, not a raw redirect target -- lets Profile's
+    # toggle send the student back to Profile instead of always
+    # bouncing to the Benchmarking page.
+    next_endpoint = (
+        "profile.profile" if request.form.get("next") == "profile"
+        else "benchmark.benchmark"
+    )
+
     if choice not in ("yes", "no"):
-        return redirect(url_for("benchmark.benchmark"))
+        return redirect(url_for(next_endpoint))
 
     current_user.benchmark_consent = (choice == "yes")
     db.session.commit()
 
-    return redirect(url_for("benchmark.benchmark"))
+    return redirect(url_for(next_endpoint))
 
 
 @benchmark_bp.route("/api/benchmark-data")
