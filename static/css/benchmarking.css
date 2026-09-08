@@ -229,3 +229,21 @@
         grid-template-columns: 1fr;
     }
 }
+.sharing-preference-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.sharing-preference-row .link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #7776B3;
+    text-decoration: underline;
+    font-size: 13px;
+    cursor: pointer;
+}

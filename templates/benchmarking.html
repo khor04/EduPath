@@ -12,6 +12,16 @@
     Compare your academic performance against peers in the same department.
   </p>
 
+  <form method="POST" action="{{ url_for('benchmark.benchmark_consent') }}" class="sharing-preference-row">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="choice" value="no">
+    <span>Data sharing: On</span>
+    <button type="submit" class="link-btn"
+      onclick="return confirm('Stop sharing your data with peer benchmarking? You will also lose access to view peer comparisons until you turn sharing back on.')">
+      Change preference
+    </button>
+  </form>
+
   <h3 class="sample-text">
     Based on anonymized peer data from
     <span id="sampleSize">20</span>

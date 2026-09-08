@@ -161,24 +161,30 @@ def build_report_context(user_id):
     # ---- Benchmarking Summary (one row per graded semester, not just
     # the latest -- a semester with too few peers shouldn't hide the
     # semesters that do have enough data, and vice versa) ----
-    standings_by_semester = compute_cohort_standings_bulk(user, semesters)
-    benchmark_rows = []
-    for sem in semesters:
-        standing = standings_by_semester.get((sem.academic_session, sem.semester_no))
-        row = {"label": f"Sem {sem.semester_no} ({sem.academic_session})", "has_data": bool(standing)}
-        if standing:
-            row.update({
-                "compared_students": standing["sample_size"],
-                "cohort_average": standing["mean"],
-                "standing_label": STANDING_LABELS.get(standing["performance_band"], standing["insight"]),
-            })
-        benchmark_rows.append(row)
+    # Consent gates access here too, same as the live /benchmarking
+    # page -- a student who hasn't opted in doesn't get a peer
+    # comparison section in their report either.
+    if user.benchmark_consent is True:
+        standings_by_semester = compute_cohort_standings_bulk(user, semesters)
+        benchmark_rows = []
+        for sem in semesters:
+            standing = standings_by_semester.get((sem.academic_session, sem.semester_no))
+            row = {"label": f"Sem {sem.semester_no} ({sem.academic_session})", "has_data": bool(standing)}
+            if standing:
+                row.update({
+                    "compared_students": standing["sample_size"],
+                    "cohort_average": standing["mean"],
+                    "standing_label": STANDING_LABELS.get(standing["performance_band"], standing["insight"]),
+                })
+            benchmark_rows.append(row)
 
-    context.update({
-        "has_benchmark": any(row["has_data"] for row in benchmark_rows),
-        "cohort_label": f"{user.programme} Batch {user.batch}",
-        "benchmark_rows": benchmark_rows,
-    })
+        context.update({
+            "has_benchmark": any(row["has_data"] for row in benchmark_rows),
+            "cohort_label": f"{user.programme} Batch {user.batch}",
+            "benchmark_rows": benchmark_rows,
+        })
+    else:
+        context["has_benchmark"] = False
 
     # ---- Career Recommendation Summary ----
     concept_profile = build_student_profile(user_id)

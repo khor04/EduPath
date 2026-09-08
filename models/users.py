@@ -20,6 +20,13 @@ class User(UserMixin, db.Model):
     is_verified = db.Column(db.Boolean, default=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Tri-state on purpose: None = hasn't decided yet (shows the
+    # consent prompt), True = opted in, False = explicitly declined.
+    # Consent gates BOTH directions -- a student's data only enters
+    # the peer pool, and they can only view peer comparisons, when
+    # this is True. See routes/benchmark.py and services/benchmark_services.py.
+    benchmark_consent = db.Column(db.Boolean, nullable=True, default=None)
+
     email_pending = db.Column(db.String(120), nullable=True)
 
     verification_code_hash = db.Column(db.String(255), nullable=True)

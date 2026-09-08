@@ -197,10 +197,16 @@ async function loadDashboardBenchmark() {
     const data = await response.json();
 
     if (data.error) {
-      document.getElementById("benchmarkInsight").textContent =
-        "Not enough peer data available for this semester yet.";
-      document.getElementById("dashboardSampleSize").textContent =
-        `Based on anonymized peer data (${data.sample_size ?? 0} other student${data.sample_size === 1 ? "" : "s"})`;
+      const insightEl = document.getElementById("benchmarkInsight");
+      if (data.error === "consent_required") {
+        insightEl.innerHTML =
+          'Set your sharing preference on <a href="/benchmarking">Peer Benchmarking</a> to see this.';
+        document.getElementById("dashboardSampleSize").textContent = "";
+      } else {
+        insightEl.textContent = "Not enough peer data available for this semester yet.";
+        document.getElementById("dashboardSampleSize").textContent =
+          `Based on anonymized peer data (${data.sample_size ?? 0} other student${data.sample_size === 1 ? "" : "s"})`;
+      }
       const el = document.getElementById("motivationMessage");
       el.textContent = "";
       el.classList.remove("above", "below");

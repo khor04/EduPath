@@ -66,6 +66,22 @@
         {% endif %}
     </div>
 
+    <div class="admin-card">
+        <p class="card-label">PEER BENCHMARKING PARTICIPATION</p>
+        {% if not stats.benchmark_participation %}
+        <p class="empty-message">No users yet.</p>
+        {% else %}
+        <table class="admin-table">
+            {% for choice, count in stats.benchmark_participation.items() %}
+            <tr>
+                <td>{{ choice }}</td>
+                <td class="admin-count-cell">{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
 </div>
 
 {% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/benchmarking.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5" style="max-width: 560px;">
+    <h3>Peer Benchmarking Unavailable</h3>
+
+    <p>
+        You have chosen not to contribute your academic data to peer benchmarking.
+    </p>
+
+    <p>
+        You can change your preference at any time.
+    </p>
+
+    <form method="POST" action="{{ url_for('benchmark.benchmark_consent') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" name="choice" value="yes" class="btn btn-primary">
+            Change Sharing Preference
+        </button>
+    </form>
+</div>
+{% endblock %}

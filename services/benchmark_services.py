@@ -3,6 +3,10 @@ from models.semester import Semester
 from models.transcript import Transcript
 from models.users import User
 
+# Prototype-scale anonymity floor: production deployment should use
+# a higher minimum cohort size to reduce individual inference risk.
+MIN_PEERS = 2
+
 
 def _classify_standing(user_gpa, mean, sample_size):
     """
@@ -44,9 +48,15 @@ def compute_cohort_standing(user, session, semester_no):
     all-semesters-at-once equivalent.
 
     Peers only, same anonymity floor as the rest of benchmarking: the
-    viewer is compared against at least 2 OTHER students, never folded
-    into its own average. Returns None if that floor isn't met, or if
-    the user has no recorded GPA for this session/semester.
+    viewer is compared against at least MIN_PEERS OTHER students,
+    never folded into its own average. Returns None if that floor
+    isn't met, or if the user has no recorded GPA for this
+    session/semester.
+
+    Only peers who have opted into benchmark_consent contribute to
+    the pool -- consent controls both participation in and access to
+    Peer Benchmarking (see routes/benchmark.py, which separately
+    checks the VIEWER's own consent before ever calling this).
     """
     cohort_gpas = (
         db.session.query(Semester.semester_gpa)
@@ -56,6 +66,7 @@ def compute_cohort_standing(user, session, semester_no):
             User.user_id != user.user_id,
             User.programme == user.programme,
             User.batch == user.batch,
+            User.benchmark_consent == True,
             Semester.academic_session == session,
             Semester.semester_no == semester_no,
             Semester.semester_gpa != None
@@ -66,7 +77,7 @@ def compute_cohort_standing(user, session, semester_no):
     gpa_values = [g[0] for g in cohort_gpas]
     sample_size = len(gpa_values)
 
-    if sample_size < 2:
+    if sample_size < MIN_PEERS:
         return None
 
     user_sem = (
@@ -119,6 +130,7 @@ def compute_cohort_standings_bulk(user, semesters):
             User.user_id != user.user_id,
             User.programme == user.programme,
             User.batch == user.batch,
+            User.benchmark_consent == True,
             Semester.semester_gpa != None
         )
         .all()
@@ -135,7 +147,7 @@ def compute_cohort_standings_bulk(user, semesters):
 
         gpa_values = grouped.get((sem.academic_session, sem.semester_no), [])
         sample_size = len(gpa_values)
-        if sample_size < 2:
+        if sample_size < MIN_PEERS:
             continue
 
         mean = round(sum(gpa_values) / sample_size, 2)

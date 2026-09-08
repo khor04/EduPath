@@ -128,6 +128,16 @@ def get_platform_stats():
         .all()
     )
 
+    # Tri-state, same as User.benchmark_consent itself -- "declined"
+    # and "hasn't decided yet" are different signals for an admin
+    # (e.g. a large "not yet decided" group suggests students aren't
+    # discovering the consent prompt, not that they're rejecting it).
+    benchmark_participation = {
+        "Consented": students.filter_by(benchmark_consent=True).count(),
+        "Declined": students.filter_by(benchmark_consent=False).count(),
+        "Not yet decided": students.filter(User.benchmark_consent.is_(None)).count(),
+    }
+
     return {
         "total_users": total_users,
         "verified_users": verified_users,
@@ -137,4 +147,5 @@ def get_platform_stats():
         "target_cgpa_plans": target_cgpa_plans,
         "users_by_programme": users_by_programme,
         "users_by_faculty": users_by_faculty,
+        "benchmark_participation": benchmark_participation,
     }

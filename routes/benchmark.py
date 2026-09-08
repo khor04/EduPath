@@ -1,11 +1,11 @@
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 from flask_login import login_required, current_user
 from extensions import db
 
 from models.transcript import Transcript
 from models.semester import Semester
 from models.users import User
-from services.benchmark_services import compute_cohort_standing
+from services.benchmark_services import compute_cohort_standing, MIN_PEERS
 
 benchmark_bp = Blueprint("benchmark", __name__)
 
@@ -34,6 +34,22 @@ def benchmark():
             active_page="benchmark"
         )
 
+    # Consent gates both directions: a student's data only enters the
+    # peer pool, and they can only view peer comparisons, once this is
+    # explicitly True. None means they haven't decided yet (prompt
+    # them); False means they declined (show why it's unavailable).
+    if current_user.benchmark_consent is None:
+        return render_template(
+            "benchmarking_consent.html",
+            active_page="benchmark"
+        )
+
+    if current_user.benchmark_consent is False:
+        return render_template(
+            "benchmarking_declined.html",
+            active_page="benchmark"
+        )
+
     semesters = (
         Semester.query
         .join(Transcript)
@@ -57,9 +73,31 @@ def benchmark():
         active_page="benchmark"
     )
 
+
+@benchmark_bp.route("/benchmarking/consent", methods=["POST"])
+@login_required
+def benchmark_consent():
+    choice = request.form.get("choice")
+
+    if choice not in ("yes", "no"):
+        return redirect(url_for("benchmark.benchmark"))
+
+    current_user.benchmark_consent = (choice == "yes")
+    db.session.commit()
+
+    return redirect(url_for("benchmark.benchmark"))
+
+
 @benchmark_bp.route("/api/benchmark-data")
 @login_required
 def benchmark_data():
+
+    # Consent gates access as well as participation -- enforced here
+    # (not just in the /benchmarking page's own redirect) since this
+    # is also called from the Dashboard's peer comparison card, which
+    # isn't gated by the same route.
+    if current_user.benchmark_consent is not True:
+        return jsonify({"error": "consent_required", "sample_size": 0})
 
     session = (request.args.get("session") or "").strip()
     semester_arg = request.args.get("semester")
@@ -92,6 +130,7 @@ def benchmark_data():
             User.user_id != current_user.user_id,
             User.programme == current_user.programme,
             User.batch == current_user.batch,
+            User.benchmark_consent == True,
             Semester.academic_session == session,
             Semester.semester_no == semester_no,
             Semester.semester_gpa != None
@@ -115,6 +154,12 @@ def benchmark_data():
 @benchmark_bp.route("/api/benchmark-trend")
 @login_required
 def benchmark_trend():
+
+    if current_user.benchmark_consent is not True:
+        return jsonify({
+            "labels": [], "student": [], "cohort": [],
+            "trend_insight": "Set your sharing preference on Peer Benchmarking to see this."
+        })
 
     semesters = (
         Semester.query
@@ -145,6 +190,7 @@ def benchmark_trend():
                 User.user_id != current_user.user_id,
                 User.programme == current_user.programme,
                 User.batch == current_user.batch,
+                User.benchmark_consent == True,
                 Semester.academic_session == sem.academic_session,
                 Semester.semester_no == sem.semester_no,
                 Semester.semester_gpa != None
@@ -154,8 +200,8 @@ def benchmark_trend():
         values = [g[0] for g in cohort_gpas]
 
         # Same anonymity floor as benchmark_data(): require at
-        # least 2 OTHER peers before revealing an average.
-        cohort.append(round(sum(values) / len(values), 2) if len(values) >= 2 else None)
+        # least MIN_PEERS OTHER peers before revealing an average.
+        cohort.append(round(sum(values) / len(values), 2) if len(values) >= MIN_PEERS else None)
 
     valid_pairs = [(s, c) for s, c in zip(student, cohort) if s is not None and c is not None]
 
