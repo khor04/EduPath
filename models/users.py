@@ -18,6 +18,7 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     profile_picture=db.Column(db.String(500), default=None)
     is_verified = db.Column(db.Boolean, default=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
     email_pending = db.Column(db.String(120), nullable=True)
 
