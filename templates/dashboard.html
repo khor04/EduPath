@@ -27,9 +27,15 @@
           Preview Report
         </button>
 
-        <button class="download-report-btn">
-          Download PDF
-        </button>
+        <div class="dropdown">
+          <button class="download-report-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Download Report
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#" id="downloadPdfOption">PDF</a></li>
+            <li><a class="dropdown-item" href="#" id="downloadJsonOption">JSON</a></li>
+          </ul>
+        </div>
 
       </div>
 
@@ -66,6 +72,9 @@
     <p class="card-label">PERFORMANCE TREND</p>
     <h2>GPA Progression</h2>
     {% if gpa_labels and gpa_values %}
+    <button class="chart-png-btn" data-chart="gpaTrend" title="Download chart as PNG">
+      <i class="bi bi-download"></i>
+    </button>
     <div class="chart-canvas-wrapper" style="position: relative; height: 320px;">
       <canvas id="dashboardGpaTrend"></canvas>
     </div>
@@ -88,6 +97,9 @@
     <div class="dashboard-card">
       <p class="card-label">ANONYMOUS PEER COMPARISON</p>
       <h2>GPA Distribution Analysis</h2>
+      <button class="chart-png-btn" data-chart="histogram" title="Download chart as PNG">
+        <i class="bi bi-download"></i>
+      </button>
       <h4 id="dashboardSampleSize">Based on anonymized data from your cohort</h4>
 
       <select id="semesterSelector">

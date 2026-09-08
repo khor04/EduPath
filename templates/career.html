@@ -86,7 +86,10 @@
     </div>
 
     <!-- Career Recommendations -->
-    <div class="career-section">
+    <div class="career-section" id="careerSection">
+        <button class="career-png-btn" id="careerPngBtn" title="Download as PNG" onclick="downloadCareerSectionAsPng()">
+            <i class="bi bi-download"></i>
+        </button>
         <p class="section-label">RECOMMENDED CAREER PATHWAYS</p>
         <div class="career-title-row">
             <h2>Top career matches based on your O*NET skill profile</h2>
@@ -149,6 +152,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <script>
   const careerRadarLabels = JSON.parse('{{ radar_labels | tojson | safe }}');

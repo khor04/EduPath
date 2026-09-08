@@ -2,9 +2,10 @@
 // GPA Trend Chart (unchanged)
 // ================================
 const gpaCtx = document.getElementById("dashboardGpaTrend");
+let gpaTrendChart = null;
 
 if (gpaCtx) {
-  new Chart(gpaCtx, {
+  gpaTrendChart = new Chart(gpaCtx, {
     type: "line",
     data: {
       labels: dashboardGpaLabels,
@@ -238,7 +239,8 @@ if (semesterSelector) {
 // Report actions
 // ================================
 const previewReportBtn = document.querySelector(".preview-report-btn");
-const downloadReportBtn = document.querySelector(".download-report-btn");
+const downloadPdfOption = document.getElementById("downloadPdfOption");
+const downloadJsonOption = document.getElementById("downloadJsonOption");
 
 if (previewReportBtn) {
   previewReportBtn.addEventListener("click", () => {
@@ -246,8 +248,31 @@ if (previewReportBtn) {
   });
 }
 
-if (downloadReportBtn) {
-  downloadReportBtn.addEventListener("click", () => {
+if (downloadPdfOption) {
+  downloadPdfOption.addEventListener("click", (e) => {
+    e.preventDefault();
     window.location.href = "/dashboard/report/download";
   });
 }
+
+if (downloadJsonOption) {
+  downloadJsonOption.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.location.href = "/dashboard/report/export-json";
+  });
+}
+
+// ================================
+// Per-chart PNG download
+// ================================
+document.querySelectorAll(".chart-png-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const chart = btn.dataset.chart === "gpaTrend" ? gpaTrendChart : histogramChart;
+    if (!chart) return;
+
+    const link = document.createElement("a");
+    link.href = chart.toBase64Image();
+    link.download = `${btn.dataset.chart}.png`;
+    link.click();
+  });
+});

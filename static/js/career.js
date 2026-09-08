@@ -108,9 +108,32 @@ document.querySelectorAll(".growth-top").forEach(item => {
 const infoIcon = document.querySelector(".info-icon");
 const matchGuide = document.querySelector(".match-guide");
 
-infoIcon.addEventListener("click", () => {
-    matchGuide.classList.toggle("hidden");
-});
+if (infoIcon) {
+  infoIcon.addEventListener("click", () => {
+      matchGuide.classList.toggle("hidden");
+  });
+}
+
+// Snapshot just the career pathways section (grid of cards) as a PNG,
+// hiding our own download icon first so it doesn't appear in the image.
+function downloadCareerSectionAsPng() {
+  const section = document.getElementById("careerSection");
+  const btn = document.getElementById("careerPngBtn");
+  if (!section) return;
+
+  btn.style.visibility = "hidden";
+
+  html2canvas(section, { backgroundColor: "#ffffff", scale: 2 })
+    .then(canvas => {
+      const link = document.createElement("a");
+      link.download = "career_recommendations.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    })
+    .finally(() => {
+      btn.style.visibility = "visible";
+    });
+}
 
 function toggleCareerDescription(descId) {
   const target = document.getElementById(descId);

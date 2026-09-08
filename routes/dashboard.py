@@ -1,7 +1,7 @@
 import re
 from datetime import date
 
-from flask import Blueprint, render_template, Response
+from flask import Blueprint, render_template, Response, jsonify
 from flask_login import login_required, current_user
 from models.transcript import Transcript
 from models.semester import Semester
@@ -151,3 +151,26 @@ def report_download():
         mimetype="application/pdf",
         headers={"Content-Disposition": f'attachment; filename="{filename}"'}
     )
+
+
+@dashboard_bp.route("/dashboard/report/export-json")
+@login_required
+def report_export_json():
+    context = build_report_context(current_user.user_id)
+
+    if not context.get("has_transcript"):
+        return jsonify({
+            "success": False,
+            "message": "No transcript data available to export."
+        }), 404
+
+    # gpa_chart is a base64-encoded PNG meant for the HTML/PDF report
+    # markup -- it doesn't belong in a structured data export.
+    export_data = {k: v for k, v in context.items() if k != "gpa_chart"}
+
+    safe_username = re.sub(r"[^A-Za-z0-9_-]", "_", current_user.username)
+    filename = f"academic_report_{safe_username}_{date.today().isoformat()}.json"
+
+    response = jsonify(export_data)
+    response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return response
