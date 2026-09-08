@@ -1310,6 +1310,23 @@ def save_transcript():
                 for c in existing_courses
             }
 
+            # Courses that were in the database for this semester
+            # but are no longer in the verified upload were removed
+            # by the student in the verification table — delete them
+            # here too, or they'd keep silently contributing to this
+            # semester's GPA on every future save.
+            removed_codes = (
+                set(existing_map_course.keys()) - set(uploaded_courses.keys())
+            )
+
+            for code in removed_codes:
+                db.session.delete(existing_map_course[code])
+
+            remaining_courses = [
+                c for code, c in existing_map_course.items()
+                if code not in removed_codes
+            ]
+
             newly_inserted_courses = []
 
             for code, c in uploaded_courses.items():
@@ -1318,6 +1335,7 @@ def save_transcript():
 
                     db_course = existing_map_course[code]
                     db_course.course_name = c["course_name"]
+                    db_course.credit_hour = float(c["credits"] or 0)
                     db_course.grade = c["grade"]
                     db_course.grade_point = float(c["grade_point"] or 0)
 
@@ -1335,14 +1353,15 @@ def save_transcript():
                     db.session.add(new_course)
                     newly_inserted_courses.append(new_course)
 
-            # existing_courses already reflects the in-place
-            # updates above (same ORM objects, mutated) — combined
-            # with newly_inserted_courses this is the FULL,
-            # current set of courses for the semester, so the GPA
-            # derived from it stays consistent even if this
-            # upload only re-listed a subset of the semester.
+            # remaining_courses already reflects the in-place
+            # updates above (same ORM objects, mutated) and excludes
+            # deleted ones — combined with newly_inserted_courses
+            # this is the FULL, current set of courses for the
+            # semester, so the GPA derived from it stays consistent
+            # even if this upload only re-listed a subset of the
+            # semester.
             semester.semester_gpa = compute_semester_gpa(
-                existing_courses + newly_inserted_courses
+                remaining_courses + newly_inserted_courses
             )
 
 

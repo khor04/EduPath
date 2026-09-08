@@ -104,6 +104,99 @@ function uploadPDF(file) {
         });
 }
 
+// Mirrors services/cgpa_services.py GRADE_POINTS — used only to
+// derive a Grade Point when a manually added row leaves it blank,
+// or to preview a semester's GPA before finalizing. The backend
+// remains the source of truth when saving.
+const GRADE_POINTS = {
+    "A+": 4.00, "A": 4.00, "A-": 3.70,
+    "B+": 3.30, "B": 3.00, "B-": 2.70,
+    "C+": 2.30, "C": 2.00, "C-": 1.70,
+    "D+": 1.30, "D": 1.00, "F": 0.00
+};
+
+function courseRowHtml(course) {
+    const rowClass = course.needs_review ? ' class="needs-review"' : '';
+    return `
+        <tr${rowClass}>
+            <td contenteditable="true">${course.course_code}</td>
+            <td contenteditable="true">${course.course_name}</td>
+            <td contenteditable="true">${course.credits}</td>
+            <td contenteditable="true">${course.grade}</td>
+            <td contenteditable="true">${course.grade_point}</td>
+            <td class="row-actions"><button type="button" class="delete-row-btn" title="Remove this row">&times;</button></td>
+        </tr>
+    `;
+}
+
+// Falls back to credits * GRADE_POINTS[grade] when the typed grade
+// point is missing/non-numeric, so an added row doesn't have to be
+// hand-computed and the live GPA preview stays accurate for it.
+function resolveGradePoint(grade, credits, typedValue) {
+    const typed = (typedValue || "").trim();
+
+    if (typed !== "" && !isNaN(Number(typed))) {
+        return Number(typed);
+    }
+
+    const g = (grade || "").trim().toUpperCase();
+    const c = Number(credits);
+
+    if (g in GRADE_POINTS && !isNaN(c)) {
+        return GRADE_POINTS[g] * c;
+    }
+
+    return NaN;
+}
+
+//recompute and display this semester's GPA from its current rows
+function recalcSemesterGPA(detail) {
+    let totalCredits = 0;
+    let totalPoints = 0;
+
+    detail.querySelectorAll("tbody tr").forEach(row => {
+        const cells = row.querySelectorAll("td");
+        const credits = Number(cells[2].innerText.trim());
+        const grade = cells[3].innerText.trim();
+        const gradePoint = resolveGradePoint(grade, credits, cells[4].innerText.trim());
+
+        if (!isNaN(credits) && credits > 0 && !isNaN(gradePoint)) {
+            totalCredits += credits;
+            totalPoints += gradePoint;
+        }
+    });
+
+    const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : "0.00";
+
+    const summaryInfo = detail.querySelector(".summary-info");
+    summaryInfo.innerHTML = summaryInfo.innerHTML.replace(/GPA:\s*[\d.]+/, `GPA: ${gpa}`);
+}
+
+//add/delete row buttons + live GPA recalculation on edit
+document.getElementById("semesterPanel").addEventListener("click", function (e) {
+    const deleteBtn = e.target.closest(".delete-row-btn");
+    if (deleteBtn) {
+        const detail = deleteBtn.closest("details");
+        deleteBtn.closest("tr").remove();
+        recalcSemesterGPA(detail);
+        return;
+    }
+
+    const addBtn = e.target.closest(".add-row-btn");
+    if (addBtn) {
+        const detail = addBtn.closest("details");
+        const tbody = detail.querySelector("tbody");
+        tbody.insertAdjacentHTML("beforeend", courseRowHtml({
+            course_code: "", course_name: "", credits: "", grade: "", grade_point: ""
+        }));
+    }
+});
+
+document.getElementById("semesterPanel").addEventListener("input", function (e) {
+    const detail = e.target.closest("details");
+    if (detail) recalcSemesterGPA(detail);
+});
+
 //display extracted data for verification
 function renderExtractedData(semesters) {
     //show verification section only after transcript extraction
@@ -118,16 +211,7 @@ function renderExtractedData(semesters) {
 
         //generate course rows that is editable
         sem.courses.forEach(course => {
-            const rowClass = course.needs_review ? ' class="needs-review"' : '';
-            rows += `
-                <tr${rowClass}>
-                    <td contenteditable="true">${course.course_code}</td>
-                    <td contenteditable="true">${course.course_name}</td>
-                    <td contenteditable="true">${course.credits}</td>
-                    <td contenteditable="true">${course.grade}</td>
-                    <td contenteditable="true">${course.grade_point}</td>
-                </tr>
-            `;
+            rows += courseRowHtml(course);
         });
 
         //generate semester section with GPA, CGPA and course table
@@ -152,12 +236,14 @@ function renderExtractedData(semesters) {
                     <th>Credits</th>
                     <th>Grade</th>
                     <th>Grade Point</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 ${rows}
             </tbody>
         </table>
+        <button type="button" class="add-row-btn">+ Add Course Row</button>
     </details>
 `;
     });
@@ -187,6 +273,7 @@ function toggleHistory(header) {
 //finalize verified data and save to database
 document.getElementById("finalizeBtn").addEventListener("click", function () {
     const semesters = [];
+    const errors = [];
 
     //select all details in semester panel
     document.querySelectorAll(".semester-panel details").forEach(detail => {
@@ -200,18 +287,46 @@ document.getElementById("finalizeBtn").addEventListener("click", function () {
         const cgpaMatch = summaryInfo.match(/CGPA:\s*([\d.]+)/);
 
         const courses = [];
+        const seenCodes = new Set();
 
         //collect edited course data from table rows
         detail.querySelectorAll("tbody tr").forEach(row => {
             const cells = row.querySelectorAll("td");
 
-            courses.push({
-                course_code: cells[0].innerText.trim(),
-                course_name: cells[1].innerText.trim(),
-                credits: cells[2].innerText.trim(),
-                grade: cells[3].innerText.trim(),
-                grade_point: cells[4].innerText.trim()
-            });
+            const course_code = cells[0].innerText.trim().toUpperCase();
+            const course_name = cells[1].innerText.trim();
+            const credits = cells[2].innerText.trim();
+            const grade = cells[3].innerText.trim().toUpperCase();
+            let grade_point = cells[4].innerText.trim();
+
+            if (!course_code || !course_name || !credits || !grade) {
+                errors.push(`${summaryText}: every course row needs a Course Code, Course Name, Credit Hour, and Grade (delete the row if it doesn't belong).`);
+                return;
+            }
+
+            if (isNaN(Number(credits)) || Number(credits) <= 0) {
+                errors.push(`${summaryText}: "${course_code}" has an invalid Credit Hour.`);
+                return;
+            }
+
+            if (!(grade in GRADE_POINTS)) {
+                errors.push(`${summaryText}: "${course_code}" has an unrecognized Grade "${grade}".`);
+                return;
+            }
+
+            if (seenCodes.has(course_code)) {
+                errors.push(`${summaryText}: duplicate course code "${course_code}".`);
+                return;
+            }
+            seenCodes.add(course_code);
+
+            // Grade Point isn't required from the user — derive it
+            // from Grade x Credit Hour when left blank/invalid.
+            if (grade_point === "" || isNaN(Number(grade_point))) {
+                grade_point = (GRADE_POINTS[grade] * Number(credits)).toFixed(2);
+            }
+
+            courses.push({ course_code, course_name, credits, grade, grade_point });
         });
 
         const semesterCredits = courses.reduce((sum, c) => sum + Number(c.credits || 0), 0);
@@ -228,6 +343,12 @@ document.getElementById("finalizeBtn").addEventListener("click", function () {
             courses: courses
         });
     });
+
+    if (errors.length > 0) {
+        alert(errors.join("\n"));
+        return;
+    }
+
     console.log(semesters);
 
     fetch("/save-transcript", {

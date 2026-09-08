@@ -154,6 +154,42 @@ background:#fff8e1;
   white-space: normal;
 }
 
+.transcript-table th:nth-child(6),
+.transcript-table td:nth-child(6) {
+  width: 60px;
+  text-align: center;
+}
+
+.delete-row-btn {
+  background: none;
+  border: 1px solid #d33;
+  color: #d33;
+  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.delete-row-btn:hover {
+  background: #d33;
+  color: #fff;
+}
+
+.add-row-btn {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1px dashed #888;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.add-row-btn:hover {
+  background: #f0f0f0;
+}
+
 .semester-panel details {
   background: white;
   margin-bottom: 20px;
