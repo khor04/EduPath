@@ -83,6 +83,7 @@ def build_chat_context(user_id):
     if has_target:
         prediction_status = determine_feasibility(
             current_cgpa=cgpa_result["cgpa"],
+            current_credits=cgpa_result["credits"],
             target_cgpa=target_plan.target_cgpa,
             remaining_sems_credits=[target_plan.remaining_credits],
             trend=trend,

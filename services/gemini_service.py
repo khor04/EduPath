@@ -7,33 +7,42 @@ from google.api_core.exceptions import ResourceExhausted
 from services.career_services import MODEL_NAME, RATE_LIMIT_BACKOFF_SECONDS
 
 def generate_academic_plan(prompt):
+    """
+    Raises on failure rather than swallowing the error and stuffing
+    the raw exception text into a fake-successful-looking result --
+    that previously showed Gemini's internal quota/error message
+    (URLs, quota metrics, etc.) directly to the student as if it were
+    AI-generated advice. The caller (routes/analysis.py's
+    /generate-ai-plan) is responsible for turning this into a clean,
+    user-facing message, same as generate_chat_response()'s caller
+    already does for the chat widget.
+
+    Same retry/backoff on ResourceExhausted as
+    career_services._call_gemini() and generate_chat_response(), so a
+    transient per-minute quota window gets a real chance to clear
+    before giving up.
+    """
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+    model = genai.GenerativeModel(MODEL_NAME)
 
-    try:
-        model = genai.GenerativeModel("gemini-3.6-flash")
+    response = None
+    for attempt, delay in enumerate([0] + RATE_LIMIT_BACKOFF_SECONDS):
+        if delay:
+            time.sleep(delay)
+        try:
+            response = model.generate_content(prompt)
+            break
+        except ResourceExhausted:
+            if attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
+                raise
+            continue
 
-        print("Using model:", model.model_name)
+    text = response.text.strip()
 
-        response = model.generate_content(prompt)
+    if "```" in text:
+        text = text.replace("```json", "").replace("```", "").strip()
 
-        print("Response received")
-
-        text = response.text.strip()
-
-        if "```" in text:
-            text = text.replace("```json", "").replace("```", "").strip()
-
-        return json.loads(text)
-
-    except Exception as e:
-        print("Gemini Error:", str(e))
-
-        return {
-            "trend": "Unknown",
-            "feasibility": "Error",
-            "semesters": [],
-            "advice": str(e)
-        }
+    return json.loads(text)
 
 
 CHAT_SYSTEM_PROMPT = """You are EduPath AI, an academic assistant built into EduPath, \

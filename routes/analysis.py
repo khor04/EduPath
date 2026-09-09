@@ -9,6 +9,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import json
 from dotenv import load_dotenv
+from google.api_core.exceptions import ResourceExhausted
 from services.gemini_service import generate_academic_plan
 from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa, detect_trend, determine_feasibility
 
@@ -97,7 +98,25 @@ def save_target_cgpa():
             "message": "Remaining credits must be greater than 0."
         })
 
-    if required_gpa > 4.005:
+    # Same shared feasibility rule used everywhere else (AI Planner,
+    # chatbot, Report) -- derived from the student's real, stored CGPA
+    # and credits rather than trusting client-submitted values, and
+    # using the same 2dp-consistent comparison so this can never again
+    # reject a save the Requirement Analysis panel just called
+    # "Achievable". Trend doesn't affect the Impossible/Achievable
+    # boundary (only the Challenging/Very Challenging bands beyond
+    # it), so a neutral placeholder is fine here.
+    cgpa_result = calculate_cgpa_credits(current_user.user_id)
+    feasibility = determine_feasibility(
+        current_cgpa=cgpa_result["cgpa"],
+        current_credits=cgpa_result["credits"],
+        target_cgpa=target_cgpa,
+        remaining_sems_credits=[remaining_credits],
+        trend="Stable",
+        required_gpa=required_gpa,
+    )
+
+    if feasibility == "Impossible":
         return jsonify({
             "success": False,
             "message": "Target CGPA plan cannot be saved because the goal is not achievable."
@@ -240,12 +259,21 @@ def generate_ai_plan():
         remaining_sems_credits = [s.get("credits", 0) for s in remaining_semesters]
         feasibility = determine_feasibility(
             current_cgpa=float(current_cgpa),
+            current_credits=float(current_credits),
             target_cgpa=float(target_cgpa),
             remaining_sems_credits=remaining_sems_credits,
             trend=trend,
             required_gpa=required_gpa
 
         )
+
+        # Capped for the prompt below once feasibility isn't
+        # "Impossible" -- otherwise the prompt would tell Gemini
+        # "Required average GPA: 4.02" right next to "Feasibility:
+        # Achievable", which is the exact same contradiction this
+        # whole fix is closing, just moved into the AI's input instead
+        # of the student's screen.
+        prompt_required_gpa = required_gpa if feasibility == "Impossible" else min(required_gpa, 4.0)
 
         trend_meanings = {
             "Improving":          "GPA has been consistently rising across most semesters.",
@@ -278,7 +306,7 @@ Current CGPA: {current_cgpa}
 Current Credits: {current_credits}
 
 Target CGPA: {target_cgpa}
-Required average GPA for remaining credits: {required_gpa}
+Required average GPA for remaining credits: {prompt_required_gpa}
 
 Remaining semesters:
 """
@@ -333,9 +361,22 @@ Return JSON only:
 
         return jsonify(result)
 
-    except Exception as e:
-
+    # Standardized, user-facing messages -- the real exception (which
+    # can contain Gemini's raw quota/error text, URLs, internal
+    # metrics, etc.) is logged server-side only, never returned as-is.
+    # renderAIResult() on the client already shows whatever "message"
+    # comes back here via a plain alert() when there's no "semesters"
+    # array in the response, so no frontend change is needed.
+    except ResourceExhausted as e:
+        print("AI plan generation rate-limited:", e)
         return jsonify({
             "success": False,
-            "message": str(e)
+            "message": "The AI planner has hit its usage limit. Please try again in a minute."
+        }), 429
+
+    except Exception as e:
+        print("AI plan generation error:", type(e).__name__, ":", e)
+        return jsonify({
+            "success": False,
+            "message": "Failed to generate the AI plan. Please try again."
         }), 500

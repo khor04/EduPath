@@ -367,7 +367,13 @@ document.getElementById("saveTargetBtn").addEventListener("click", function () {
     return;
   }
 
-  if (latestRequiredGPA > 4.005) {
+  // Reuses latestStatus (set by calculatePrediction()) rather than
+  // re-deriving achievability from latestRequiredGPA here -- a second,
+  // separate threshold check on the same raw number is exactly how
+  // this drifted out of sync with the Requirement Analysis verdict
+  // above it (that one already accounts for the 2dp-rounding edge
+  // case; this one didn't).
+  if (latestStatus === "Not Achievable") {
     setPredictionError("Target CGPA plan cannot be saved because the goal is not achievable.");
     return;
   }

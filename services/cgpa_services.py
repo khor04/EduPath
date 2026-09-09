@@ -365,7 +365,7 @@ def get_performance_alert(user_id):
     return None
 
 
-def determine_feasibility(current_cgpa, target_cgpa, remaining_sems_credits, trend, required_gpa):
+def determine_feasibility(current_cgpa, current_credits, target_cgpa, remaining_sems_credits, trend, required_gpa):
     """
     Moved here from routes/analysis.py so the Target CGPA Simulator
     and the Dashboard Report (services/report_services.py) share one
@@ -376,7 +376,17 @@ def determine_feasibility(current_cgpa, target_cgpa, remaining_sems_credits, tre
     if total_remaining_credits == 0:
         return "Impossible" if current_cgpa < target_cgpa else "Achieved"
 
-    if required_gpa > 4.0:
+    # Same 2dp-consistency principle as the live Target CGPA Simulator
+    # (static/js/analysis.js's isAchievableAt2dp): compare the
+    # best-case projected CGPA, rounded to the same 2 decimals every
+    # CGPA in this app is ever displayed at, against the equally-
+    # rounded target -- not the raw required_gpa, which can call a
+    # target "impossible" by a margin (e.g. 0.004) too small to ever
+    # actually show up on the student's real, 2dp-rounded CGPA. Using
+    # a different rule here would make the AI Planner/Report disagree
+    # with the verdict the student already saw in the Simulator.
+    best_case = project_cgpa(current_cgpa, current_credits, total_remaining_credits, 4.0)
+    if round(best_case, 2) < round(target_cgpa, 2):
         return "Impossible"
 
     #adjust feasibiltiy based on trend

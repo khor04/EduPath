@@ -143,6 +143,7 @@ def build_report_context(user_id):
     if target_plan and target_plan.target_cgpa and target_plan.remaining_credits:
         prediction_status = determine_feasibility(
             current_cgpa=latest_cgpa,
+            current_credits=completed_credits,
             target_cgpa=target_plan.target_cgpa,
             remaining_sems_credits=[target_plan.remaining_credits],
             trend=trend,
