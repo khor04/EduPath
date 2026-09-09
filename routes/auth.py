@@ -2,10 +2,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from markupsafe import Markup
 from extensions import db, mail, limiter
 from models.users import User
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
+from sqlalchemy.exc import IntegrityError
 from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN
 import secrets
 from datetime import datetime, timedelta
@@ -244,9 +245,20 @@ def verify_code_page():
         email = (request.form.get("email") or "").strip()
         code = (request.form.get("code") or "").strip()
 
-        user = User.query.filter(
-            (User.email == email) | (User.email_pending == email)
-        ).first()
+        # When the browser is still logged in (the normal case now that an
+        # email change no longer forces a logout), resolve the pending
+        # verification from the session itself rather than this global
+        # email/email_pending match. Without this, once someone else's
+        # verified `email` legitimately equals what's still sitting in
+        # this user's `email_pending` (e.g. they lost that email-uniqueness
+        # race and haven't been cleaned up by a request yet), the OR match
+        # below could resolve to the wrong row entirely.
+        if current_user.is_authenticated and current_user.email_pending == email:
+            user = current_user
+        else:
+            user = User.query.filter(
+                (User.email == email) | (User.email_pending == email)
+            ).first()
 
         if not user or not user.verification_code_hash or not user.verification_expires_at:
             flash("Invalid verification session. Please request a new code.", "error")
@@ -275,20 +287,71 @@ def verify_code_page():
             return redirect(url_for("auth.verify_code_page", email=email))
 
         if user.email_pending:
+            # An email change no longer logs the user out at request time
+            # (routes/profile.py) -- the old email stays the login email
+            # until this verification succeeds, and the session survives
+            # the whole way through. So on success (or a rejection here),
+            # send them back to where they still are (profile) instead of
+            # a login page they don't need, unless the session genuinely
+            # isn't theirs (e.g. they verify from a different browser/tab
+            # than the one that requested the change).
+            still_logged_in_as_user = (
+                current_user.is_authenticated and current_user.user_id == user.user_id
+            )
+            redirect_target = "profile.profile" if still_logged_in_as_user else "auth.login"
+
+            # Re-checked here, not just at request time (routes/profile.py)
+            # -- that check can't close the window between two people
+            # racing to claim the same email. This is the moment the
+            # change actually takes effect, so it's checked again right
+            # before it does.
+            conflict = User.query.filter(
+                User.user_id != user.user_id,
+                (User.email == user.email_pending) | (User.email_pending == user.email_pending),
+            ).first()
+
+            if conflict:
+                user.email_pending = None
+                user.verification_code_hash = None
+                user.verification_expires_at = None
+                user.verification_attempts = 0
+                db.session.commit()
+
+                flash(
+                    "This email address is no longer available. Please request another email address.",
+                    "error"
+                )
+                return redirect(url_for(redirect_target))
+
             user.email = user.email_pending
             user.email_pending = None
-            success_msg = "Email updated and verified successfully! Please log in."
+            success_msg = "Email updated successfully!" if still_logged_in_as_user else "Email updated and verified successfully! Please log in."
         else:
             user.is_verified = True
             success_msg = "Email verified successfully! You can now log in."
+            redirect_target = "auth.login"
 
         user.verification_code_hash = None
         user.verification_expires_at = None
         user.verification_attempts = 0
-        db.session.commit()
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            # Backstop for the exact race the check above narrows but
+            # can't fully close (two commits landing at the same instant)
+            # -- the database's own unique=True constraint on User.email
+            # is the last line of defense, and this turns it into a
+            # clean message instead of a raw 500.
+            db.session.rollback()
+            flash(
+                "This email address is no longer available. Please request another email address.",
+                "error"
+            )
+            return redirect(url_for(redirect_target))
 
         flash(success_msg, "success")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for(redirect_target))
 
     email = request.args.get("email", "")
     return render_template("verify_code.html", email=email)

@@ -276,6 +276,18 @@
     color: #721c24;
 }
 
+.pending-email-banner {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.pending-email-banner a {
+    color: #533f03;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-left: 4px;
+}
+
 .password-wrapper {
     position: relative;
     width: 100%;

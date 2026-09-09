@@ -21,6 +21,14 @@
         {% endif %}
         {% endwith %}
 
+        {% if user.email_pending %}
+        <div class="flash-message pending-email-banner">
+            &#9888;&#65039; Email verification pending for <strong>{{ user.email_pending }}</strong>.
+            You're still logged in with <strong>{{ user.email }}</strong> until it's verified.
+            <a href="{{ url_for('auth.verify_code_page', email=user.email_pending) }}">Verify Email</a>
+        </div>
+        {% endif %}
+
         <form method="POST" action="{{ url_for('profile.profile') }}" id="profileForm">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
