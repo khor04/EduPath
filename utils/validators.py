@@ -1,5 +1,7 @@
 import re
 
+from PIL import Image
+
 from services.cgpa_services import GRADE_POINTS
 
 UM_EMAIL_DOMAIN = "siswa.um.edu.my"
@@ -86,3 +88,49 @@ def validate_course_row(course):
         "grade": grade,
         "grade_point": grade_point,
     }, None
+
+
+ALLOWED_PROFILE_PICTURE_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
+MAX_PROFILE_PICTURE_SIZE = 5 * 1024 * 1024  # 5 MB
+
+
+def validate_profile_picture(file):
+    """
+    Validates an uploaded profile picture (routes/profile.py's
+    /upload-picture) before it ever reaches Cloudinary.
+
+    Checked cheapest-first: extension, then size, then actual image
+    content -- a file named photo.jpg isn't necessarily a real JPEG,
+    so the extension/size checks alone would let a spoofed or
+    corrupted file through. Image.verify() is what actually confirms
+    the bytes decode as a real image.
+
+    Returns an error message string if invalid, or None if the file
+    is safe to upload. Leaves the file's read position at 0 either
+    way, since Image.verify() consumes the stream and Cloudinary
+    needs to read it again from the start afterward.
+    """
+    filename = file.filename or ""
+    extension = filename.rsplit(".", 1)[-1].lower() if "." in filename else ""
+
+    if extension not in ALLOWED_PROFILE_PICTURE_EXTENSIONS:
+        return "Unsupported file type. Please upload a PNG, JPG, GIF, or WEBP image."
+
+    file.seek(0, 2)  # SEEK_END
+    size = file.tell()
+    file.seek(0)
+
+    if size == 0:
+        return "The selected file is empty."
+
+    if size > MAX_PROFILE_PICTURE_SIZE:
+        return "Image is too large. Maximum size is 5MB."
+
+    try:
+        Image.open(file).verify()
+    except Exception:
+        return "The uploaded file is not a valid image."
+    finally:
+        file.seek(0)
+
+    return None

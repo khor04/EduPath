@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models.users import User
 import cloudinary.uploader
 import cloudinary
-from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN
+from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN, validate_profile_picture
 from routes.auth import issue_verification_code
 from routes.transcript import delete_all_transcript_related_data
 from datetime import datetime
@@ -24,13 +24,23 @@ def upload_picture():
         flash("Please select an image.", "error")
         return redirect(url_for("profile.profile"))
 
-    upload_result = cloudinary.uploader.upload(
-        file,
-        folder="edupath/profile_pictures",
-        public_id=f"user_{current_user.user_id}",
-        overwrite=True,
-        resource_type="image"
-    )
+    validation_error = validate_profile_picture(file)
+    if validation_error:
+        flash(validation_error, "error")
+        return redirect(url_for("profile.profile"))
+
+    try:
+        upload_result = cloudinary.uploader.upload(
+            file,
+            folder="edupath/profile_pictures",
+            public_id=f"user_{current_user.user_id}",
+            overwrite=True,
+            resource_type="image"
+        )
+    except Exception as e:
+        print("Cloudinary upload failed:", type(e).__name__, ":", e)
+        flash("Failed to upload profile picture. Please try again later.", "error")
+        return redirect(url_for("profile.profile"))
 
     current_user.profile_picture = upload_result["secure_url"]
     db.session.commit()

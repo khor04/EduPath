@@ -752,9 +752,9 @@ document.getElementById("feasibilityInfoIcon")
 
   tbody.innerHTML = data.semesters.map(sem => `
     <tr>
-      <td>Semester ${sem.sem}</td>
-      <td>${sem.credits}</td>
-      <td>${sem.minimumGPARequired}</td>
+      <td>Semester ${escapeHtml(sem.sem)}</td>
+      <td>${escapeHtml(sem.credits)}</td>
+      <td>${escapeHtml(sem.minimumGPARequired)}</td>
     </tr>
   `).join("");
 
@@ -767,7 +767,7 @@ document.getElementById("feasibilityInfoIcon")
   let advice = data.advice;
   if (Array.isArray(data.advice)) {
     console.log("reached b");
-    adviceElement.innerHTML = advice.join("<br><br>");
+    adviceElement.innerHTML = advice.map(escapeHtml).join("<br><br>");
     console.log("reached c");
   }
   else if (typeof advice === "string") {
@@ -777,7 +777,7 @@ document.getElementById("feasibilityInfoIcon")
       .filter(p => p.length > 0);
 
     adviceElement.innerHTML = points
-      .map(p => "• " + p)
+      .map(p => "• " + escapeHtml(p))
       .join("<br><br>");
     console.log("reached d");
   } else {
@@ -843,14 +843,14 @@ function addRetakeRow() {
 
   const courseOptions = userCourses
     .map(c =>
-      `<option value="${c.course_id}" data-credits="${c.credit_hour}">` +
-      `${c.course_code} - ${c.course_name} (current: ${c.grade})</option>`
+      `<option value="${escapeHtml(c.course_id)}" data-credits="${escapeHtml(c.credit_hour)}">` +
+      `${escapeHtml(c.course_code)} - ${escapeHtml(c.course_name)} (current: ${escapeHtml(c.grade)})</option>`
     )
     .join("");
 
   row.innerHTML = `
     <td><select class="sim-course-select">${courseOptions}</select></td>
-    <td class="sim-credits-display">${userCourses[0].credit_hour}</td>
+    <td class="sim-credits-display">${escapeHtml(userCourses[0].credit_hour)}</td>
     <td>${buildGradeSelect()}</td>
     <td><button type="button" class="sim-remove-btn">✕</button></td>
   `;

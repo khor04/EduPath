@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, url_for
 from flask_login import login_required, current_user
 
+from extensions import limiter
 from services.chat_services import build_chat_context, get_deep_link_module, get_alert_followup_question
 from services.gemini_service import generate_chat_response
 from services.cgpa_services import get_performance_alert
@@ -26,6 +27,10 @@ NO_TRANSCRIPT_CONTEXT = (
 
 @chat_bp.route("/api/chat", methods=["POST"])
 @login_required
+# Per-user, not the default per-IP -- this is behind @login_required,
+# and IP-based limiting would let testers sharing a network (e.g.
+# campus wifi during UAT) throttle each other.
+@limiter.limit("10 per minute", key_func=lambda: current_user.get_id())
 def chat():
     data = request.get_json(silent=True) or {}
 

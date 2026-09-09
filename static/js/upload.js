@@ -119,11 +119,11 @@ function courseRowHtml(course) {
     const rowClass = course.needs_review ? ' class="needs-review"' : '';
     return `
         <tr${rowClass}>
-            <td contenteditable="true">${course.course_code}</td>
-            <td contenteditable="true">${course.course_name}</td>
-            <td contenteditable="true">${course.credits}</td>
-            <td contenteditable="true">${course.grade}</td>
-            <td contenteditable="true">${course.grade_point}</td>
+            <td contenteditable="true">${escapeHtml(course.course_code)}</td>
+            <td contenteditable="true">${escapeHtml(course.course_name)}</td>
+            <td contenteditable="true">${escapeHtml(course.credits)}</td>
+            <td contenteditable="true">${escapeHtml(course.grade)}</td>
+            <td contenteditable="true">${escapeHtml(course.grade_point)}</td>
             <td class="row-actions"><button type="button" class="delete-row-btn" title="Remove this row">&times;</button></td>
         </tr>
     `;

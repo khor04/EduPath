@@ -15,6 +15,7 @@ from models.feedback import Feedback
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils.validators import validate_course_row, MAX_COURSES_PER_SEMESTER
+from services.career_services import build_student_profile
 
 
 transcript_bp = Blueprint("transcript", __name__)
@@ -1458,6 +1459,26 @@ def save_transcript():
         # STEP 8: FINAL COMMIT
         # =====================================================
         db.session.commit()
+
+        # =====================================================
+        # STEP 9: PRE-WARM SKILL/RELEVANCE CLASSIFICATION
+        #
+        # Runs the same Gemini-backed classification /dashboard and
+        # /career would otherwise trigger on first visit -- doing it
+        # here means a student uploading a transcript sees the wait
+        # (expected, since this is a "processing" action), instead of
+        # a later, unrelated dashboard visit randomly blocking on a
+        # live Gemini call for a course nobody has classified yet.
+        # Best-effort: classification failing here must never turn an
+        # already-committed, successful transcript save into an error
+        # response -- build_student_profile() still runs safely (just
+        # slower, on that one visit) from /dashboard/career if this
+        # doesn't complete for any reason.
+        # =====================================================
+        try:
+            build_student_profile(current_user.user_id)
+        except Exception as e:
+            print("Pre-warm classification failed (non-fatal):", type(e).__name__, ":", e)
 
         return jsonify({
             "success": True,

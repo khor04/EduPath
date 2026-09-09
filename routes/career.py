@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 
-from extensions import db
+from extensions import db, limiter
 from models.career_recommendation import CareerRecommendation
 from models.feedback import Feedback
 from services.career_services import (
@@ -18,6 +18,10 @@ career_bp = Blueprint("career", __name__)
 
 @career_bp.route("/career")
 @login_required
+# Keyed per-user, not the default per-IP -- this is behind
+# @login_required, and IP-based limiting would let testers sharing a
+# network (e.g. campus wifi during UAT) throttle each other.
+@limiter.limit("5 per minute", key_func=lambda: current_user.get_id())
 def career():
     concept_profile = build_student_profile(current_user.user_id)
 

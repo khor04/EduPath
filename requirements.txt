@@ -16,3 +16,4 @@ google-generativeai
 xhtml2pdf
 matplotlib
 pandas
+Pillow
