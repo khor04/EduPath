@@ -218,6 +218,17 @@ function calculatePrediction() {
   //assume future gpa = 4.00 across the remaining semester
   const bestCase = projectCGPA(currentCGPA, currentCredits, remainingCredits, 4.0);
 
+  // Achievability is decided at the same 2dp precision every CGPA is
+  // ever shown at elsewhere in this app (services/cgpa_services.py
+  // rounds to 2dp for every stored/displayed CGPA) -- comparing raw,
+  // unrounded numbers instead can call a target "impossible" by a
+  // margin (e.g. 0.004) that will never actually show up anywhere,
+  // since the student's real CGPA is always rounded the same way.
+  // A target that rounds to the same value as the best-case CGPA is,
+  // for any practical purpose, achieved.
+  const roundedTargetCGPA = Number(targetCGPA.toFixed(2));
+  const isAchievableAt2dp = Number(bestCase) >= roundedTargetCGPA;
+
   // Realistic/Worst case both need a GPA history (latestGPA) to
   // work from. A student with no transcript uploaded yet has none
   // (gpaValues is empty, so latestGPA is undefined) — show that
@@ -293,7 +304,7 @@ function calculatePrediction() {
 
     resultBox.style.background = "#d9ffd4";
 
-  } else if (roundedRequiredGPA > 4.005) {
+  } else if (!isAchievableAt2dp) {
     latestStatus = "Not Achievable";
     resultStatus.innerText = "NOT ACHIEVABLE!";
     resultStatus.style.color = "red";
@@ -315,8 +326,15 @@ function calculatePrediction() {
     resultStatus.innerText = "ACHIEVABLE";
     resultStatus.style.color = "green";
 
+    // Capped at 4.00 for display -- once the best-case CGPA already
+    // rounds to meet the target, the true required average can never
+    // exceed the maximum possible GPA, even if raw division nudges a
+    // hair past it before rounding (the exact razor-thin-miss case
+    // this branch exists to catch).
+    const displayRequiredGPA = Math.min(roundedRequiredGPA, 4.00).toFixed(2);
+
     resultMessage.innerHTML =
-      `Required average GPA: <b>${roundedRequiredGPA.toFixed(2)}</b> for the remaining ${remainingCredits} credits.`;
+      `Required average GPA: <b>${displayRequiredGPA}</b> for the remaining ${remainingCredits} credits.`;
     bestPossibleText.innerHTML =
       `Best possible CGPA you may achieve is <b>${bestCase}</b>.`;
 
