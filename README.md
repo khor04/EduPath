@@ -34,4 +34,24 @@ Tech Stack
    ```
    python app.py
    ```
+## Deployment
 
+The application is served in production using Gunicorn through the
+`Procfile`, rather than Flask's development server.
+
+Before deployment, configure all required environment variables on the
+hosting platform, including:
+
+- `FLASK_ENV=production`
+- Database configuration
+- Gemini API credentials
+- Cloudinary credentials
+- Secret key
+- Other required `.env` variables
+
+`FLASK_ENV=production` enables secure session cookies for HTTPS deployments.
+For local development, leave it unset when running over plain HTTP.
+
+The application uses a single Gunicorn worker with four threads
+(`--workers 1 --threads 4`) to maintain consistent in-process rate
+limiting.
