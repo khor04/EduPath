@@ -420,16 +420,33 @@ button:hover {
   }
 
   .left-panel {
-    padding: 25px 0;
+    padding: 18px 0;
+  }
+
+  /* .logo-box has no rule at all above this breakpoint -- it's a plain
+     block div, so the empty <p></p> spacer between the two <img>s (kept
+     for the desktop stacked layout) forces a line break between them,
+     splitting them onto two lines and eating vertical space that matters
+     a lot more on a phone screen. Row layout + hiding that spacer here
+     puts them on one line instead. */
+  .logo-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .logo-box p {
+    display: none;
   }
 
   .logo-icon {
-    width: 110px;
-    margin-bottom: 15px;
+    width: 42px;
+    margin-bottom: 0;
   }
 
   .logo_name {
-    width: 160px;
+    width: 120px;
   }
 
   .right-panel {

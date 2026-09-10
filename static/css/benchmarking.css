@@ -213,7 +213,13 @@
 }
 
 @media (max-width: 1100px) {
-    .benchmark-grid {
+    /* .semester-grid shares its base 2-column rule with .benchmark-grid
+       (a flexible column + a fixed 300px one) but was missing from this
+       collapse -- on a phone that left ~300px permanently reserved for
+       the Trend Insights card, squeezing the chart column down to a
+       sliver and wrapping its text one word per line. */
+    .benchmark-grid,
+    .semester-grid {
         grid-template-columns: 1fr;
     }
 

@@ -91,17 +91,26 @@
   font-size: 30px;
 }
 
+/* Constraining the WRAPPER (not the canvas) to a max size and letting
+   Chart.js's own responsive:true (the default) resize the canvas to fill
+   it is what actually makes this shrink on mobile -- forcing the canvas
+   itself to a fixed 450x450 via !important (the old rule) overrides
+   Chart.js's resize handling entirely, so it stayed 450px wide even in a
+   350px-wide card and forced the whole page into horizontal scroll. */
 .radar-wrapper {
   display:flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 4px 0;
+  margin: 4px auto;
+  width: 100%;
+  max-width: 450px;
+  aspect-ratio: 1 / 1;
 }
 
 .radar-wrapper canvas {
-  width: 450px !important;
-  height: 450px !important;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .hover-card {
@@ -128,7 +137,21 @@ margin-bottom: 20px;
 .growth-top {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   font-size: 18px;
+}
+
+/* A long course title has to be free to wrap onto a second line on a
+   narrow screen -- without min-width:0, a flex item's default
+   min-width:auto keeps it as wide as its longest unbroken word/line,
+   which was pushing this row (and the page) wider than the viewport. */
+.growth-top span:first-child {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.growth-top span:last-child {
+  flex-shrink: 0;
 }
 
 .growth-top i {

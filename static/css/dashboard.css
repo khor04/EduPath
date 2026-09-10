@@ -266,6 +266,29 @@
   }
 }
 
+@media (max-width: 768px) {
+  /* .dashboard-header never wrapped on narrow screens -- the title on
+     the left and the update-time/report-buttons block on the right were
+     forced into one un-wrapping row, which made the whole page scroll
+     horizontally (text clipped on both edges, stat cards sliding under
+     the fixed chat widget). Stacking them removes that overflow at the
+     source instead of just clipping it. */
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .dashboard-actions {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .report-actions {
+    flex-wrap: wrap;
+  }
+}
+
 .dashboard-actions {
   display: flex;
   flex-direction: column;

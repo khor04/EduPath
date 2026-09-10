@@ -49,6 +49,38 @@ html, body {
   padding: 30px;
 }
 
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-toggle-btn {
+  display: none; /* shown only in the mobile media query below */
+  background: none;
+  border: none;
+  color: white;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Dims the page and catches taps outside the open drawer, closing it --
+   hidden by default so it never blocks clicks on desktop, where the
+   sidebar isn't a drawer at all. */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 998;
+}
+
+.sidebar-backdrop.visible {
+  display: block;
+}
+
 /* Logo */
 .logo {
   display: flex;
@@ -193,33 +225,48 @@ footer {
     min-height: auto;
   }
 
-  .sidebar {
-    width: 100%;
-    min-height: auto;
+  .menu-toggle-btn {
+    display: block;
   }
 
-  .sidebar .menu {
-    display: flex;
-    overflow-x: auto;
-    padding-top: 10px;
-    gap: 8px;
+  /* Off-canvas drawer instead of the old inline horizontal-scroll strip --
+     that put the full nav between the topbar and the page content on
+     every single page, which read as broken rather than intentional.
+     Fixed positioning takes it out of .page-layout's flow entirely, so it
+     overlays the content instead of pushing it down. */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    max-width: 80vw;
+    height: 100vh;
+    min-height: 0;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 999;
+    overflow-y: auto;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.25);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
   }
 
   .sidebar .menu li {
-    margin-bottom: 0;
-    flex-shrink: 0;
+    margin-bottom: 8px;
   }
 
   .sidebar .menu li a {
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .logout {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .topbar {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     height: auto;
     padding: 10px 15px;
   }
