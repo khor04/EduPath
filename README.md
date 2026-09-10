@@ -55,3 +55,11 @@ For local development, leave it unset when running over plain HTTP.
 The application uses a single Gunicorn worker with four threads
 (`--workers 1 --threads 4`) to maintain consistent in-process rate
 limiting.
+
+`.python-version` / `runtime.txt` pin the Python interpreter to 3.13.5,
+the version this app is actually developed and tested against. Without
+this, Render's auto-detected default can drift to a newer Python release
+than any dependency here has been tested with -- this happened once:
+Python 3.14 exposed a `Path.__deepcopy__` recursion bug in
+`matplotlib==3.10.0` that never surfaces on 3.13, which broke every
+report preview/download in production while working fine locally.
