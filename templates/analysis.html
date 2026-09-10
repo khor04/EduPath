@@ -204,7 +204,12 @@
 
       <div class="ai-button-row">
         <button type="button" id="generateAIPlanBtn" onclick="generateAIPlan()" disabled>
-          Generate AI Plan
+          <span class="btn-label">Generate AI Plan</span>
+          <span class="btn-generating" hidden>
+            Generating your plan
+            <span class="thinking-dots"><span></span><span></span><span></span></span>
+          </span>
+          <span class="ai-pop-icon" aria-hidden="true">🤖</span>
         </button>
       </div>
 

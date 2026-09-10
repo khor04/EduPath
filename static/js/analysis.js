@@ -578,8 +578,12 @@ async function generateAIPlan() {
   // Show loading state
   document.getElementById("aiResultSection").style.display = "none";
   const btn = document.querySelector(".ai-button-row button");
-  btn.innerText = "Generating...";
+  const btnLabel = btn.querySelector(".btn-label");
+  const btnGenerating = btn.querySelector(".btn-generating");
+  btn.classList.add("generating");
   btn.disabled = true;
+  btnLabel.hidden = true;
+  btnGenerating.hidden = false;
   //sending data to AI Planner
   try {
     const response = await fetch("/generate-ai-plan", {
@@ -604,8 +608,10 @@ async function generateAIPlan() {
     console.error(err);
 
   } finally {
-    btn.innerText = "Generate AI Plan";
+    btn.classList.remove("generating");
     btn.disabled = false;
+    btnLabel.hidden = false;
+    btnGenerating.hidden = true;
   }
 }
 
