@@ -124,6 +124,19 @@ def save_target_cgpa():
 
     try:
 
+        # Capped the same way as prompt_required_gpa below, and for the
+        # same reason: feasibility != "Impossible" is already guaranteed
+        # at this point (see the early return above), so a raw
+        # required_gpa above 4.00 here is only ever a rounding artifact,
+        # never a real "impossible" case. Saving it uncapped is exactly
+        # what leaked "requires an average GPA of 4.02" onto the
+        # Dashboard's Performance Alert, the PDF/JSON report, and the AI
+        # chatbot's context (services/cgpa_services.py,
+        # services/report_services.py, services/chat_services.py all read
+        # this same stored column directly) even while every one of those
+        # surfaces treats the plan as achievable.
+        stored_required_gpa = round(min(required_gpa, 4.0), 2)
+
         # ================================
         # UPDATE EXISTING TARGET PLAN
         # OR CREATE NEW TARGET PLAN
@@ -135,7 +148,7 @@ def save_target_cgpa():
         if existing_target:
 
             existing_target.target_cgpa = target_cgpa
-            existing_target.required_gpa = round(required_gpa, 2)
+            existing_target.required_gpa = stored_required_gpa
             existing_target.remaining_credits = remaining_credits
             existing_target.updated_at = datetime.now(ZoneInfo("Asia/Kuala_Lumpur"))
 
@@ -144,7 +157,7 @@ def save_target_cgpa():
             target = TargetCGPA(
                 user_id=current_user.user_id,
                 target_cgpa=target_cgpa,
-                required_gpa=round(required_gpa, 2),
+                required_gpa=stored_required_gpa,
                 remaining_credits=remaining_credits,
                 updated_at=datetime.now(ZoneInfo("Asia/Kuala_Lumpur"))
             )
