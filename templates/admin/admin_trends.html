@@ -1,0 +1,86 @@
+{% extends "admin/admin_layout.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Academic Performance Trends</h1>
+<p class="page-subtitle">
+    Anonymous counts of students by GPA trend. No names, IDs or individual results are shown.
+</p>
+
+<form method="get" class="admin-card trend-filter">
+    <label>
+        Programme
+        <select name="programme">
+            <option value="">All programmes</option>
+            {% for p in options.programmes %}
+            <option value="{{ p }}" {% if p == selected_programme %}selected{% endif %}>{{ p }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>
+        Batch
+        <select name="batch">
+            <option value="">All batches</option>
+            {% for b in options.batches %}
+            <option value="{{ b }}" {% if b == selected_batch %}selected{% endif %}>{{ b }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <button type="submit" class="trend-filter-btn">Apply</button>
+</form>
+
+{% if summary.group_too_small %}
+
+<div class="admin-card">
+    <p class="empty-message">
+        Too few students with grade data match this selection to show results without making
+        an individual student identifiable (fewer than {{ summary.min_group }}, or a split so
+        uneven that hidden counts could be worked out). Try a broader programme or batch.
+    </p>
+</div>
+
+{% else %}
+
+<div class="admin-stats-grid trend-headline-grid">
+    <div class="admin-stat-card admin-stat-card--alert">
+        <h3>Students with Declining Trends</h3>
+        <p>{{ summary.declining_display }}</p>
+        <span class="trend-card-note">Slightly Declining + Declining</span>
+    </div>
+    <div class="admin-stat-card">
+        <h3>Students Analysed</h3>
+        <p>{{ summary.total_students }}</p>
+        <span class="trend-card-note">With at least one semester GPA</span>
+    </div>
+</div>
+
+<div class="admin-card">
+    <p class="card-label">TREND DISTRIBUTION</p>
+    <table class="admin-table">
+        {% for row in summary.rows %}
+        <tr>
+            <td class="trend-label-cell">{{ row.label }}</td>
+            <td class="trend-bar-cell">
+                <div class="trend-bar-track">
+                    <div class="trend-bar trend-bar--{{ row.label | lower | replace(' ', '-') }}"
+                         style="width: {{ row.bar_pct }}%"></div>
+                </div>
+            </td>
+            <td class="admin-count-cell">{{ row.display }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<p class="trend-footnote">
+    Trends use the same rule as the student's own dashboard alert. "Volatile" is a separate
+    pattern and is not counted as declining. "Insufficient Data" means only one semester
+    is recorded, so no trend can be determined. Students who have not uploaded a
+    transcript are not counted. Counts below {{ summary.min_group }} are shown as
+    "&lt;{{ summary.min_group }}", and a further value may be shown as "Withheld" so that
+    hidden counts cannot be worked out by subtraction.
+</p>
+
+{% endif %}
+
+{% endblock %}

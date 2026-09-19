@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import Blueprint, render_template, abort, redirect, url_for
+from flask import Blueprint, render_template, abort, redirect, url_for, request
 from flask_login import login_required, current_user
 
 from services.admin_services import (
@@ -8,6 +8,8 @@ from services.admin_services import (
     get_feedback_overview,
     get_contact_messages,
     get_platform_stats,
+    get_trend_filter_options,
+    get_trend_summary,
 )
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
@@ -58,4 +60,29 @@ def admin_stats():
         "admin/admin_stats.html",
         active_admin_page="stats",
         stats=get_platform_stats(),
+    )
+
+
+@admin_bp.route("/trends")
+@admin_required
+def admin_trends():
+    options = get_trend_filter_options()
+
+    # Only accept values the dropdowns could have produced; anything
+    # else falls back to "all" instead of silently querying a
+    # programme/batch that doesn't exist.
+    programme = request.args.get("programme")
+    batch = request.args.get("batch")
+    if programme not in options["programmes"]:
+        programme = None
+    if batch not in options["batches"]:
+        batch = None
+
+    return render_template(
+        "admin/admin_trends.html",
+        active_admin_page="trends",
+        options=options,
+        selected_programme=programme,
+        selected_batch=batch,
+        summary=get_trend_summary(programme=programme, batch=batch),
     )

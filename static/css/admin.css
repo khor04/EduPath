@@ -161,6 +161,90 @@
   margin: 0;
 }
 
+/* Performance Trends */
+.trend-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.trend-filter label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7776B3;
+}
+
+.trend-filter select {
+  min-width: 220px;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.trend-filter-btn {
+  padding: 9px 22px;
+  border: none;
+  border-radius: 6px;
+  background: #7776B3;
+  color: white;
+  font-weight: 700;
+}
+
+.trend-headline-grid {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 560px;
+}
+
+.admin-stat-card--alert p {
+  color: #b91c1c;
+}
+
+.trend-card-note {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #777;
+}
+
+.trend-label-cell {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.trend-bar-cell {
+  width: 100%;
+}
+
+.trend-bar-track {
+  background: #f1f1f8;
+  border-radius: 4px;
+  height: 14px;
+}
+
+.trend-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: #7776B3;
+}
+
+.trend-bar--improving,
+.trend-bar--slightly-improving { background: #16a34a; }
+.trend-bar--volatile { background: #d97706; }
+.trend-bar--slightly-declining,
+.trend-bar--declining { background: #dc2626; }
+.trend-bar--insufficient-data { background: #9ca3af; }
+
+.trend-footnote {
+  font-size: 12px;
+  color: #666;
+  max-width: 720px;
+}
+
 .admin-feedback-overview {
   grid-template-columns: repeat(2, 1fr);
   max-width: 440px;
