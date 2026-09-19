@@ -27,15 +27,14 @@
           Preview Report
         </button>
 
-        <div class="dropdown">
-          <button class="download-report-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Download Report
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#" id="downloadPdfOption">PDF</a></li>
-            <li><a class="dropdown-item" href="#" id="downloadJsonOption">JSON</a></li>
-          </ul>
-        </div>
+        <button class="download-report-btn" id="downloadPdfBtn" type="button">
+          Download PDF
+        </button>
+
+        <button class="share-report-btn" id="shareReportBtn" type="button"
+                data-bs-toggle="modal" data-bs-target="#shareReportModal">
+          Share Report
+        </button>
 
       </div>
 
@@ -179,6 +178,54 @@
   </div>
 
 </div>
+
+<!-- Share Report dialog -->
+<div class="modal fade" id="shareReportModal" tabindex="-1" aria-labelledby="shareReportTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content share-modal">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareReportTitle">Share Academic Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <p class="share-note" id="shareLoading">Loading…</p>
+
+        <!-- No live link yet -->
+        <div id="shareStepCreate" hidden>
+          <p>Create a temporary link you can send to your academic advisor. It opens a read-only
+             copy of your report and expires in 7 days.</p>
+          <p class="share-note">The link shows your <strong>current</strong> report, so if you upload a
+             new transcript, the advisor will see the update too. Creating a new link replaces any
+             link you made before.</p>
+          <button type="button" class="share-primary-btn" id="createShareBtn">Create Link</button>
+        </div>
+
+        <!-- A live link exists: shown again every time the dialog opens -->
+        <div id="shareStepDone" hidden>
+          <p><strong>Your current sharing link:</strong></p>
+          <div class="share-link-row">
+            <input type="text" id="shareLinkInput" readonly aria-label="Report link">
+          </div>
+          <p class="share-note">Expires: <span id="shareExpires"></span></p>
+          <p class="share-note">Anyone with this link can view your report until it expires. It shows
+             your current report, so a new transcript upload appears there too. Creating a new link
+             replaces this one.</p>
+          <div class="share-actions">
+            <button type="button" class="share-primary-btn" id="copyShareBtn">Copy Link</button>
+            <button type="button" class="share-secondary-btn" id="newShareBtn">Create New Link</button>
+          </div>
+        </div>
+
+        <p class="share-error" id="shareError" hidden></p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>

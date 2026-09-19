@@ -302,7 +302,8 @@
 }
 
 .preview-report-btn,
-.download-report-btn {
+.download-report-btn,
+.share-report-btn {
   padding: 8px 16px;
   border-radius: 6px;
   border: none;
@@ -319,23 +320,79 @@
   color: white;
 }
 
-.report-actions .dropdown-menu {
-  min-width: 140px;
-  border-radius: 6px;
-  border: 1px solid #e3e3f5;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 4px;
-}
-
-.report-actions .dropdown-item {
-  font-size: 14px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  color: #333;
-}
-
-.report-actions .dropdown-item:hover,
-.report-actions .dropdown-item:focus {
-  background: #f2f2fb;
+.share-report-btn {
+  background: white;
   color: #7776B3;
+  border: 1px solid #7776B3;
+}
+
+/* Share Report dialog */
+.share-modal .modal-title {
+  color: #7776B3;
+  font-weight: 800;
+}
+
+.share-modal p {
+  font-size: 14px;
+}
+
+.share-note {
+  font-size: 13px;
+  color: #666;
+}
+
+.share-primary-btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  background: #7776B3;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.share-primary-btn:disabled,
+.share-secondary-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.share-secondary-btn {
+  padding: 8px 18px;
+  border: 1px solid #7776B3;
+  border-radius: 6px;
+  background: white;
+  color: #7776B3;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.share-link-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.share-link-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.share-error {
+  color: #b91c1c;
+  font-size: 13px;
+  margin-top: 12px;
 }

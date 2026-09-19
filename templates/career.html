@@ -146,8 +146,6 @@
             {{ career_card(c, "best-" ~ loop.index, best=True) }}
             {% endfor %}
         </div>
-
-        {% if more_careers %}
         <h3 class="career-group-heading">You may also like</h3>
         <div class="career-grid">
             {% for c in more_careers %}

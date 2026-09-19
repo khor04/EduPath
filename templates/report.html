@@ -2,6 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+{% if shared %}
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+{% endif %}
 <title>Academic Performance Summary Report</title>
 <style>
   @page {
@@ -27,6 +31,12 @@
     text-decoration: none;
     border-radius: 6px;
     font-size: 13px;
+  }
+
+  .shared-note {
+    font-size: 11px;
+    color: #777;
+    margin: 0 0 14px 0;
   }
 
   .report-title {
@@ -126,13 +136,24 @@
 
 {% if not is_pdf %}
 <div class="toolbar">
-  <a href="/dashboard/report/download">Download PDF</a>
+  <a href="{{ download_url or '/dashboard/report/download' }}">Download PDF</a>
 </div>
+{% endif %}
+
+{% if shared and has_transcript %}
+<p class="shared-note">
+  Shared by the student and read-only. This link shows their current report and stops
+  working on {{ shared_expires_on }}.
+</p>
 {% endif %}
 
 {% if not has_transcript %}
 
+{% if shared %}
+<p class="empty-note">This report isn't available right now.</p>
+{% else %}
 <p class="empty-note">Upload your transcript to generate an academic performance report.</p>
+{% endif %}
 
 {% else %}
 
@@ -173,7 +194,11 @@
     <tr><th>Prediction Status</th><td>{{ prediction_status }}</td></tr>
   </table>
   {% else %}
+  {% if shared %}
+  <p class="empty-note">No target CGPA plan has been saved.</p>
+  {% else %}
   <p class="empty-note">No target CGPA plan has been saved yet. Visit the Analysis &amp; Prediction page to set one.</p>
+  {% endif %}
   {% endif %}
 </div>
 
@@ -197,7 +222,11 @@
     {% endfor %}
   </table>
   {% else %}
+  {% if shared %}
+  <p class="empty-note">No peer comparison is available for this student.</p>
+  {% else %}
   <p class="empty-note">Not enough peer data available yet for your cohort.</p>
+  {% endif %}
   {% endif %}
 </div>
 
@@ -215,7 +244,11 @@
   {% endif %}
   <p class="footnote">Match level reflects profile similarity to O*NET occupation data, not a probability of career success.</p>
   {% else %}
+  {% if shared %}
+  <p class="empty-note">No career recommendations are available yet.</p>
+  {% else %}
   <p class="empty-note">Upload your transcript to see career recommendations.</p>
+  {% endif %}
   {% endif %}
 </div>
 

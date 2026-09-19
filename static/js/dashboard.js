@@ -245,8 +245,7 @@ if (semesterSelector) {
 // Report actions
 // ================================
 const previewReportBtn = document.querySelector(".preview-report-btn");
-const downloadPdfOption = document.getElementById("downloadPdfOption");
-const downloadJsonOption = document.getElementById("downloadJsonOption");
+const downloadPdfBtn = document.getElementById("downloadPdfBtn");
 
 if (previewReportBtn) {
   previewReportBtn.addEventListener("click", () => {
@@ -254,17 +253,118 @@ if (previewReportBtn) {
   });
 }
 
-if (downloadPdfOption) {
-  downloadPdfOption.addEventListener("click", (e) => {
-    e.preventDefault();
+if (downloadPdfBtn) {
+  downloadPdfBtn.addEventListener("click", () => {
     window.location.href = "/dashboard/report/download";
   });
 }
 
-if (downloadJsonOption) {
-  downloadJsonOption.addEventListener("click", (e) => {
-    e.preventDefault();
-    window.location.href = "/dashboard/report/export-json";
+// ================================
+// Share report with advisor
+// ================================
+const shareModalEl = document.getElementById("shareReportModal");
+
+if (shareModalEl) {
+  const loadingEl = document.getElementById("shareLoading");
+  const stepCreate = document.getElementById("shareStepCreate");
+  const stepDone = document.getElementById("shareStepDone");
+  const createBtn = document.getElementById("createShareBtn");
+  const newBtn = document.getElementById("newShareBtn");
+  const copyBtn = document.getElementById("copyShareBtn");
+  const linkInput = document.getElementById("shareLinkInput");
+  const expiresEl = document.getElementById("shareExpires");
+  const errorEl = document.getElementById("shareError");
+
+  function showShareError(message) {
+    errorEl.textContent = message;
+    errorEl.hidden = false;
+  }
+
+  // Exactly one of the three panels is visible at a time.
+  function showPanel(panel) {
+    loadingEl.hidden = panel !== "loading";
+    stepCreate.hidden = panel !== "create";
+    stepDone.hidden = panel !== "done";
+  }
+
+  function showLink(data) {
+    linkInput.value = window.location.origin + data.path;
+    expiresEl.textContent = new Date(data.expires_at).toLocaleString([], {
+      dateStyle: "long",
+      timeStyle: "short",
+    });
+    copyBtn.textContent = "Copy Link";
+    showPanel("done");
+  }
+
+  // Every time the dialog opens, ask the server for the live link (it
+  // can re-derive it), so closing the dialog never loses it.
+  shareModalEl.addEventListener("show.bs.modal", async () => {
+    errorEl.hidden = true;
+    showPanel("loading");
+
+    try {
+      const res = await fetch("/dashboard/report/share");
+      const data = await res.json();
+
+      if (res.ok && data.success && data.has_link) {
+        showLink(data);
+      } else {
+        showPanel("create");
+      }
+    } catch (err) {
+      console.error("load share link error:", err);
+      showPanel("create");
+      showShareError("Could not check for an existing link. You can still create a new one.");
+    }
+  });
+
+  async function createLink(button) {
+    errorEl.hidden = true;
+    button.disabled = true;
+
+    try {
+      const res = await fetch("/dashboard/report/share", {
+        method: "POST",
+        headers: { "X-CSRFToken": getCsrfToken() },
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        showShareError(data.message || "Could not create a link. Please try again.");
+        return;
+      }
+
+      showLink(data);
+      linkInput.select();
+    } catch (err) {
+      console.error("create share link error:", err);
+      showShareError("Could not create a link. Please try again.");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  createBtn.addEventListener("click", () => createLink(createBtn));
+
+  // Replacing the link kills the URL the advisor may already have, so
+  // make that a deliberate click.
+  newBtn.addEventListener("click", () => {
+    if (confirm("This stops your current link from working. Create a new link?")) {
+      createLink(newBtn);
+    }
+  });
+
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(linkInput.value);
+    } catch (err) {
+      // Clipboard API can be blocked (e.g. non-HTTPS); fall back to the
+      // selection-based copy, which works everywhere.
+      linkInput.select();
+      document.execCommand("copy");
+    }
+    copyBtn.textContent = "Copied!";
   });
 }
 

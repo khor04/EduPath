@@ -9,6 +9,7 @@ import cloudinary
 from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN, validate_profile_picture
 from routes.auth import issue_verification_code
 from routes.transcript import delete_all_transcript_related_data
+from services.share_services import delete_user_shares
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -231,6 +232,10 @@ def delete_account():
 
     try:
         delete_all_transcript_related_data(user_id)
+
+        # A report-share link has a foreign key to the user, and an
+        # account that no longer exists shouldn't leave a live link behind.
+        delete_user_shares(user_id)
 
         # Contact messages reference user_id via a foreign key that isn't
         # covered by delete_all_transcript_related_data (it's not
