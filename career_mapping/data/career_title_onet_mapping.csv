@@ -1,0 +1,1011 @@
+um_title,onet_code,onet_title,mapping_method,gemini_confidence
+3D Animator,27-1014.00,Special Effects Artists and Animators,gemini,0.95
+3D Visualizer,27-1014.00,Special Effects Artists and Animators,gemini,0.85
+AI Research Scientist,15-1221.00,Computer and Information Research Scientists,gemini,0.95
+Academic Advisor,21-1012.00,"Educational, Guidance, and Career Counselors and Advisors",curated,
+Academic Lecturer,25-1199.00,"Postsecondary Teachers, All Other",gemini,0.9
+Academic Research Assistant,19-4099.00,"Life, Physical, and Social Science Technicians, All Other",gemini,0.8
+Academic Researcher,25-1199.00,"Postsecondary Teachers, All Other",gemini,0.75
+Academic Researcher in International Studies,19-3094.00,Political Scientists,gemini,0.8
+Academic Researcher/Professor,25-1199.00,"Postsecondary Teachers, All Other",gemini,0.95
+Academic Writer,27-3043.00,Writers and Authors,gemini,0.9
+Academic/Legal Educator,25-1112.00,"Law Teachers, Postsecondary",gemini,0.9
+Accountant,13-2011.00,Accountants and Auditors,curated,
+Accounts Executive,13-2011.00,Accountants and Auditors,gemini,0.85
+Acoustics Engineer,17-2199.00,"Engineers, All Other",gemini,0.85
+Acting Coach,25-3021.00,Self-Enrichment Teachers,gemini,0.8
+Actor,27-2011.00,Actors,curated,
+Actuarial Analyst,15-2011.00,Actuaries,gemini,0.95
+Actuarial Consultant,15-2011.00,Actuaries,curated,
+Actuary,15-2011.00,Actuaries,curated,
+Addiction Counselor,21-1011.00,Substance Abuse and Behavioral Disorder Counselors,gemini,0.95
+Administrative Manager,11-3012.00,Administrative Services Managers,curated,
+Advanced Music Conductor,27-2041.00,Music Directors and Composers,gemini,0.95
+Advanced Process Control Engineer,17-2041.00,Chemical Engineers,gemini,0.85
+Advanced Process Safety Engineer,17-2111.00,"Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",gemini,0.9
+Advanced Prosthetics Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.95
+Advanced Transportation Engineer,17-2051.01,Transportation Engineers,gemini,0.95
+Advertising Executive,11-2011.00,Advertising and Promotions Managers,gemini,0.85
+Advocate and Solicitor,23-1011.00,Lawyers,gemini,0.98
+Aerospace Engineer,17-2011.00,Aerospace Engineers,curated,
+Aerospace Technician,17-3021.00,Aerospace Engineering and Operations Technologists and Technicians,gemini,0.98
+Agricultural Biotechnologist,19-1029.00,"Biological Scientists, All Other",gemini,0.85
+Air Quality Analyst,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.9
+Air Quality Engineer,17-2081.00,Environmental Engineers,gemini,0.95
+Algorithm Developer,17-2199.07,Photonics Engineers,curated,
+Analytics Consultant,15-2051.01,Business Intelligence Analysts,gemini,0.85
+Anesthesiologist,29-1211.00,Anesthesiologists,curated,
+Application Developer,15-1252.00,Software Developers,curated,
+Applications Developer,15-1252.00,Software Developers,gemini,0.95
+Arabic Calligraphy Artist,27-1013.00,"Fine Artists, Including Painters, Sculptors, and Illustrators",gemini,0.9
+Arabic Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Arabic Transcriptionist,43-9022.00,Word Processors and Typists,gemini,0.85
+Arbitrator,23-1022.00,"Arbitrators, Mediators, and Conciliators",curated,
+Architect,17-1011.00,"Architects, Except Landscape and Naval",curated,
+Architectural Assistant,17-3011.00,Architectural and Civil Drafters,gemini,0.85
+Archivist,25-4011.00,Archivists,curated,
+Arts Administrator,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.8
+Arts Critic,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.8
+Arts Festival Organizer,13-1121.00,"Meeting, Convention, and Event Planners",gemini,0.92
+Arts Manager,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.85
+Arts and Cultural Administrator,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.85
+Asset Manager,11-3031.03,Investment Fund Managers,gemini,0.85
+Assistive Technology Developer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.85
+Assistive Technology Specialist,29-1122.00,Occupational Therapists,gemini,0.7
+Athlete Liaison Officer,13-1011.00,"Agents and Business Managers of Artists, Performers, and Athletes",gemini,0.8
+Athletic Director,11-9032.00,"Education Administrators, Kindergarten through Secondary",curated,
+Athletic Trainer,29-9091.00,Athletic Trainers,curated,
+Audio Engineer,27-4014.00,Sound Engineering Technicians,gemini,0.95
+Auditor,13-2011.00,Accountants and Auditors,curated,
+Author Of Islamic Literature,27-3043.00,Writers and Authors,gemini,0.9
+Automation Engineer,17-2199.05,Mechatronics Engineers,gemini,0.9
+Automotive Engineer,17-2141.02,Automotive Engineers,curated,
+BIM Specialist,17-3011.00,Architectural and Civil Drafters,gemini,0.85
+Ballet Instructor,25-3021.00,Self-Enrichment Teachers,gemini,0.8
+Banking Executive,13-2099.00,"Financial Specialists, All Other",gemini,0.8
+Banking Officer,13-2099.00,"Financial Specialists, All Other",gemini,0.8
+Behavioral Therapist,21-1014.00,Mental Health Counselors,gemini,0.9
+Big Data Engineer,15-1243.01,Data Warehousing Specialists,gemini,0.85
+Bio-mechanist,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.8
+Biochemical Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Biochemist,19-1021.00,Biochemists and Biophysicists,curated,
+Biodiversity Researcher,19-1029.04,Biologists,gemini,0.85
+Bioinformatics Analyst,15-2099.01,Bioinformatics Technicians,curated,
+Bioinformatics Specialist,15-2099.01,Bioinformatics Technicians,curated,
+Biomanufacturing Specialist,19-1029.00,"Biological Scientists, All Other",gemini,0.8
+Biomechanics Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.95
+Biomechatronics Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.85
+Biomedical Engineer,17-2031.00,Bioengineers and Biomedical Engineers,curated,
+Biomedical Equipment Technician,49-9062.00,Medical Equipment Repairers,gemini,0.95
+Biomedical Scientist,19-1042.00,"Medical Scientists, Except Epidemiologists",gemini,0.95
+Biomedical Signal Processing Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Bioprocess Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.85
+Biostatistician,15-2041.01,Biostatisticians,curated,
+Biotech Product Specialist,41-4011.00,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gemini,0.85
+Biotech Sales Specialist,41-4011.00,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gemini,0.95
+Biotechnologist,19-1029.00,"Biological Scientists, All Other",gemini,0.9
+Biotechnology Consultant,13-1199.00,"Business Operations Specialists, All Other",gemini,0.75
+Book Reviewer,27-3043.00,Writers and Authors,gemini,0.85
+Brand Manager,11-2021.00,Marketing Managers,curated,
+Bridge Engineer,17-2051.00,Civil Engineers,gemini,0.95
+Broadcast Journalist,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.95
+Budget Analyst,13-2031.00,Budget Analysts,curated,
+Building Compliance Officer,47-4011.00,Construction and Building Inspectors,gemini,0.95
+Building Consultant,11-9021.00,Construction Managers,gemini,0.75
+Building Control Officer,47-4011.00,Construction and Building Inspectors,gemini,0.95
+Building Designer,17-1011.00,"Architects, Except Landscape and Naval",gemini,0.85
+Building Information Modeler,17-3011.00,Architectural and Civil Drafters,gemini,0.85
+Building Surveyor,47-4011.00,Construction and Building Inspectors,gemini,0.8
+Business Analyst,13-1111.00,Management Analysts,gemini,0.9
+Business Development Executive,13-1199.00,"Business Operations Specialists, All Other",gemini,0.8
+Business Development Manager,11-9199.10,Wind Energy Development Managers,curated,
+Business Intelligence Analyst,15-2051.01,Business Intelligence Analysts,curated,
+Career Counselor,21-1012.00,"Educational, Guidance, and Career Counselors and Advisors",curated,
+Casting Director,27-2012.04,Talent Directors,curated,
+Chaplain,21-2011.00,Clergy,curated,
+Chemical Engineer,17-2041.00,Chemical Engineers,curated,
+Chemical Process Engineer,17-2041.00,Chemical Engineers,gemini,0.95
+Chemical Research Scientist,19-2031.00,Chemists,gemini,0.95
+Chemical Safety Engineer,17-2111.00,"Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",gemini,0.9
+Chief Financial Officer,11-3031.01,Treasurers and Controllers,gemini,0.95
+Child Development Specialist,21-1021.00,"Child, Family, and School Social Workers",gemini,0.75
+Child Welfare Officer,21-1021.00,"Child, Family, and School Social Workers",gemini,0.95
+Children's Program Coordinator,11-9151.00,Social and Community Service Managers,gemini,0.85
+Children’s Theatre Director,27-2012.00,Producers and Directors,gemini,0.9
+Chinese Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Choreographer,27-2032.00,Choreographers,curated,
+Citizen Journalist,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.85
+City Planner,19-3051.00,Urban and Regional Planners,curated,
+Claims Analyst,13-1031.00,"Claims Adjusters, Examiners, and Investigators",gemini,0.95
+Claims Consultant,13-1031.00,"Claims Adjusters, Examiners, and Investigators",gemini,0.85
+Climate Change Analyst,19-2041.01,Climate Change Policy Analysts,gemini,0.95
+Climatologist,19-2021.00,Atmospheric and Space Scientists,gemini,0.95
+Clinical Dentist,29-1021.00,"Dentists, General",gemini,0.95
+Clinical Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Clinical Epidemiologist,19-1041.00,Epidemiologists,gemini,0.95
+Clinical Laboratory Technologist,29-2011.00,Medical and Clinical Laboratory Technologists,curated,
+Clinical Lecturer,25-1071.00,"Health Specialties Teachers, Postsecondary",gemini,0.9
+Clinical Nurse Specialist,29-1141.04,Clinical Nurse Specialists,curated,
+Clinical Pharmacist,29-1051.00,Pharmacists,curated,
+Clinical Prosthetics Specialist,29-2091.00,Orthotists and Prosthetists,gemini,0.9
+Clinical Prosthetist,29-2091.00,Orthotists and Prosthetists,gemini,0.95
+Clinical Psychologist,19-3033.00,Clinical and Counseling Psychologists,curated,
+Clinical Research Associate,11-9121.01,Clinical Research Coordinators,gemini,0.95
+Clinical Research Coordinator,11-9121.01,Clinical Research Coordinators,curated,
+Clinical Trials Coordinator,11-9121.01,Clinical Research Coordinators,gemini,0.95
+Cloud Solutions Architect,15-1299.08,Computer Systems Engineers/Architects,gemini,0.9
+Coastal Engineer,17-2051.00,Civil Engineers,gemini,0.9
+Commercial Manager,11-1021.00,General and Operations Managers,gemini,0.8
+Communication Executive,27-3031.00,Public Relations Specialists,gemini,0.9
+Communication Manager,11-2032.00,Public Relations Managers,gemini,0.95
+Communication Officer,27-3031.00,Public Relations Specialists,gemini,0.95
+Communication Specialist,27-3031.00,Public Relations Specialists,gemini,0.95
+Communications Consultant,13-1161.00,Market Research Analysts and Marketing Specialists,curated,
+Community Dentist,29-1029.00,"Dentists, All Other Specialists",gemini,0.85
+Community Development Officer,11-9151.00,Social and Community Service Managers,gemini,0.85
+Community Development Specialist,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Community Engagement Officer,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Community Health Nurse,29-1141.00,Registered Nurses,gemini,0.9
+Community Health Worker,21-1094.00,Community Health Workers,curated,
+Community Legal Services Provider,23-2011.00,Paralegals and Legal Assistants,gemini,0.75
+Community Outreach Coordinator,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Community Pharmacist,29-1051.00,Pharmacists,curated,
+Compliance Analyst,13-2061.00,Financial Examiners,curated,
+Compliance Officer,13-1041.00,Compliance Officers,curated,
+Compliance Officer In Islamic Banking,13-1041.00,Compliance Officers,gemini,0.9
+Compliance Officer In Islamic Institutions,13-1041.00,Compliance Officers,gemini,0.9
+Component-Based Software Engineer,15-1252.00,Software Developers,gemini,0.95
+Compounding Pharmacist,29-1051.00,Pharmacists,gemini,0.95
+Computational Fluid Dynamics Engineer,17-2141.00,Mechanical Engineers,gemini,0.9
+Computational Scientist,15-2021.00,Mathematicians,curated,
+Computer Vision Engineer,15-1252.00,Software Developers,gemini,0.9
+Conservation Biologist,19-1023.00,Zoologists and Wildlife Biologists,curated,
+Conservation Officer,19-1031.00,Conservation Scientists,gemini,0.85
+Conservation Scientist,19-1031.00,Conservation Scientists,curated,
+Construction Economist,13-1051.00,Cost Estimators,gemini,0.85
+Construction Manager,11-9021.00,Construction Managers,curated,
+Construction Project Manager,11-9021.00,Construction Managers,gemini,0.95
+Content Creator,27-3099.00,"Media and Communication Workers, All Other",gemini,0.85
+Content Creator/Writer,27-3043.00,Writers and Authors,curated,
+Content Developer,27-3043.00,Writers and Authors,gemini,0.8
+Content Writer,27-3043.00,Writers and Authors,gemini,0.95
+Contract Administrator,13-1199.00,"Business Operations Specialists, All Other",gemini,0.85
+Contract Manager,11-9199.00,"Managers, All Other",gemini,0.8
+Contract Specialist,13-1023.00,"Purchasing Agents, Except Wholesale, Retail, and Farm Products",gemini,0.9
+Control Systems Engineer,17-2199.05,Mechatronics Engineers,gemini,0.85
+Copywriter,27-3043.00,Writers and Authors,curated,
+Corporate Communication Manager,11-2032.00,Public Relations Managers,gemini,0.95
+Corporate Communications Executive,27-3031.00,Public Relations Specialists,gemini,0.9
+Corporate Counsel,23-1011.00,Lawyers,gemini,0.95
+Corporate Finance Analyst,13-2051.00,Financial and Investment Analysts,gemini,0.95
+Corporate Finance Executive,13-2051.00,Financial and Investment Analysts,gemini,0.9
+Corporate Governance Executive (Shariah-compliant firms),13-1041.00,Compliance Officers,gemini,0.85
+Corporate Lawyer,23-1011.00,Lawyers,gemini,0.95
+Corporate Legal Counsel With Shariah Expertise,23-1011.00,Lawyers,gemini,0.9
+Corporate Social Responsibility (CSR) Manager,11-2032.00,Public Relations Managers,gemini,0.8
+Corporate Strategist,13-1111.00,Management Analysts,gemini,0.9
+Corporate Strategist in Multinational Companies,13-1111.00,Management Analysts,gemini,0.9
+Corporate Trainer,13-1151.00,Training and Development Specialists,curated,
+Corporate Wellness Coordinator,11-9179.01,Fitness and Wellness Coordinators,gemini,0.95
+Corrosion Engineer,17-2131.00,Materials Engineers,gemini,0.9
+Cost Estimator,13-1051.00,Cost Estimators,curated,
+Cost Planner,13-1051.00,Cost Estimators,gemini,0.9
+Costume Designer,27-1022.00,Fashion Designers,curated,
+Counseling Psychologist,19-3033.00,Clinical and Counseling Psychologists,curated,
+Creative Director,27-1011.00,Art Directors,gemini,0.95
+Creative Writer,27-3043.05,"Poets, Lyricists and Creative Writers",curated,
+Credit Analyst,13-2041.00,Credit Analysts,curated,
+Crime Prevention Specialist,13-1199.07,Security Management Specialists,gemini,0.8
+Criminal Lawyer,23-1011.00,Lawyers,gemini,0.95
+Criminologist,19-3041.00,Sociologists,gemini,0.85
+Critical Care Nurse,29-1141.03,Critical Care Nurses,curated,
+Cross-Cultural Trainer,13-1151.00,Training and Development Specialists,gemini,0.9
+Cryptographer,15-2021.00,Mathematicians,curated,
+Cultural Advisor,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.8
+Cultural Analyst,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.8
+Cultural Arts Manager,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.85
+Cultural Consultant,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.8
+Cultural Heritage Manager,25-4012.00,Curators,gemini,0.85
+Cultural Officer,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.75
+Cultural Program Manager,11-9151.00,Social and Community Service Managers,gemini,0.8
+Curriculum Developer,25-9031.00,Instructional Coordinators,gemini,0.95
+Curriculum Developer For Islamic Education,25-9031.00,Instructional Coordinators,gemini,0.9
+Customer Relationship Manager,11-2022.00,Sales Managers,gemini,0.85
+Customer Service Executive,43-4051.00,Customer Service Representatives,gemini,0.95
+Cybersecurity Analyst,15-1212.00,Information Security Analysts,gemini,0.95
+Cybersecurity Engineer,15-1299.05,Information Security Engineers,gemini,0.95
+Dance Critic,27-3043.00,Writers and Authors,gemini,0.85
+Dance Ethnologist,19-3091.00,Anthropologists and Archeologists,gemini,0.85
+Dance Instructor,25-3021.00,Self-Enrichment Teachers,curated,
+Dance Music Composer,27-2041.00,Music Directors and Composers,gemini,0.95
+Dance Notation Specialist,27-2032.00,Choreographers,gemini,0.8
+Dance Therapist,29-1129.00,"Therapists, All Other",gemini,0.9
+Dance Writer,27-3043.00,Writers and Authors,gemini,0.9
+Dancer,27-2031.00,Dancers,curated,
+Data Analyst,19-3022.00,Survey Researchers,curated,
+Data Architect,15-1243.00,Database Architects,curated,
+Data Center Technician,15-1231.00,Computer Network Support Specialists,gemini,0.85
+Data Engineer,15-1243.00,Database Architects,curated,
+Data Scientist,15-2051.00,Data Scientists,curated,
+Database Administrator,15-1242.00,Database Administrators,curated,
+Da’wah Officer,21-2099.00,"Religious Workers, All Other",gemini,0.85
+Deep Learning Engineer,15-2051.00,Data Scientists,gemini,0.85
+Demographer,15-2041.00,Statisticians,gemini,0.85
+Dental Health Educator,21-1091.00,Health Education Specialists,gemini,0.85
+Dental Public Health Specialist,29-1029.00,"Dentists, All Other Specialists",gemini,0.9
+Dental Research Scientist,19-1042.00,"Medical Scientists, Except Epidemiologists",gemini,0.85
+Dental Specialist,29-1029.00,"Dentists, All Other Specialists",gemini,0.95
+Design Consultant,27-1029.00,"Designers, All Other",gemini,0.8
+Design Engineer,17-2199.00,"Engineers, All Other",gemini,0.85
+Development Consultant,,,unmapped,0.85
+Development Control Officer,19-3051.00,Urban and Regional Planners,gemini,0.85
+Development Economist,19-3011.00,Economists,gemini,0.95
+Development Manager,11-9199.10,Wind Energy Development Managers,curated,
+Development Project Manager,13-1082.00,Project Management Specialists,gemini,0.9
+Digital Content Creator,27-3099.00,"Media and Communication Workers, All Other",gemini,0.85
+Digital Design Engineer,17-2072.00,"Electronics Engineers, Except Computer",gemini,0.9
+Digital Forensic Analyst,15-1299.06,Digital Forensics Analysts,gemini,0.95
+Digital Forensics Specialist,15-1299.06,Digital Forensics Analysts,curated,
+Digital Learning Specialist,25-9031.00,Instructional Coordinators,gemini,0.9
+Digital Media Specialist,27-3099.00,"Media and Communication Workers, All Other",gemini,0.85
+Diplomat,,,unmapped,0.85
+Diplomat or Foreign Service Officer,,,unmapped,0.85
+Diplomatic Officer,,,unmapped,0.85
+Director,27-2012.00,Producers and Directors,curated,
+Disability Advocate,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Documentary Producer,27-2012.00,Producers and Directors,gemini,0.95
+Draftsperson,17-3011.00,Architectural and Civil Drafters,curated,
+Drama Educator,25-1121.00,"Art, Drama, and Music Teachers, Postsecondary",gemini,0.85
+Drama Therapist,29-1129.00,"Therapists, All Other",gemini,0.85
+Dramaturg,27-3043.00,Writers and Authors,gemini,0.8
+Drilling Engineer,17-2171.00,Petroleum Engineers,curated,
+Drug Safety Associate,13-1041.07,Regulatory Affairs Specialists,gemini,0.85
+E-Commerce Specialist,13-1199.06,Online Merchants,gemini,0.9
+ESL Program Coordinator,25-3011.00,"Adult Basic Education, Adult Secondary Education, and English as a Second Language Instructors",gemini,0.9
+Early Childhood Education Administrator,11-9031.00,"Education and Childcare Administrators, Preschool and Daycare",gemini,0.95
+Early Childhood Educator,25-2011.00,"Preschool Teachers, Except Special Education",gemini,0.95
+Earth Science Educator,25-1051.00,"Atmospheric, Earth, Marine, and Space Sciences Teachers, Postsecondary",gemini,0.9
+East Asian Market Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.9
+Ecologist,19-2041.03,Industrial Ecologists,curated,
+Econometrician,19-3011.00,Economists,gemini,0.95
+Economic Consultant,19-3011.00,Economists,curated,
+Economic Geographer,19-3092.00,Geographers,gemini,0.95
+Economist,19-3011.00,Economists,curated,
+Ecotourism Guide,39-7011.00,Tour Guides and Escorts,gemini,0.9
+Ecotourism Planner,19-3051.00,Urban and Regional Planners,gemini,0.85
+Editor,27-3041.00,Editors,gemini,0.95
+Editor/Publisher,27-3041.00,Editors,gemini,0.85
+Editorial Director,27-3041.00,Editors,gemini,0.9
+Education Administrator,11-9039.00,"Education Administrators, All Other",gemini,0.9
+Education Consultant,25-9031.00,Instructional Coordinators,gemini,0.9
+Education Officer,25-9031.00,Instructional Coordinators,gemini,0.85
+Education Officer In Religious Institutions,21-2021.00,"Directors, Religious Activities and Education",gemini,0.9
+Education Policy Advisor (Islamic Education),21-2021.00,"Directors, Religious Activities and Education",gemini,0.8
+Education Policy Analyst,25-9031.00,Instructional Coordinators,gemini,0.8
+Educational Administrator,11-9039.00,"Education Administrators, All Other",gemini,0.9
+Educational Consultant,25-9031.00,Instructional Coordinators,gemini,0.9
+Educational Counselor,21-1012.00,"Educational, Guidance, and Career Counselors and Advisors",gemini,0.95
+Educational Program Developer,25-9031.00,Instructional Coordinators,gemini,0.9
+Educational Publisher,27-3041.00,Editors,gemini,0.75
+Educational Technology Specialist,25-9031.00,Instructional Coordinators,gemini,0.95
+Electrical Engineer,17-2071.00,Electrical Engineers,curated,
+Electronic Music Producer,27-2041.00,Music Directors and Composers,gemini,0.85
+Electronics Engineer,17-2072.00,"Electronics Engineers, Except Computer",gemini,0.95
+Embassy Staff,,,unmapped,0.85
+Embedded Systems Engineer,17-2072.00,"Electronics Engineers, Except Computer",gemini,0.85
+Emergency Medicine Doctor,29-1214.00,Emergency Medicine Physicians,gemini,0.95
+Employment Lawyer,23-1011.00,Lawyers,gemini,0.95
+Energy Engineer,17-2199.03,"Energy Engineers, Except Wind and Solar",curated,
+Energy Systems Engineer,17-2199.03,"Energy Engineers, Except Wind and Solar",gemini,0.9
+Engineering Geologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",curated,
+English Language Instructor,25-3011.00,"Adult Basic Education, Adult Secondary Education, and English as a Second Language Instructors",gemini,0.85
+English Language Teacher,25-1123.00,"English Language and Literature Teachers, Postsecondary",gemini,0.85
+Ensemble Director,27-2041.00,Music Directors and Composers,gemini,0.9
+Enterprise Network Architect,15-1241.00,Computer Network Architects,gemini,0.95
+Entrepreneur,11-1021.00,General and Operations Managers,gemini,0.7
+Entrepreneur (Halal Business),11-1021.00,General and Operations Managers,gemini,0.65
+Entrepreneur in Creative Industries,11-1021.00,General and Operations Managers,gemini,0.65
+Entrepreneur specializing in East Asian markets,11-1021.00,General and Operations Managers,gemini,0.65
+Environmental Auditor,13-1041.01,Environmental Compliance Inspectors,gemini,0.85
+Environmental Biotechnologist,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.8
+Environmental Compliance Inspector,13-1041.01,Environmental Compliance Inspectors,curated,
+Environmental Compliance Officer,13-1041.01,Environmental Compliance Inspectors,gemini,0.95
+Environmental Consultant,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.9
+Environmental Educator,19-1031.03,Park Naturalists,curated,
+Environmental Engineer,17-2081.00,Environmental Engineers,curated,
+Environmental Geologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",gemini,0.9
+Environmental Health and Safety Officer,19-5011.00,Occupational Health and Safety Specialists,gemini,0.9
+Environmental Impact Assessment Officer,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.85
+Environmental Impact Assessor,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.85
+Environmental Lawyer,23-1011.00,Lawyers,gemini,0.95
+Environmental Microbiologist,19-1022.00,Microbiologists,gemini,0.95
+Environmental Outreach Coordinator,13-1199.05,Sustainability Specialists,gemini,0.8
+Environmental Planner,19-3051.00,Urban and Regional Planners,gemini,0.85
+Environmental Policy Analyst,19-2041.01,Climate Change Policy Analysts,curated,
+Environmental Researcher,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.9
+Environmental Scientist,19-2041.00,"Environmental Scientists and Specialists, Including Health",curated,
+Epidemiologist,19-1041.00,Epidemiologists,curated,
+Equity Analyst,13-2051.00,Financial and Investment Analysts,gemini,0.95
+Estate Planner,13-2052.00,Personal Financial Advisors,gemini,0.85
+Ethics Consultant,13-1111.00,Management Analysts,gemini,0.7
+Ethnographer,19-3091.00,Anthropologists and Archeologists,gemini,0.9
+Event Coordinator,13-1121.00,"Meeting, Convention, and Event Planners",curated,
+Event Manager,13-1121.00,"Meeting, Convention, and Event Planners",gemini,0.95
+Examination Officer,11-9033.00,"Education Administrators, Postsecondary",gemini,0.85
+Exercise Physiologist,29-1128.00,Exercise Physiologists,curated,
+Exercise Therapist,29-1128.00,Exercise Physiologists,gemini,0.85
+Exploration Geologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",curated,
+External Auditor,13-2011.00,Accountants and Auditors,gemini,0.95
+Facilities Manager,11-3013.00,Facilities Managers,curated,
+Facilities Planner,11-3013.00,Facilities Managers,gemini,0.85
+Failure Analysis Engineer,17-2199.00,"Engineers, All Other",gemini,0.8
+Family Lawyer,23-1011.00,Lawyers,gemini,0.95
+Family Medicine Specialist,29-1215.00,Family Medicine Physicians,gemini,0.95
+Family Support Specialist,21-1021.00,"Child, Family, and School Social Workers",gemini,0.85
+Family Therapist,21-1013.00,Marriage and Family Therapists,curated,
+Field Technician,17-3029.00,"Engineering Technologists and Technicians, Except Drafters, All Other",gemini,0.75
+Film Music Composer,27-2041.00,Music Directors and Composers,gemini,0.95
+Finance Manager,11-3031.00,Financial Managers,gemini,0.95
+Financial Analyst,13-2051.00,Financial and Investment Analysts,curated,
+Financial Consultant,13-2052.00,Personal Financial Advisors,gemini,0.85
+Financial Controller,11-3031.01,Treasurers and Controllers,gemini,0.95
+Financial Operations Analyst,13-2051.00,Financial and Investment Analysts,gemini,0.85
+Financial Planner,13-2052.00,Personal Financial Advisors,curated,
+Financial Planner (Islamic Finance),13-2052.00,Personal Financial Advisors,curated,
+Financial Risk Manager,13-2054.00,Financial Risk Specialists,gemini,0.95
+Finite Element Analyst,17-2141.00,Mechanical Engineers,gemini,0.85
+Fitness Center Manager,11-9179.01,Fitness and Wellness Coordinators,curated,
+Fitness Trainer,39-9031.00,Exercise Trainers and Group Fitness Instructors,curated,
+Food Safety Analyst,19-4099.01,Quality Control Analysts,gemini,0.85
+Food Safety Specialist,19-1012.00,Food Scientists and Technologists,gemini,0.85
+Food Technologist,19-1012.00,Food Scientists and Technologists,curated,
+Foreign Affairs Analyst,19-3094.00,Political Scientists,gemini,0.85
+Foreign Affairs Specialist,19-3094.00,Political Scientists,gemini,0.85
+Foreign Correspondent,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.95
+Foreign Language Analyst,27-3091.00,Interpreters and Translators,gemini,0.85
+Foreign Policy Advisor,19-3094.00,Political Scientists,gemini,0.85
+Forensic Accountant,13-2099.04,"Fraud Examiners, Investigators and Analysts",gemini,0.9
+Forensic Medical Officer,29-1222.00,"Physicians, Pathologists",gemini,0.9
+Forensic Odontologist,29-1029.00,"Dentists, All Other Specialists",gemini,0.9
+Forensic Scientist,19-4092.00,Forensic Science Technicians,curated,
+Forest and Land Use Planner,19-3051.00,Urban and Regional Planners,gemini,0.85
+Forestry Officer,19-1032.00,Foresters,gemini,0.95
+Formulation Scientist,19-2031.00,Chemists,gemini,0.85
+French Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Fund Manager,11-3031.03,Investment Fund Managers,gemini,0.95
+GIS Analyst,15-1299.02,Geographic Information Systems Technologists and Technicians,gemini,0.95
+GIS Analyst (Environmental Applications),15-1299.02,Geographic Information Systems Technologists and Technicians,gemini,0.95
+GIS Specialist,15-1299.02,Geographic Information Systems Technologists and Technicians,gemini,0.95
+Game Developer,15-1255.01,Video Game Designers,gemini,0.9
+General Practitioner,29-1215.00,Family Medicine Physicians,gemini,0.9
+General Practitioner Dentist,29-1021.00,"Dentists, General",gemini,0.98
+Genetic Counselor,29-9092.00,Genetic Counselors,curated,
+Genetic Counselor (with further study),29-9092.00,Genetic Counselors,curated,
+Genetic Technologist,29-2011.01,Cytogenetic Technologists,gemini,0.9
+Geneticist,19-1029.03,Geneticists,curated,
+Geographic Information Systems (GIS) Specialist,15-1299.02,Geographic Information Systems Technologists and Technicians,gemini,0.95
+Geological Consultant,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",gemini,0.9
+Geological Surveyor,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",gemini,0.85
+Geologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",curated,
+Geophysicist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",gemini,0.95
+Geotechnical Engineer,17-2051.00,Civil Engineers,curated,
+Geriatric Nurse,29-1141.00,Registered Nurses,gemini,0.9
+German Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Gerontologist,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.75
+Global Risk Manager,13-2054.00,Financial Risk Specialists,gemini,0.85
+Government Legal Advisor,23-1011.00,Lawyers,gemini,0.95
+Government Legal Officer,23-1011.00,Lawyers,gemini,0.95
+Government Officer,,,unmapped,0.6
+Government Policy Advisor,19-3094.00,Political Scientists,gemini,0.8
+Graphic Designer,27-1024.00,Graphic Designers,curated,
+Green Building Consultant,13-1199.05,Sustainability Specialists,gemini,0.85
+Green Building Specialist,13-1199.05,Sustainability Specialists,gemini,0.85
+Groundwater Consultant,19-2043.00,Hydrologists,curated,
+Group Counselor,21-1019.00,"Counselors, All Other",gemini,0.85
+HVAC Engineer,17-2141.00,Mechanical Engineers,gemini,0.9
+Habitat Restoration Specialist,19-2041.02,Environmental Restoration Planners,curated,
+Hadith Researcher,21-2099.00,"Religious Workers, All Other",gemini,0.8
+Halal Certification Officer,13-1041.00,Compliance Officers,gemini,0.85
+Halal Industry Executive,13-1041.00,Compliance Officers,gemini,0.8
+Health Promotion Specialist,21-1091.00,Health Education Specialists,curated,
+Health and Nutrition Specialist,29-1031.00,Dietitians and Nutritionists,gemini,0.9
+Health and Safety Officer,19-5011.00,Occupational Health and Safety Specialists,gemini,0.95
+Healthcare Consultant,13-1111.00,Management Analysts,gemini,0.85
+Healthcare Technology Manager,11-9111.00,Medical and Health Services Managers,gemini,0.85
+Heat Transfer Engineer,17-2141.00,Mechanical Engineers,gemini,0.85
+Heritage And Cultural Officer,25-4012.00,Curators,gemini,0.8
+Heritage Conservation Officer,25-4013.00,Museum Technicians and Conservators,gemini,0.8
+Heritage Officer,25-4012.00,Curators,gemini,0.8
+Heritage Preservation Officer,25-4013.00,Museum Technicians and Conservators,gemini,0.8
+Heritage Tourism Specialist,,,unmapped,0.65
+Highway Engineer,17-2051.01,Transportation Engineers,gemini,0.95
+Historian,19-3093.00,Historians,curated,
+Historical Consultant,19-3093.00,Historians,gemini,0.9
+Hospital Administrator,11-9111.00,Medical and Health Services Managers,gemini,0.95
+Hospital Dentist,29-1021.00,"Dentists, General",gemini,0.9
+Hospital Pharmacist,29-1051.00,Pharmacists,curated,
+Housing Development Officer,19-3051.00,Urban and Regional Planners,gemini,0.8
+Human Resources Officer,13-1071.00,Human Resources Specialists,gemini,0.95
+Human Resources Specialist,13-1071.00,Human Resources Specialists,curated,
+Human Rights Advocate,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.8
+Human-Computer Interaction Specialist,17-2112.01,Human Factors Engineers and Ergonomists,gemini,0.85
+Hydraulic Engineer,17-2051.02,Water/Wastewater Engineers,gemini,0.9
+Hydrogeologist,19-2043.00,Hydrologists,curated,
+IT Consultant,15-1211.00,Computer Systems Analysts,gemini,0.9
+IT Project Manager,15-1299.09,Information Technology Project Managers,gemini,0.95
+Imam,21-2011.00,Clergy,curated,
+In-house Counsel,23-1011.00,Lawyers,gemini,0.95
+Industrial Engineer,17-2112.00,Industrial Engineers,curated,
+Industrial Microbiologist,19-1022.00,Microbiologists,gemini,0.95
+Industrial Pharmacist,29-1051.00,Pharmacists,gemini,0.9
+Industrial and Organizational Psychologist,19-3032.00,Industrial-Organizational Psychologists,gemini,0.95
+Infection Control Nurse,29-1141.00,Registered Nurses,gemini,0.95
+Information Security Analyst,15-1212.00,Information Security Analysts,curated,
+Information Systems Auditor,13-2011.00,Accountants and Auditors,gemini,0.85
+Information Systems Manager,11-3021.00,Computer and Information Systems Managers,gemini,0.98
+Infrastructure Planner,19-3051.00,Urban and Regional Planners,gemini,0.9
+Instructional Designer,25-9031.00,Instructional Coordinators,curated,
+Instrumentation Engineer,17-2072.00,"Electronics Engineers, Except Computer",gemini,0.88
+Insurance Broker,41-3021.00,Insurance Sales Agents,curated,
+Insurance Claims Adjuster,13-1031.00,"Claims Adjusters, Examiners, and Investigators",gemini,0.98
+Insurance Underwriter,13-2053.00,Insurance Underwriters,curated,
+Intellectual Property Lawyer,23-1011.00,Lawyers,gemini,0.98
+Intelligence Analyst,33-3021.06,Intelligence Analysts,gemini,0.98
+Intelligence Officer,33-3021.06,Intelligence Analysts,gemini,0.92
+Interaction Designer,15-1255.00,Web and Digital Interface Designers,gemini,0.9
+Interfaith Dialogue Coordinator,21-2099.00,"Religious Workers, All Other",gemini,0.85
+Interfaith Dialogue Facilitator,21-2099.00,"Religious Workers, All Other",gemini,0.82
+Interior Designer,27-1025.00,Interior Designers,curated,
+Internal Auditor,13-2011.00,Accountants and Auditors,gemini,0.95
+Internal Combustion Engine Specialist,17-2141.02,Automotive Engineers,gemini,0.88
+International Business Consultant,13-1111.00,Management Analysts,gemini,0.9
+International Business Development Manager,11-2021.00,Marketing Managers,gemini,0.8
+International Development Officer,11-9151.00,Social and Community Service Managers,gemini,0.8
+International Development Specialist,13-1199.00,"Business Operations Specialists, All Other",gemini,0.8
+International Law Specialist,23-1011.00,Lawyers,gemini,0.9
+International Lawyer,23-1011.00,Lawyers,gemini,0.98
+International Relations Consultant,19-3094.00,Political Scientists,gemini,0.85
+International Relations Officer,19-3094.00,Political Scientists,gemini,0.85
+International Relations Specialist,19-3094.00,Political Scientists,gemini,0.85
+International Trade Specialist,13-1199.00,"Business Operations Specialists, All Other",gemini,0.85
+Interpreter,27-3091.00,Interpreters and Translators,curated,
+Investment Analyst,13-2051.00,Financial and Investment Analysts,curated,
+Investment Analyst (Islamic Funds),13-2051.00,Financial and Investment Analysts,curated,
+Investment Banker,13-2051.00,Financial and Investment Analysts,gemini,0.95
+Islamic Affairs Officer,21-2099.00,"Religious Workers, All Other",gemini,0.85
+Islamic Banking Officer,13-2099.00,"Financial Specialists, All Other",gemini,0.85
+Islamic Capital Market Executive,13-2051.00,Financial and Investment Analysts,gemini,0.85
+Islamic Child Rearing Specialist,21-1021.00,"Child, Family, and School Social Workers",gemini,0.75
+Islamic Content Writer,27-3043.00,Writers and Authors,gemini,0.9
+Islamic Counsellor,21-1019.00,"Counselors, All Other",gemini,0.85
+Islamic Court Judge,23-1023.00,"Judges, Magistrate Judges, and Magistrates",gemini,0.95
+Islamic Curriculum Developer,25-9031.00,Instructional Coordinators,gemini,0.92
+Islamic E-Learning Content Developer,25-9031.00,Instructional Coordinators,gemini,0.88
+Islamic Education Broadcaster,27-3011.00,Broadcast Announcers and Radio Disc Jockeys,gemini,0.85
+Islamic Education Coordinator,25-9031.00,Instructional Coordinators,gemini,0.9
+Islamic Education Curriculum Developer,25-9031.00,Instructional Coordinators,gemini,0.85
+Islamic Education Inspector,25-9031.00,Instructional Coordinators,gemini,0.85
+Islamic Education Researcher,25-9031.00,Instructional Coordinators,gemini,0.8
+Islamic Education Teacher,25-2031.00,"Secondary School Teachers, Except Special and Career/Technical Education",gemini,0.82
+Islamic Education Trainer,13-1151.00,Training and Development Specialists,gemini,0.88
+Islamic Ethics Consultant,21-2099.00,"Religious Workers, All Other",gemini,0.8
+Islamic Event Organizer,13-1121.00,"Meeting, Convention, and Event Planners",gemini,0.9
+Islamic Finance Advisor,13-2052.00,Personal Financial Advisors,gemini,0.88
+Islamic Finance Consultant,13-2051.00,Financial and Investment Analysts,gemini,0.85
+Islamic Finance Executive,13-2099.00,"Financial Specialists, All Other",gemini,0.82
+Islamic Heritage Researcher,19-3093.00,Historians,gemini,0.88
+Islamic Historian,19-3093.00,Historians,gemini,0.98
+Islamic Judge (Qadi),23-1023.00,"Judges, Magistrate Judges, and Magistrates",gemini,0.95
+Islamic Law Consultant,23-1011.00,Lawyers,gemini,0.85
+Islamic Legal Researcher,23-2011.00,Paralegals and Legal Assistants,gemini,0.88
+Islamic Legal Trainer,13-1151.00,Training and Development Specialists,gemini,0.82
+Islamic Museum Curator,25-4012.00,Curators,gemini,0.95
+Islamic NGO Education Officer,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.8
+Islamic NGO Officer,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.82
+Islamic Scholar,25-1126.00,"Philosophy and Religion Teachers, Postsecondary",gemini,0.9
+Islamic Studies Lecturer,25-1126.00,"Philosophy and Religion Teachers, Postsecondary",gemini,0.95
+Islamic Wealth Management Advisor,13-2052.00,Personal Financial Advisors,gemini,0.9
+Islamic Youth Educator,21-2021.00,"Directors, Religious Activities and Education",gemini,0.85
+Islamic Youth Mentor,21-2021.00,"Directors, Religious Activities and Education",gemini,0.8
+Italian Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.95
+Japanese Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.95
+Jazz Musician,27-2042.00,Musicians and Singers,gemini,0.95
+Journalist,27-3023.00,"News Analysts, Reporters, and Journalists",curated,
+Journalist/Foreign Correspondent,27-3023.00,"News Analysts, Reporters, and Journalists",curated,
+Judge,23-1023.00,"Judges, Magistrate Judges, and Magistrates",curated,
+Judicial Officer,23-1023.00,"Judges, Magistrate Judges, and Magistrates",gemini,0.9
+Kindergarten Teacher,25-2012.00,"Kindergarten Teachers, Except Special Education",gemini,1.0
+Kinesiologist,29-1128.00,Exercise Physiologists,gemini,0.85
+Laboratory Manager,11-9121.00,Natural Sciences Managers,gemini,0.85
+Laboratory Technician,19-4099.00,"Life, Physical, and Social Science Technicians, All Other",gemini,0.75
+Laboratory Technologist,29-2011.00,Medical and Clinical Laboratory Technologists,gemini,0.8
+Land Economist,19-3011.00,Economists,gemini,0.85
+Land Use Planner,19-3051.00,Urban and Regional Planners,gemini,0.95
+Land and Property Surveyor,17-1022.00,Surveyors,gemini,0.95
+Landscape Designer,17-1012.00,Landscape Architects,curated,
+Language Arts Specialist,25-9031.00,Instructional Coordinators,gemini,0.85
+Language Assessment Specialist,25-9031.00,Instructional Coordinators,gemini,0.75
+Language Consultant,,,unmapped,0.7
+Language Curriculum Developer,25-9031.00,Instructional Coordinators,gemini,0.9
+Language Instructor,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Language Learning Specialist,25-9031.00,Instructional Coordinators,gemini,0.8
+Language Planner,,,unmapped,0.7
+Language Policy Officer,,,unmapped,0.7
+Language Researcher,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.85
+Language Specialist,27-3099.00,"Media and Communication Workers, All Other",gemini,0.75
+Language Specialist/Translator,27-3091.00,Interpreters and Translators,curated,
+Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Language Trainer,25-3021.00,Self-Enrichment Teachers,gemini,0.8
+Law Clerk,23-1012.00,Judicial Law Clerks,curated,
+Law Enforcement Officer Specializing In Shariah,33-3051.00,Police and Sheriff's Patrol Officers,gemini,0.8
+Lawyer,23-1011.00,Lawyers,curated,
+Learning Disabilities Specialist,25-2059.00,"Special Education Teachers, All Other",gemini,0.85
+Leasing Manager,11-9141.00,"Property, Real Estate, and Community Association Managers",curated,
+Lecturer,25-1199.00,"Postsecondary Teachers, All Other",gemini,0.9
+Lecturer In Islamic Universities,25-1126.00,"Philosophy and Religion Teachers, Postsecondary",gemini,0.85
+Lecturer In Shariah And Law,25-1112.00,"Law Teachers, Postsecondary",gemini,0.9
+Lecturer In Syariah Studies,25-1126.00,"Philosophy and Religion Teachers, Postsecondary",gemini,0.9
+Lecturer or Academic Researcher in Islamic Finance,25-1011.00,"Business Teachers, Postsecondary",gemini,0.85
+Legal Advisor,23-1011.00,Lawyers,gemini,0.95
+Legal Advisor In Islamic Finance,23-1011.00,Lawyers,gemini,0.9
+Legal Affairs Manager,11-9199.00,"Managers, All Other",gemini,0.8
+Legal Analyst,23-2011.00,Paralegals and Legal Assistants,curated,
+Legal Auditor,13-1041.00,Compliance Officers,gemini,0.75
+Legal Consultant,23-1011.00,Lawyers,gemini,0.95
+Legal Consultant In Syariah Law,23-1011.00,Lawyers,gemini,0.95
+Legal Editor/Writer,27-3041.00,Editors,curated,
+Legal Executive,23-2011.00,Paralegals and Legal Assistants,gemini,0.9
+Legal Officer,23-1011.00,Lawyers,gemini,0.9
+Legal Policy Analyst,19-3094.00,Political Scientists,gemini,0.75
+Legal Researcher,23-2011.00,Paralegals and Legal Assistants,gemini,0.85
+Legal Writer/Journalist,27-3023.00,"News Analysts, Reporters, and Journalists",curated,
+Legislative Drafter,23-1011.00,Lawyers,gemini,0.9
+Lexicographer,27-3043.00,Writers and Authors,gemini,0.85
+Lighting Designer,27-1029.00,"Designers, All Other",gemini,0.8
+Linguist,27-3091.00,Interpreters and Translators,curated,
+Linguistic Researcher,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.9
+Literacy Coach,25-9031.00,Instructional Coordinators,gemini,0.9
+Literary Agent,13-1011.00,"Agents and Business Managers of Artists, Performers, and Athletes",curated,
+Literary Critic,27-3043.00,Writers and Authors,gemini,0.85
+Literature Researcher,,,unmapped,0.5
+Loan Officer,13-2072.00,Loan Officers,curated,
+Localization Specialist,27-3091.00,Interpreters and Translators,gemini,0.85
+Machine Learning Engineer,15-2051.00,Data Scientists,gemini,0.85
+Maintenance Engineer,49-9071.00,"Maintenance and Repair Workers, General",curated,
+Maintenance Manager,11-3013.00,Facilities Managers,gemini,0.85
+Makeup Artist,39-5091.00,"Makeup Artists, Theatrical and Performance",gemini,0.95
+Malay Language Editor,27-3041.00,Editors,gemini,0.95
+Malay Language Teacher,25-3099.00,"Teachers and Instructors, All Other",gemini,0.75
+Management Accountant,13-2011.00,Accountants and Auditors,gemini,0.95
+Management Consultant,13-1111.00,Management Analysts,gemini,0.95
+Manufacturing Engineer,17-2112.03,Manufacturing Engineers,curated,
+Marine Biologist,19-1029.04,Biologists,curated,
+Maritime Policy Analyst,19-3094.00,Political Scientists,gemini,0.75
+Maritime Trade Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.8
+Market Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,curated,
+Market Research Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,curated,
+Marketing Communication Specialist,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.9
+Marketing Manager,11-2021.00,Marketing Managers,curated,
+Marriage Counselor,21-1013.00,Marriage and Family Therapists,gemini,0.95
+Materials Engineer,17-2131.00,Materials Engineers,curated,
+Materials Scientist,19-2032.00,Materials Scientists,curated,
+Mathematician,15-2021.00,Mathematicians,curated,
+Mechanical Design Engineer,17-2141.00,Mechanical Engineers,curated,
+Mechatronics Engineer,17-2199.05,Mechatronics Engineers,curated,
+Media Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.75
+Media And Communications Specialist In Islamic Content,27-3031.00,Public Relations Specialists,gemini,0.85
+Media Designer,27-1024.00,Graphic Designers,gemini,0.85
+Media Executive,27-3099.00,"Media and Communication Workers, All Other",gemini,0.7
+Media Law Consultant,23-1011.00,Lawyers,gemini,0.8
+Media Planner,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.85
+Media Producer,27-2012.00,Producers and Directors,gemini,0.95
+Media Researcher,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.8
+Media Specialist,27-3031.00,Public Relations Specialists,gemini,0.85
+Media and Communications Specialist,27-3031.00,Public Relations Specialists,gemini,0.9
+Mediator,23-1022.00,"Arbitrators, Mediators, and Conciliators",curated,
+Mediator In Family And Inheritance Matters,23-1022.00,"Arbitrators, Mediators, and Conciliators",gemini,0.95
+Mediator In Islamic Disputes,23-1022.00,"Arbitrators, Mediators, and Conciliators",gemini,0.9
+Mediator/Arbitrator,23-1022.00,"Arbitrators, Mediators, and Conciliators",curated,
+Medical Consultant,29-1229.00,"Physicians, All Other",gemini,0.85
+Medical Device Designer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Medical Device Developer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Medical Electronics Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Medical Imaging Specialist,29-2034.00,Radiologic Technologists and Technicians,gemini,0.85
+Medical Laboratory Scientist,29-2011.00,Medical and Clinical Laboratory Technologists,gemini,0.95
+Medical Lecturer,25-1071.00,"Health Specialties Teachers, Postsecondary",gemini,0.95
+Medical Officer,29-1229.00,"Physicians, All Other",gemini,0.85
+Medical Physicist,19-2012.00,Physicists,gemini,0.9
+Medical Researcher,19-1042.00,"Medical Scientists, Except Epidemiologists",curated,
+Medical Sales Representative,41-4011.00,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gemini,0.95
+Medical Science Liaison,29-9092.00,Genetic Counselors,curated,
+Medical Scientist,19-1042.00,"Medical Scientists, Except Epidemiologists",gemini,0.95
+Medical Social Worker,21-1022.00,Healthcare Social Workers,curated,
+Mental Health Counselor,21-1014.00,Mental Health Counselors,curated,
+Mergers and Acquisitions Analyst,13-2051.00,Financial and Investment Analysts,gemini,0.9
+Meteorologist,19-2021.00,Atmospheric and Space Scientists,curated,
+Micro Teaching Specialist,25-9031.00,Instructional Coordinators,gemini,0.8
+Microbiologist,19-1022.00,Microbiologists,curated,
+Microcomputer and Digital Systems Engineer,17-2061.00,Computer Hardware Engineers,gemini,0.9
+Microelectronics Engineer,17-2199.06,Microsystems Engineers,gemini,0.9
+Midwife,29-9099.01,Midwives,gemini,0.95
+Mining Geologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",gemini,0.9
+Mobile App Developer,15-1252.00,Software Developers,gemini,0.95
+Molecular Biologist,19-1029.02,Molecular and Cellular Biologists,curated,
+Molecular Geneticist,19-1029.03,Geneticists,gemini,0.95
+Monitoring Specialist,,,unmapped,0.4
+Moral And Civic Education Teacher (Islamic Perspective),25-3099.00,"Teachers and Instructors, All Other",gemini,0.75
+Mosque Administrator,21-2021.00,"Directors, Religious Activities and Education",gemini,0.85
+Mosque Imam,21-2011.00,Clergy,gemini,0.95
+Movement Coach,39-9031.00,Exercise Trainers and Group Fitness Instructors,gemini,0.7
+Multimedia Artist,27-1014.00,Special Effects Artists and Animators,gemini,0.95
+Multimedia Producer,27-2012.00,Producers and Directors,gemini,0.9
+Museum Curator,25-4012.00,Curators,curated,
+Music Analyst,,,unmapped,0.5
+Music Appreciation Specialist,25-3021.00,Self-Enrichment Teachers,gemini,0.8
+Music Educator,25-1121.00,"Art, Drama, and Music Teachers, Postsecondary",gemini,0.85
+Music Ensemble Director,27-2041.00,Music Directors and Composers,gemini,0.95
+Music Pedagogue,25-1121.00,"Art, Drama, and Music Teachers, Postsecondary",gemini,0.85
+Music Producer,27-2012.00,Producers and Directors,gemini,0.9
+Music Therapist,29-1129.02,Music Therapists,curated,
+Music and Movement Instructor,25-3021.00,Self-Enrichment Teachers,gemini,0.8
+Music for Animation and Film Composer,27-2041.00,Music Directors and Composers,gemini,0.95
+Musician,27-2042.00,Musicians and Singers,curated,
+NGO Coordinator,11-9151.00,Social and Community Service Managers,gemini,0.85
+NGO Legal Advisor,23-1011.00,Lawyers,gemini,0.9
+NGO Program Officer,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.8
+NGO Worker Specializing In Islamic Law,23-1011.00,Lawyers,gemini,0.75
+NGO Worker/Coordinator,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.8
+Nanomaterials Engineer,17-2199.09,Nanosystems Engineers,gemini,0.9
+Nanotechnology Engineer,17-2199.09,Nanosystems Engineers,gemini,0.95
+Nanotechnology Researcher,17-2199.09,Nanosystems Engineers,gemini,0.85
+Natural Language Processing Engineer,15-1221.00,Computer and Information Research Scientists,gemini,0.85
+Natural Resource Manager,19-1031.02,Range Managers,curated,
+Network Administrator,15-1244.00,Network and Computer Systems Administrators,gemini,0.98
+Network Engineer,15-1241.00,Computer Network Architects,gemini,0.9
+Network Security Specialist,15-1212.00,Information Security Analysts,gemini,0.9
+News Broadcaster,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.85
+News Reporter,27-3023.00,"News Analysts, Reporters, and Journalists",curated,
+News Writer,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.9
+Non-Governmental Organization (NGO) Legal Advisor,23-1011.00,Lawyers,gemini,0.95
+Non-Governmental Organization (NGO) Specialist,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Non-Governmental Organization (NGO) Worker,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Nonprofit Organization Specialist,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Nonprofit Program Manager,11-9151.00,Social and Community Service Managers,gemini,0.9
+Notary Public,23-2099.00,"Legal Support Workers, All Other",gemini,0.7
+Novelist,27-3043.05,"Poets, Lyricists and Creative Writers",curated,
+Nurse Case Manager,29-1141.00,Registered Nurses,gemini,0.9
+Nurse Educator,25-1072.00,"Nursing Instructors and Teachers, Postsecondary",curated,
+Nurse Manager,11-9111.00,Medical and Health Services Managers,curated,
+Nurse Researcher,19-1042.00,"Medical Scientists, Except Epidemiologists",gemini,0.9
+Obstetrician and Gynecologist,29-1218.00,Obstetricians and Gynecologists,gemini,1.0
+Occupational Health Doctor,29-1229.05,Preventive Medicine Physicians,gemini,0.9
+Occupational Health Nurse,29-1141.00,Registered Nurses,gemini,0.9
+Occupational Therapist (with further study),29-1122.00,Occupational Therapists,curated,
+Online Counselor,21-1014.00,Mental Health Counselors,gemini,0.85
+Operating Room Nurse,29-1141.01,Acute Care Nurses,gemini,0.85
+Operations Analyst,15-2031.00,Operations Research Analysts,gemini,0.95
+Operations Manager,11-1021.00,General and Operations Managers,curated,
+Operations Research Analyst,15-2031.00,Operations Research Analysts,curated,
+Optical Engineer,17-2199.07,Photonics Engineers,curated,
+Oral & Maxillofacial Surgeon,29-1022.00,Oral and Maxillofacial Surgeons,curated,
+Oral Medicine Specialist,29-1029.00,"Dentists, All Other Specialists",gemini,0.9
+Orchestra Conductor,27-2041.00,Music Directors and Composers,gemini,0.95
+Orchestra Musician,27-2042.00,Musicians and Singers,curated,
+Organizational Consultant,19-3032.00,Industrial-Organizational Psychologists,curated,
+Paediatric Dentist,29-1029.00,"Dentists, All Other Specialists",gemini,0.9
+Palliative Care Nurse,29-1141.00,Registered Nurses,gemini,0.9
+Park Ranger,19-1031.03,Park Naturalists,curated,
+Pathologist,29-1222.00,"Physicians, Pathologists",curated,
+Payroll Specialist,43-3051.00,Payroll and Timekeeping Clerks,curated,
+Pediatric Nurse,29-1141.00,Registered Nurses,gemini,0.9
+Pediatrician,29-1221.00,"Pediatricians, General",gemini,1.0
+Penetration Tester,15-1299.04,Penetration Testers,curated,
+Pension Consultant,13-2052.00,Personal Financial Advisors,gemini,0.75
+Performance Analyst in Literature Education,,,unmapped,0.7
+Performance Artist,27-2099.00,"Entertainers and Performers, Sports and Related Workers, All Other",gemini,0.85
+Performance Coach,27-2022.00,Coaches and Scouts,gemini,0.75
+Performance Designer,27-1027.00,Set and Exhibit Designers,gemini,0.85
+Performing Arts Educator,25-1121.00,"Art, Drama, and Music Teachers, Postsecondary",gemini,0.85
+Periodontist,29-1021.00,"Dentists, General",curated,
+Petroleum Engineer,17-2171.00,Petroleum Engineers,curated,
+Petroleum Geologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",curated,
+Pharmaceutical Sales Representative,41-4011.00,"Sales Representatives, Wholesale and Manufacturing, Technical and Scientific Products",gemini,0.95
+Pharmaceutical Scientist,19-1042.00,"Medical Scientists, Except Epidemiologists",gemini,0.9
+Pharmacovigilance Officer,13-1041.07,Regulatory Affairs Specialists,gemini,0.9
+Pharmacy Benefits Analyst,13-1199.00,"Business Operations Specialists, All Other",gemini,0.7
+Photojournalist,27-4021.00,Photographers,curated,
+Physical Therapy Assistant,31-2021.00,Physical Therapist Assistants,gemini,0.95
+Physicist,19-2012.00,Physicists,curated,
+Physics Lecturer,25-1054.00,"Physics Teachers, Postsecondary",curated,
+Piano Instructor,25-3021.00,Self-Enrichment Teachers,gemini,0.85
+Planning Consultant,19-3051.00,Urban and Regional Planners,curated,
+Planning Officer,19-3051.00,Urban and Regional Planners,gemini,0.75
+Play Therapist,21-1013.00,Marriage and Family Therapists,curated,
+Playwright,27-3043.05,"Poets, Lyricists and Creative Writers",gemini,0.9
+Poet,27-3043.05,"Poets, Lyricists and Creative Writers",curated,
+Policy Advisor,19-3094.00,Political Scientists,gemini,0.8
+Policy Analyst,19-3094.00,Political Scientists,gemini,0.85
+Policy Analyst In Islamic Law,19-3094.00,Political Scientists,gemini,0.85
+Policy Writer,27-3043.00,Writers and Authors,gemini,0.8
+Political Analyst,19-3094.00,Political Scientists,gemini,0.95
+Portfolio Manager,11-3031.03,Investment Fund Managers,gemini,0.95
+Power Plant Engineer,17-2199.03,"Energy Engineers, Except Wind and Solar",gemini,0.9
+Power System Engineer,17-2071.00,Electrical Engineers,gemini,0.95
+Pricing Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.85
+Principal Study Musician,27-2042.00,Musicians and Singers,gemini,0.9
+Private Practice Owner,11-1021.00,General and Operations Managers,gemini,0.8
+Process Design Engineer,17-2041.00,Chemical Engineers,gemini,0.9
+Process Integration Engineer,17-2112.03,Manufacturing Engineers,gemini,0.85
+Process Safety Consultant,17-2111.00,"Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",gemini,0.9
+Procurement Officer,43-3061.00,Procurement Clerks,curated,
+Product Design Engineer,27-1021.00,Commercial and Industrial Designers,gemini,0.85
+Product Manager,11-2021.00,Marketing Managers,curated,
+Production Engineer,27-4012.00,Broadcast Technicians,curated,
+Production Manager,11-3051.00,Industrial Production Managers,gemini,0.95
+Production Pharmacist,29-1051.00,Pharmacists,gemini,0.9
+Program Coordinator for Counseling Services,11-9151.00,Social and Community Service Managers,gemini,0.85
+Program Planner,13-1082.00,Project Management Specialists,gemini,0.8
+Project Coordinator,13-1082.00,Project Management Specialists,gemini,0.9
+Project Manager,11-9041.00,Architectural and Engineering Managers,curated,
+Proofreader,43-9081.00,Proofreaders and Copy Markers,curated,
+Property Analyst,13-2051.00,Financial and Investment Analysts,gemini,0.85
+Property Consultant,41-9022.00,Real Estate Sales Agents,gemini,0.9
+Property Manager,11-9141.00,"Property, Real Estate, and Community Association Managers",curated,
+Prosecutor,23-1011.00,Lawyers,curated,
+Prosthetic Designer,29-2091.00,Orthotists and Prosthetists,gemini,0.9
+Prosthetics and Orthotics Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Prosthodontist,29-1024.00,Prosthodontists,curated,
+Psychiatric Nurse,29-1141.02,Advanced Practice Psychiatric Nurses,gemini,0.95
+Psychiatrist,29-1223.00,Psychiatrists,curated,
+Psychological Tester,19-3039.00,"Psychologists, All Other",gemini,0.85
+Public Affairs Manager,11-2032.00,Public Relations Managers,gemini,0.95
+Public Health Consultant,,,unmapped,0.7
+Public Health Microbiologist,19-1022.00,Microbiologists,curated,
+Public Health Nurse,29-1141.00,Registered Nurses,gemini,0.95
+Public Health Officer,29-1229.05,Preventive Medicine Physicians,curated,
+Public Health Pharmacist,29-1051.00,Pharmacists,gemini,0.95
+Public Health Specialist,21-1091.00,Health Education Specialists,gemini,0.85
+Public Policy Advisor,19-3094.00,Political Scientists,gemini,0.9
+Public Policy Analyst,19-3094.00,Political Scientists,gemini,0.9
+Public Prosecutor In Islamic Courts,23-1011.00,Lawyers,gemini,0.9
+Public Relations Executive,27-3031.00,Public Relations Specialists,gemini,0.95
+Public Relations Officer,27-3031.00,Public Relations Specialists,gemini,0.95
+Public Relations Specialist,27-3031.00,Public Relations Specialists,curated,
+Public Sector Economist,19-3011.00,Economists,gemini,0.95
+Public Speaker On Syariah Issues,21-2099.00,"Religious Workers, All Other",gemini,0.85
+Publisher,43-9031.00,Desktop Publishers,curated,
+Publishing Assistant,27-3041.00,Editors,gemini,0.8
+Publishing Manager,11-1021.00,General and Operations Managers,gemini,0.75
+Publishing Professional,27-3099.00,"Media and Communication Workers, All Other",gemini,0.75
+Quality Assurance Engineer,17-2112.02,Validation Engineers,curated,
+Quality Control Analyst,19-4099.01,Quality Control Analysts,curated,
+Quality Control Engineer,17-2112.00,Industrial Engineers,gemini,0.85
+Quantitative Analyst,13-2099.01,Financial Quantitative Analysts,curated,
+Quantity Surveyor,13-1051.00,Cost Estimators,gemini,0.95
+Quran Memorization Coach,25-3021.00,Self-Enrichment Teachers,gemini,0.85
+Quranic Studies Lecturer,25-1126.00,"Philosophy and Religion Teachers, Postsecondary",gemini,0.95
+Quranic Studies Specialist,21-2099.00,"Religious Workers, All Other",gemini,0.8
+Radiation Safety Officer,29-2033.00,Nuclear Medicine Technologists,curated,
+Radiologist,29-1224.00,Radiologists,curated,
+Real Estate Agent,41-9022.00,Real Estate Sales Agents,curated,
+Real Estate Appraiser,13-2023.00,Appraisers and Assessors of Real Estate,curated,
+Real Estate Broker,41-9021.00,Real Estate Brokers,curated,
+Real Estate Lawyer,23-1011.00,Lawyers,gemini,0.95
+Real Estate Researcher,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.8
+Real Estate Valuer,13-2023.00,Appraisers and Assessors of Real Estate,gemini,0.95
+Real-Time Systems Developer,15-1252.00,Software Developers,gemini,0.95
+Recording Engineer,27-4014.00,Sound Engineering Technicians,curated,
+Recreation Manager,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",curated,
+Regional Planner,19-3051.00,Urban and Regional Planners,curated,
+Registered Nurse,29-1141.00,Registered Nurses,curated,
+Regulatory Affairs Associate,13-1041.07,Regulatory Affairs Specialists,gemini,0.95
+Regulatory Affairs Officer,13-1041.07,Regulatory Affairs Specialists,gemini,0.95
+Regulatory Affairs Specialist,13-1041.07,Regulatory Affairs Specialists,curated,
+Rehabilitation Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Rehabilitation Specialist,21-1015.00,Rehabilitation Counselors,curated,
+Reinforced Concrete Engineer,17-2051.00,Civil Engineers,gemini,0.95
+Reinsurance Analyst,13-2054.00,Financial Risk Specialists,gemini,0.85
+Religious Advisor,21-2099.00,"Religious Workers, All Other",gemini,0.85
+Religious Affairs Officer,21-2099.00,"Religious Workers, All Other",gemini,0.85
+Religious Broadcaster,27-3011.00,Broadcast Announcers and Radio Disc Jockeys,gemini,0.85
+Religious Counsellor,21-1019.00,"Counselors, All Other",gemini,0.85
+Religious Education Coordinator,21-2021.00,"Directors, Religious Activities and Education",curated,
+Religious Educator,21-2021.00,"Directors, Religious Activities and Education",gemini,0.9
+Religious Event Organizer,13-1121.00,"Meeting, Convention, and Event Planners",gemini,0.9
+Religious School Administrator,11-9032.00,"Education Administrators, Kindergarten through Secondary",gemini,0.9
+Religious Studies Scholar,25-1126.00,"Philosophy and Religion Teachers, Postsecondary",gemini,0.85
+Religious Teacher,25-3021.00,Self-Enrichment Teachers,gemini,0.75
+Remote Sensing Analyst,19-2099.01,Remote Sensing Scientists and Technologists,curated,
+Remote Sensing Specialist,19-2099.01,Remote Sensing Scientists and Technologists,gemini,0.95
+Renewable Energy Consultant,13-1199.05,Sustainability Specialists,gemini,0.8
+Renewable Energy Specialist,13-1199.05,Sustainability Specialists,gemini,0.85
+Research Analyst,13-2099.01,Financial Quantitative Analysts,curated,
+Research Assistant,19-4061.00,Social Science Research Assistants,gemini,0.7
+Research Assistant in Sports Science,19-4099.00,"Life, Physical, and Social Science Technicians, All Other",gemini,0.85
+Research Officer,,,unmapped,0.85
+Research Officer (Islamic Economics),19-3011.00,Economists,gemini,0.85
+Research Scientist,,,unmapped,0.8
+Research and Development Engineer,17-2199.00,"Engineers, All Other",gemini,0.85
+Researcher,,,unmapped,0.85
+Researcher in Islamic Theology,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.8
+Researcher in Law,23-2099.00,"Legal Support Workers, All Other",gemini,0.85
+Retail Manager,41-1011.00,First-Line Supervisors of Retail Sales Workers,gemini,0.9
+Risk Analyst,13-2054.00,Financial Risk Specialists,curated,
+Risk Assessor,13-2054.00,Financial Risk Specialists,gemini,0.85
+Risk Manager,11-3031.00,Financial Managers,gemini,0.85
+Robotics Engineer,17-2199.08,Robotics Engineers,curated,
+STEM Program Coordinator,25-9031.00,Instructional Coordinators,gemini,0.85
+Safety Engineer,17-2111.00,"Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",gemini,0.95
+Safety and Compliance Engineer,17-2111.00,"Health and Safety Engineers, Except Mining Safety Engineers and Inspectors",gemini,0.9
+Sales Executive,41-3091.00,"Sales Representatives of Services, Except Advertising, Insurance, Financial Services, and Travel",gemini,0.85
+School Health Nurse,29-1141.00,Registered Nurses,gemini,0.95
+Science Communicator,27-3042.00,Technical Writers,gemini,0.8
+Science Outreach Officer,27-3031.00,Public Relations Specialists,gemini,0.8
+Science Teacher,25-2031.00,"Secondary School Teachers, Except Special and Career/Technical Education",gemini,0.9
+Science Writer,27-3042.00,Technical Writers,gemini,0.9
+Scientific Writer,27-3042.00,Technical Writers,gemini,0.9
+Screenwriter,27-3043.05,"Poets, Lyricists and Creative Writers",gemini,0.95
+Scriptwriter,27-3043.05,"Poets, Lyricists and Creative Writers",gemini,0.95
+Security Analyst,15-1212.00,Information Security Analysts,gemini,0.9
+Seismologist,19-2042.00,"Geoscientists, Except Hydrologists and Geographers",gemini,0.95
+Set Designer,27-1027.00,Set and Exhibit Designers,curated,
+Shariah Advisor,21-2099.00,"Religious Workers, All Other",gemini,0.8
+Shariah Compliance Officer,13-1041.00,Compliance Officers,gemini,0.9
+Shariah Lawyer,23-1011.00,Lawyers,gemini,0.95
+Site Engineer,17-2051.00,Civil Engineers,gemini,0.9
+Site Inspector,47-4011.00,Construction and Building Inspectors,gemini,0.9
+Site Quantity Surveyor,13-1051.00,Cost Estimators,gemini,0.9
+Site Supervisor,47-1011.00,First-Line Supervisors of Construction Trades and Extraction Workers,gemini,0.9
+Social Entrepreneur,11-1011.00,Chief Executives,gemini,0.8
+Social Media Manager,11-2021.00,Marketing Managers,gemini,0.85
+Social Planner,19-3051.00,Urban and Regional Planners,gemini,0.85
+Social Policy Advisor,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.85
+Social Researcher,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.85
+Social Services Administrator,11-9151.00,Social and Community Service Managers,gemini,0.9
+Social Services Coordinator,21-1099.00,"Community and Social Service Specialists, All Other",gemini,0.85
+Social Worker,21-1029.00,"Social Workers, All Other",gemini,0.9
+Social and Cultural Analyst,19-3099.00,"Social Scientists and Related Workers, All Other",gemini,0.85
+Sociologist/Anthropologist,19-3041.00,Sociologists,curated,
+Software Architect,15-1252.00,Software Developers,curated,
+Software Developer,15-1252.00,Software Developers,curated,
+Software Engineer,15-1252.00,Software Developers,curated,
+Software Maintenance Specialist,15-1252.00,Software Developers,gemini,0.85
+Software Quality Analyst,15-1253.00,Software Quality Assurance Analysts and Testers,gemini,0.95
+Software Requirements Analyst,15-1211.00,Computer Systems Analysts,gemini,0.9
+Software Tester,15-1253.00,Software Quality Assurance Analysts and Testers,gemini,0.95
+Soil Scientist,19-1013.00,Soil and Plant Scientists,gemini,0.95
+Solid Waste Management Engineer,17-2081.00,Environmental Engineers,gemini,0.9
+Songwriter,27-2041.00,Music Directors and Composers,gemini,0.9
+Sound Designer,27-4014.00,Sound Engineering Technicians,gemini,0.85
+Southeast Asia Regional Analyst,19-3094.00,Political Scientists,gemini,0.8
+Spanish Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Spatial Analyst,15-1299.02,Geographic Information Systems Technologists and Technicians,gemini,0.9
+Special Education Teacher,25-2051.00,"Special Education Teachers, Preschool",curated,
+Speech Analyst,15-2051.00,Data Scientists,gemini,0.65
+Speech Therapist Assistant,31-9099.01,Speech-Language Pathology Assistants,gemini,0.95
+Speechwriter,27-3043.00,Writers and Authors,gemini,0.95
+Sponsorship Coordinator,13-1131.00,Fundraisers,gemini,0.8
+Sports Agent,13-1011.00,"Agents and Business Managers of Artists, Performers, and Athletes",gemini,0.95
+Sports Analyst,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.85
+Sports Coach,27-2022.00,Coaches and Scouts,gemini,0.95
+Sports Consultant,13-1111.00,Management Analysts,gemini,0.7
+Sports Data Analyst,15-2051.00,Data Scientists,gemini,0.9
+Sports Development Officer,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.8
+Sports Facility Manager,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.85
+Sports Journalist,27-3023.00,"News Analysts, Reporters, and Journalists",gemini,0.95
+Sports Marketing Manager,11-2021.00,Marketing Managers,gemini,0.95
+Sports Medicine Technician,29-9091.00,Athletic Trainers,gemini,0.85
+Sports Nutritionist,29-1031.00,Dietitians and Nutritionists,gemini,0.95
+Sports Official,27-2023.00,"Umpires, Referees, and Other Sports Officials",curated,
+Sports Product Manager,13-1082.00,Project Management Specialists,gemini,0.8
+Sports Psychologist Assistant,19-3039.00,"Psychologists, All Other",gemini,0.75
+Sports Public Relations Specialist,27-3031.00,Public Relations Specialists,gemini,0.95
+Sports Scientist,29-1128.00,Exercise Physiologists,gemini,0.9
+Sports Statistician,15-2041.00,Statisticians,gemini,0.95
+Stage Combat Instructor,25-1121.00,"Art, Drama, and Music Teachers, Postsecondary",gemini,0.75
+Stage Director,27-2012.00,Producers and Directors,gemini,0.95
+Stage Manager,27-2012.05,Media Technical Directors/Managers,gemini,0.85
+Stage Technician,27-4099.00,"Media and Communication Equipment Workers, All Other",gemini,0.85
+Statistical Analyst,15-2041.00,Statisticians,curated,
+Statistical Programmer,15-1251.00,Computer Programmers,gemini,0.9
+Statistician,15-2041.00,Statisticians,curated,
+Strategic Communications Consultant,27-3031.00,Public Relations Specialists,gemini,0.85
+Strategic Planner,13-1111.00,Management Analysts,gemini,0.9
+Strategic Planning Executive,13-1111.00,Management Analysts,gemini,0.85
+Strength and Conditioning Coach,39-9031.00,Exercise Trainers and Group Fitness Instructors,curated,
+Structural Engineer,17-2051.00,Civil Engineers,gemini,0.95
+Substance Abuse Counselor,21-1011.00,Substance Abuse and Behavioral Disorder Counselors,gemini,0.95
+Subtitle Translator,27-3091.00,Interpreters and Translators,gemini,0.95
+Subtitler,27-3091.00,Interpreters and Translators,gemini,0.9
+Subtitling Specialist,27-3091.00,Interpreters and Translators,gemini,0.9
+Supply Chain Coordinator,13-1081.00,Logisticians,gemini,0.9
+Surgeon,29-1249.00,"Surgeons, All Other",gemini,0.95
+Survey Researcher,19-3022.00,Survey Researchers,curated,
+Sustainability Consultant,13-1199.05,Sustainability Specialists,curated,
+Sustainability Officer,13-1199.05,Sustainability Specialists,gemini,0.9
+Sustainable Design Consultant,13-1199.05,Sustainability Specialists,curated,
+Sustainable Design Engineer,17-2081.00,Environmental Engineers,gemini,0.85
+Sustainable Development Consultant,13-1199.05,Sustainability Specialists,gemini,0.85
+Sustainable Development Engineer,17-2081.00,Environmental Engineers,gemini,0.85
+Syariah Auditor,13-2011.00,Accountants and Auditors,gemini,0.9
+Systems Analyst,15-1211.00,Computer Systems Analysts,gemini,0.95
+TESL Program Director,11-9039.00,"Education Administrators, All Other",gemini,0.85
+Tahfiz School Teacher,25-3099.00,"Teachers and Instructors, All Other",gemini,0.8
+Takaful (Islamic Insurance) Agent,41-3021.00,Insurance Sales Agents,gemini,0.95
+Tamil Language Teacher,25-1124.00,"Foreign Language and Literature Teachers, Postsecondary",gemini,0.85
+Tax Consultant,13-2082.00,Tax Preparers,curated,
+Teaching English as a Second Language (TESL) Teacher,25-3011.00,"Adult Basic Education, Adult Secondary Education, and English as a Second Language Instructors",gemini,0.95
+Team Operations Manager,11-1021.00,General and Operations Managers,gemini,0.9
+Technical Consultant,15-1211.00,Computer Systems Analysts,gemini,0.85
+Technical Officer,17-3029.00,"Engineering Technologists and Technicians, Except Drafters, All Other",gemini,0.65
+Technical Support Specialist,15-1232.00,Computer User Support Specialists,curated,
+Technical Writer,27-3042.00,Technical Writers,curated,
+Technopreneur,11-1011.00,Chief Executives,gemini,0.6
+Telecommunications Engineer,15-1241.01,Telecommunications Engineering Specialists,gemini,0.95
+Tendering Specialist,13-1051.00,Cost Estimators,gemini,0.9
+Text Analyst,15-2051.00,Data Scientists,gemini,0.75
+Textbook Writer For Islamic Subjects,27-3043.00,Writers and Authors,gemini,0.85
+Theatre Critic,27-3043.00,Writers and Authors,gemini,0.85
+Theatre Designer,27-1027.00,Set and Exhibit Designers,gemini,0.95
+Theatre Director,27-2012.00,Producers and Directors,gemini,0.95
+Theatre Manager,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.9
+Theatre Producer,27-2012.00,Producers and Directors,gemini,0.95
+Theatre Technician,27-4099.00,"Media and Communication Equipment Workers, All Other",gemini,0.8
+Tissue Engineer,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Tissue Engineering Specialist,17-2031.00,Bioengineers and Biomedical Engineers,gemini,0.9
+Tour Guide,39-7011.00,Tour Guides and Escorts,curated,
+Tourism Consultant,13-1111.00,Management Analysts,gemini,0.75
+Tourism Development Officer,13-1199.00,"Business Operations Specialists, All Other",gemini,0.75
+Tourism Officer,13-1199.00,"Business Operations Specialists, All Other",gemini,0.7
+Tournament Director,11-9072.00,"Entertainment and Recreation Managers, Except Gambling",gemini,0.85
+Town Planner,19-3051.00,Urban and Regional Planners,gemini,0.95
+Toxicologist,19-1042.00,"Medical Scientists, Except Epidemiologists",curated,
+Trade Analyst,13-1161.00,Market Research Analysts and Marketing Specialists,gemini,0.8
+Trade and Investment Officer,13-1199.00,"Business Operations Specialists, All Other",gemini,0.75
+Traditional Dance Performer,27-2031.00,Dancers,gemini,0.95
+Traditional Music Specialist,27-2042.00,Musicians and Singers,gemini,0.9
+Traffic Engineer,17-2051.01,Transportation Engineers,curated,
+Training Specialist,13-1151.00,Training and Development Specialists,curated,
+Transcriptionist,31-9094.00,Medical Transcriptionists,curated,
+Translator,27-3091.00,Interpreters and Translators,curated,
+Translator Of Islamic Texts,27-3091.00,Interpreters and Translators,gemini,0.95
+Translator/Interpreter,27-3091.00,Interpreters and Translators,curated,
+Transportation Planner,19-3099.01,Transportation Planners,curated,
+Treasury Analyst,13-2051.00,Financial and Investment Analysts,gemini,0.9
+Tutor,25-3041.00,Tutors,curated,
+UI/UX Designer,15-1255.00,Web and Digital Interface Designers,gemini,0.95
+University Lecturer,25-1199.00,"Postsecondary Teachers, All Other",gemini,0.9
+Urban Designer,19-3051.00,Urban and Regional Planners,gemini,0.9
+Urban Planner,19-3051.00,Urban and Regional Planners,gemini,0.98
+Urban Sustainability Planner,19-3051.00,Urban and Regional Planners,gemini,0.9
+VLSI Design Engineer,17-2072.00,"Electronics Engineers, Except Computer",gemini,0.9
+Vaccine Development Specialist,19-1042.00,"Medical Scientists, Except Epidemiologists",gemini,0.9
+Validation Engineer,17-2112.02,Validation Engineers,curated,
+Valuation Executive,13-2023.00,Appraisers and Assessors of Real Estate,gemini,0.85
+Value Engineer,17-2112.00,Industrial Engineers,gemini,0.85
+Veteran’s Affairs Dentist,29-1021.00,"Dentists, General",gemini,0.95
+Vibration and Condition,,,unmapped,0.95
+Virtual Reality Developer,15-1252.00,Software Developers,gemini,0.9
+Voice-Over Artist,27-2011.00,Actors,curated,
+Waste Management Engineer,17-2081.00,Environmental Engineers,gemini,0.95
+Waste Management Officer,19-2041.00,"Environmental Scientists and Specialists, Including Health",gemini,0.8
+Waste Management Specialist,13-1041.01,Environmental Compliance Inspectors,curated,
+Waste Water Treatment Engineer,17-2051.02,Water/Wastewater Engineers,gemini,0.95
+Water Resource Engineer,17-2051.02,Water/Wastewater Engineers,gemini,0.95
+Water Resource Specialist,11-9121.02,Water Resource Specialists,curated,
+Water Resources Engineer,17-2051.02,Water/Wastewater Engineers,gemini,0.95
+Wealth Management Advisor,13-2052.00,Personal Financial Advisors,gemini,0.95
+Web Developer,15-1254.00,Web Developers,curated,
+Wellness Consultant,11-9179.01,Fitness and Wellness Coordinators,gemini,0.8
+Wildlife Biologist,19-1023.00,Zoologists and Wildlife Biologists,curated,
+Wildlife Conservationist,19-1031.00,Conservation Scientists,gemini,0.9
+Wind and Earthquake Engineer,17-2051.00,Civil Engineers,gemini,0.85
+Wireless Communication Engineer,15-1241.01,Telecommunications Engineering Specialists,gemini,0.9
+Wireless Power Transfer Engineer,17-2071.00,Electrical Engineers,gemini,0.9
+Writer,27-3043.00,Writers and Authors,curated,
+Writer Or Author On Islamic Topics,27-3043.00,Writers and Authors,gemini,0.9
+Writer/Author,27-3043.00,Writers and Authors,curated,
+Writing Instructor,25-1123.00,"English Language and Literature Teachers, Postsecondary",gemini,0.8
+Zakat and Waqf Management Officer,13-2099.00,"Financial Specialists, All Other",gemini,0.7
+Zoning Officer,13-1041.00,Compliance Officers,gemini,0.85
+Zoologist,19-1023.00,Zoologists and Wildlife Biologists,curated,

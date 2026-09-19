@@ -1,0 +1,3972 @@
+{
+ "Writer Or Author On Islamic Topics": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Islamic Education Curriculum Developer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Translator Of Islamic Texts": {
+  "onet_code": "27-3091.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Financial Planner (Islamic Finance)": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Mediator In Islamic Disputes": {
+  "onet_code": "23-1022.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Compliance Officer In Islamic Banking": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Media And Communications Specialist In Islamic Content": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Islamic Museum Curator": {
+  "onet_code": "25-4012.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Islamic Event Organizer": {
+  "onet_code": "13-1121.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Tourism Officer": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.7,
+  "source_run": "evaluation"
+ },
+ "Text Analyst": {
+  "onet_code": "15-2051.00",
+  "confidence": 0.75,
+  "source_run": "evaluation"
+ },
+ "Poet": {
+  "onet_code": "27-3043.05",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Historian": {
+  "onet_code": "19-3093.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Proofreader": {
+  "onet_code": "43-9081.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Copywriter": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Project Coordinator": {
+  "onet_code": "13-1082.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Construction Economist": {
+  "onet_code": "13-1051.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Urban Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Property Analyst": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Construction Manager": {
+  "onet_code": "11-9021.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Claims Consultant": {
+  "onet_code": "13-1031.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Estate Planner": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Environmental Scientist": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Community Development Specialist": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Media Law Consultant": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.8,
+  "source_run": "evaluation"
+ },
+ "Environmental Policy Analyst": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "International Relations Specialist": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Government Policy Advisor": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.8,
+  "source_run": "evaluation"
+ },
+ "Strategic Communications Consultant": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "International Law Specialist": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Writer/Author": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Gerontologist": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.75,
+  "source_run": "evaluation"
+ },
+ "Mergers and Acquisitions Analyst": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Human Resources Officer": {
+  "onet_code": "13-1071.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Financial Planner": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Forensic Accountant": {
+  "onet_code": "13-2099.04",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Auditor": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Internal Auditor": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Component-Based Software Engineer": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Computer Vision Engineer": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Business Intelligence Analyst": {
+  "onet_code": "15-2051.01",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Data Center Technician": {
+  "onet_code": "15-1231.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Penetration Tester": {
+  "onet_code": "15-1299.04",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Network Administrator": {
+  "onet_code": "15-1244.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Dancer": {
+  "onet_code": "27-2031.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Dance Ethnologist": {
+  "onet_code": "19-3091.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Playwright": {
+  "onet_code": "27-3043.05",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Dance Music Composer": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Event Coordinator": {
+  "onet_code": "13-1121.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Theatre Producer": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Clinical Lecturer": {
+  "onet_code": "25-1071.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "General Practitioner Dentist": {
+  "onet_code": "29-1021.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Forensic Odontologist": {
+  "onet_code": "29-1029.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Community Dentist": {
+  "onet_code": "29-1029.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Health and Nutrition Specialist": {
+  "onet_code": "29-1031.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Career Counselor": {
+  "onet_code": "21-1012.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Psychological Tester": {
+  "onet_code": "19-3039.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Teaching English as a Second Language (TESL) Teacher": {
+  "onet_code": "25-3011.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Program Planner": {
+  "onet_code": "13-1082.00",
+  "confidence": 0.8,
+  "source_run": "evaluation"
+ },
+ "Chemical Safety Engineer": {
+  "onet_code": "17-2111.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Wind and Earthquake Engineer": {
+  "onet_code": "17-2051.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Advanced Process Safety Engineer": {
+  "onet_code": "17-2111.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Bridge Engineer": {
+  "onet_code": "17-2051.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Assistive Technology Developer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Advanced Prosthetics Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Power System Engineer": {
+  "onet_code": "17-2071.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Waste Management Engineer": {
+  "onet_code": "17-2081.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Arabic Transcriptionist": {
+  "onet_code": "43-9022.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Arabic Calligraphy Artist": {
+  "onet_code": "27-1013.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Religious Educator": {
+  "onet_code": "21-2021.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Customer Service Executive": {
+  "onet_code": "43-4051.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Legal Advisor": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Non-Governmental Organization (NGO) Legal Advisor": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Judge": {
+  "onet_code": "23-1023.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Forensic Medical Officer": {
+  "onet_code": "29-1222.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Public Health Officer": {
+  "onet_code": "21-1091.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Microbiologist": {
+  "onet_code": "19-1022.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Public Health Specialist": {
+  "onet_code": "21-1091.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Biotech Product Specialist": {
+  "onet_code": "41-4011.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Nurse Educator": {
+  "onet_code": "25-1072.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Pediatric Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Psychiatric Nurse": {
+  "onet_code": "29-1141.02",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Registered Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Production Pharmacist": {
+  "onet_code": "29-1051.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Healthcare Consultant": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Pharmacovigilance Officer": {
+  "onet_code": "13-1041.07",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Aerospace Technician": {
+  "onet_code": "17-3021.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Earth Science Educator": {
+  "onet_code": "25-1051.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Food Safety Analyst": {
+  "onet_code": "19-4099.01",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Academic Advisor": {
+  "onet_code": "21-1012.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Genetic Counselor (with further study)": {
+  "onet_code": "29-9092.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "Renewable Energy Specialist": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Optical Engineer": {
+  "onet_code": "17-2199.07",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Regulatory Affairs Associate": {
+  "onet_code": "13-1041.07",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Sports Facility Manager": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.85,
+  "source_run": "evaluation"
+ },
+ "Strength and Conditioning Coach": {
+  "onet_code": "27-2022.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Sports Scientist": {
+  "onet_code": "29-1128.00",
+  "confidence": 0.9,
+  "source_run": "evaluation"
+ },
+ "Sports Public Relations Specialist": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.95,
+  "source_run": "evaluation"
+ },
+ "Exercise Physiologist": {
+  "onet_code": "29-1128.00",
+  "confidence": 0.98,
+  "source_run": "evaluation"
+ },
+ "3D Animator": {
+  "onet_code": "27-1014.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "3D Visualizer": {
+  "onet_code": "27-1014.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "AI Research Scientist": {
+  "onet_code": "15-1221.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Academic Lecturer": {
+  "onet_code": "25-1199.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Academic Research Assistant": {
+  "onet_code": "19-4099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Academic Researcher": {
+  "onet_code": "25-1199.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Academic Researcher in International Studies": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Academic Researcher/Professor": {
+  "onet_code": "25-1199.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Academic Writer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Academic/Legal Educator": {
+  "onet_code": "25-1112.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Accounts Executive": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Acoustics Engineer": {
+  "onet_code": "17-2199.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Acting Coach": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Actuarial Analyst": {
+  "onet_code": "15-2011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Addiction Counselor": {
+  "onet_code": "21-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Advanced Music Conductor": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Advanced Process Control Engineer": {
+  "onet_code": "17-2041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Advanced Transportation Engineer": {
+  "onet_code": "17-2051.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Advertising Executive": {
+  "onet_code": "11-2011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Advocate and Solicitor": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "Agricultural Biotechnologist": {
+  "onet_code": "19-1029.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Air Quality Analyst": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Air Quality Engineer": {
+  "onet_code": "17-2081.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Analytics Consultant": {
+  "onet_code": "15-2051.01",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Applications Developer": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Arabic Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Architectural Assistant": {
+  "onet_code": "17-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Arts Administrator": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Arts Critic": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Arts Festival Organizer": {
+  "onet_code": "13-1121.00",
+  "confidence": 0.92,
+  "source_run": "final"
+ },
+ "Arts Manager": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Arts and Cultural Administrator": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Asset Manager": {
+  "onet_code": "11-3031.03",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Assistive Technology Specialist": {
+  "onet_code": "29-1122.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Athlete Liaison Officer": {
+  "onet_code": "13-1011.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Audio Engineer": {
+  "onet_code": "27-4014.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Author Of Islamic Literature": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Automation Engineer": {
+  "onet_code": "17-2199.05",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "BIM Specialist": {
+  "onet_code": "17-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Ballet Instructor": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Banking Executive": {
+  "onet_code": "13-2099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Banking Officer": {
+  "onet_code": "13-2099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Behavioral Therapist": {
+  "onet_code": "21-1014.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Big Data Engineer": {
+  "onet_code": "15-1243.01",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Bio-mechanist": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Biochemical Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Biodiversity Researcher": {
+  "onet_code": "19-1029.04",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Biomanufacturing Specialist": {
+  "onet_code": "19-1029.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Biomechanics Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Biomechatronics Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Biomedical Equipment Technician": {
+  "onet_code": "49-9062.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Biomedical Scientist": {
+  "onet_code": "19-1042.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Biomedical Signal Processing Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Bioprocess Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Biotech Sales Specialist": {
+  "onet_code": "41-4011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Biotechnologist": {
+  "onet_code": "19-1029.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Biotechnology Consultant": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Book Reviewer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Broadcast Journalist": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Building Compliance Officer": {
+  "onet_code": "47-4011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Building Consultant": {
+  "onet_code": "11-9021.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Building Control Officer": {
+  "onet_code": "47-4011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Building Designer": {
+  "onet_code": "17-1011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Building Information Modeler": {
+  "onet_code": "17-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Building Surveyor": {
+  "onet_code": "47-4011.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Business Analyst": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Business Development Executive": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Chemical Process Engineer": {
+  "onet_code": "17-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Chemical Research Scientist": {
+  "onet_code": "19-2031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Chief Financial Officer": {
+  "onet_code": "11-3031.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Child Development Specialist": {
+  "onet_code": "21-1021.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Child Welfare Officer": {
+  "onet_code": "21-1021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Children's Program Coordinator": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Children’s Theatre Director": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Chinese Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Citizen Journalist": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Claims Analyst": {
+  "onet_code": "13-1031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Climate Change Analyst": {
+  "onet_code": "19-2041.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Climatologist": {
+  "onet_code": "19-2021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Clinical Dentist": {
+  "onet_code": "29-1021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Clinical Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Clinical Epidemiologist": {
+  "onet_code": "19-1041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Clinical Prosthetics Specialist": {
+  "onet_code": "29-2091.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Clinical Prosthetist": {
+  "onet_code": "29-2091.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Clinical Research Associate": {
+  "onet_code": "11-9121.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Clinical Trials Coordinator": {
+  "onet_code": "11-9121.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Cloud Solutions Architect": {
+  "onet_code": "15-1299.08",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Coastal Engineer": {
+  "onet_code": "17-2051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Commercial Manager": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Communication Executive": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Communication Manager": {
+  "onet_code": "11-2032.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Communication Officer": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Communication Specialist": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Community Development Officer": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Community Engagement Officer": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Community Health Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Community Legal Services Provider": {
+  "onet_code": "23-2011.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Community Outreach Coordinator": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Compliance Officer In Islamic Institutions": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Compounding Pharmacist": {
+  "onet_code": "29-1051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Computational Fluid Dynamics Engineer": {
+  "onet_code": "17-2141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Conservation Officer": {
+  "onet_code": "19-1031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Construction Project Manager": {
+  "onet_code": "11-9021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Content Creator": {
+  "onet_code": "27-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Content Developer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Content Writer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Contract Administrator": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Contract Manager": {
+  "onet_code": "11-9199.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Contract Specialist": {
+  "onet_code": "13-1023.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Control Systems Engineer": {
+  "onet_code": "17-2199.05",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Corporate Communication Manager": {
+  "onet_code": "11-2032.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Corporate Communications Executive": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Corporate Counsel": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Corporate Finance Analyst": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Corporate Finance Executive": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Corporate Governance Executive (Shariah-compliant firms)": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Corporate Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Corporate Legal Counsel With Shariah Expertise": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Corporate Social Responsibility (CSR) Manager": {
+  "onet_code": "11-2032.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Corporate Strategist": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Corporate Strategist in Multinational Companies": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Corporate Wellness Coordinator": {
+  "onet_code": "11-9179.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Corrosion Engineer": {
+  "onet_code": "17-2131.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Cost Planner": {
+  "onet_code": "13-1051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Creative Director": {
+  "onet_code": "27-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Crime Prevention Specialist": {
+  "onet_code": "13-1199.07",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Criminal Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Criminologist": {
+  "onet_code": "19-3041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Cross-Cultural Trainer": {
+  "onet_code": "13-1151.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Cultural Advisor": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Cultural Analyst": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Cultural Arts Manager": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Cultural Consultant": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Cultural Heritage Manager": {
+  "onet_code": "25-4012.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Cultural Officer": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Cultural Program Manager": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Curriculum Developer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Curriculum Developer For Islamic Education": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Customer Relationship Manager": {
+  "onet_code": "11-2022.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Cybersecurity Analyst": {
+  "onet_code": "15-1212.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Cybersecurity Engineer": {
+  "onet_code": "15-1299.05",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Dance Critic": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Dance Notation Specialist": {
+  "onet_code": "27-2032.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Dance Therapist": {
+  "onet_code": "29-1129.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Dance Writer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Da’wah Officer": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Deep Learning Engineer": {
+  "onet_code": "15-2051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Demographer": {
+  "onet_code": "15-2041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Dental Health Educator": {
+  "onet_code": "21-1091.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Dental Public Health Specialist": {
+  "onet_code": "29-1029.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Dental Research Scientist": {
+  "onet_code": "19-1042.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Dental Specialist": {
+  "onet_code": "29-1029.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Design Consultant": {
+  "onet_code": "27-1029.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Design Engineer": {
+  "onet_code": "17-2199.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Development Consultant": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Development Control Officer": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Development Economist": {
+  "onet_code": "19-3011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Development Project Manager": {
+  "onet_code": "13-1082.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Digital Content Creator": {
+  "onet_code": "27-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Digital Design Engineer": {
+  "onet_code": "17-2072.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Digital Forensic Analyst": {
+  "onet_code": "15-1299.06",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Digital Learning Specialist": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Digital Media Specialist": {
+  "onet_code": "27-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Diplomat": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Diplomat or Foreign Service Officer": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Diplomatic Officer": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Disability Advocate": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Documentary Producer": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Drama Educator": {
+  "onet_code": "25-1121.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Drama Therapist": {
+  "onet_code": "29-1129.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Dramaturg": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Drug Safety Associate": {
+  "onet_code": "13-1041.07",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "E-Commerce Specialist": {
+  "onet_code": "13-1199.06",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "ESL Program Coordinator": {
+  "onet_code": "25-3011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Early Childhood Education Administrator": {
+  "onet_code": "11-9031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Early Childhood Educator": {
+  "onet_code": "25-2011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "East Asian Market Analyst": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Econometrician": {
+  "onet_code": "19-3011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Economic Geographer": {
+  "onet_code": "19-3092.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Ecotourism Guide": {
+  "onet_code": "39-7011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Ecotourism Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Editor": {
+  "onet_code": "27-3041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Editor/Publisher": {
+  "onet_code": "27-3041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Editorial Director": {
+  "onet_code": "27-3041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Education Administrator": {
+  "onet_code": "11-9039.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Education Consultant": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Education Officer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Education Officer In Religious Institutions": {
+  "onet_code": "21-2021.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Education Policy Advisor (Islamic Education)": {
+  "onet_code": "21-2021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Education Policy Analyst": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Educational Administrator": {
+  "onet_code": "11-9039.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Educational Consultant": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Educational Counselor": {
+  "onet_code": "21-1012.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Educational Program Developer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Educational Publisher": {
+  "onet_code": "27-3041.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Educational Technology Specialist": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Electronic Music Producer": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Electronics Engineer": {
+  "onet_code": "17-2072.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Embassy Staff": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Embedded Systems Engineer": {
+  "onet_code": "17-2072.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Emergency Medicine Doctor": {
+  "onet_code": "29-1214.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Employment Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Energy Systems Engineer": {
+  "onet_code": "17-2199.03",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "English Language Instructor": {
+  "onet_code": "25-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "English Language Teacher": {
+  "onet_code": "25-1123.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Ensemble Director": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Enterprise Network Architect": {
+  "onet_code": "15-1241.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Entrepreneur": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Entrepreneur (Halal Business)": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.65,
+  "source_run": "final"
+ },
+ "Entrepreneur in Creative Industries": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.65,
+  "source_run": "final"
+ },
+ "Entrepreneur specializing in East Asian markets": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.65,
+  "source_run": "final"
+ },
+ "Environmental Auditor": {
+  "onet_code": "13-1041.01",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Environmental Biotechnologist": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Environmental Compliance Officer": {
+  "onet_code": "13-1041.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Environmental Consultant": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Environmental Geologist": {
+  "onet_code": "19-2042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Environmental Health and Safety Officer": {
+  "onet_code": "19-5011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Environmental Impact Assessment Officer": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Environmental Impact Assessor": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Environmental Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Environmental Microbiologist": {
+  "onet_code": "19-1022.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Environmental Outreach Coordinator": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Environmental Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Environmental Researcher": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Equity Analyst": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Ethics Consultant": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Ethnographer": {
+  "onet_code": "19-3091.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Event Manager": {
+  "onet_code": "13-1121.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Examination Officer": {
+  "onet_code": "11-9033.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Exercise Therapist": {
+  "onet_code": "29-1128.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "External Auditor": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Facilities Planner": {
+  "onet_code": "11-3013.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Failure Analysis Engineer": {
+  "onet_code": "17-2199.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Family Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Family Medicine Specialist": {
+  "onet_code": "29-1215.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Family Support Specialist": {
+  "onet_code": "21-1021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Field Technician": {
+  "onet_code": "17-3029.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Film Music Composer": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Finance Manager": {
+  "onet_code": "11-3031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Financial Consultant": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Financial Controller": {
+  "onet_code": "11-3031.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Financial Operations Analyst": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Financial Risk Manager": {
+  "onet_code": "13-2054.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Finite Element Analyst": {
+  "onet_code": "17-2141.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Food Safety Specialist": {
+  "onet_code": "19-1012.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Foreign Affairs Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Foreign Affairs Specialist": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Foreign Correspondent": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Foreign Language Analyst": {
+  "onet_code": "27-3091.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Foreign Policy Advisor": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Forest and Land Use Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Forestry Officer": {
+  "onet_code": "19-1032.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Formulation Scientist": {
+  "onet_code": "19-2031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "French Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Fund Manager": {
+  "onet_code": "11-3031.03",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "GIS Analyst": {
+  "onet_code": "15-1299.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "GIS Analyst (Environmental Applications)": {
+  "onet_code": "15-1299.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "GIS Specialist": {
+  "onet_code": "15-1299.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Game Developer": {
+  "onet_code": "15-1255.01",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "General Practitioner": {
+  "onet_code": "29-1215.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Genetic Technologist": {
+  "onet_code": "29-2011.01",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Geographic Information Systems (GIS) Specialist": {
+  "onet_code": "15-1299.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Geological Consultant": {
+  "onet_code": "19-2042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Geological Surveyor": {
+  "onet_code": "19-2042.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Geophysicist": {
+  "onet_code": "19-2042.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Geriatric Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "German Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Global Risk Manager": {
+  "onet_code": "13-2054.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Government Legal Advisor": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Government Legal Officer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Government Officer": {
+  "onet_code": "NONE",
+  "confidence": 0.6,
+  "source_run": "final"
+ },
+ "Green Building Consultant": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Green Building Specialist": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Group Counselor": {
+  "onet_code": "21-1019.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "HVAC Engineer": {
+  "onet_code": "17-2141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Hadith Researcher": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Halal Certification Officer": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Halal Industry Executive": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Health and Safety Officer": {
+  "onet_code": "19-5011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Healthcare Technology Manager": {
+  "onet_code": "11-9111.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Heat Transfer Engineer": {
+  "onet_code": "17-2141.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Heritage And Cultural Officer": {
+  "onet_code": "25-4012.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Heritage Conservation Officer": {
+  "onet_code": "25-4013.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Heritage Officer": {
+  "onet_code": "25-4012.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Heritage Preservation Officer": {
+  "onet_code": "25-4013.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Heritage Tourism Specialist": {
+  "onet_code": "NONE",
+  "confidence": 0.65,
+  "source_run": "final"
+ },
+ "Highway Engineer": {
+  "onet_code": "17-2051.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Historical Consultant": {
+  "onet_code": "19-3093.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Hospital Administrator": {
+  "onet_code": "11-9111.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Hospital Dentist": {
+  "onet_code": "29-1021.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Housing Development Officer": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Human Rights Advocate": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Human-Computer Interaction Specialist": {
+  "onet_code": "17-2112.01",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Hydraulic Engineer": {
+  "onet_code": "17-2051.02",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "IT Consultant": {
+  "onet_code": "15-1211.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "IT Project Manager": {
+  "onet_code": "15-1299.09",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "In-house Counsel": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Industrial Microbiologist": {
+  "onet_code": "19-1022.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Industrial Pharmacist": {
+  "onet_code": "29-1051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Industrial and Organizational Psychologist": {
+  "onet_code": "19-3032.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Infection Control Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Information Systems Auditor": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Information Systems Manager": {
+  "onet_code": "11-3021.00",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "Infrastructure Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Instrumentation Engineer": {
+  "onet_code": "17-2072.00",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "Insurance Claims Adjuster": {
+  "onet_code": "13-1031.00",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "Intellectual Property Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "Intelligence Analyst": {
+  "onet_code": "33-3021.06",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "Intelligence Officer": {
+  "onet_code": "33-3021.06",
+  "confidence": 0.92,
+  "source_run": "final"
+ },
+ "Interaction Designer": {
+  "onet_code": "15-1255.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Interfaith Dialogue Coordinator": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Interfaith Dialogue Facilitator": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.82,
+  "source_run": "final"
+ },
+ "Internal Combustion Engine Specialist": {
+  "onet_code": "17-2141.02",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "International Business Consultant": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "International Business Development Manager": {
+  "onet_code": "11-2021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "International Development Officer": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "International Development Specialist": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "International Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "International Relations Consultant": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "International Relations Officer": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "International Trade Specialist": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Investment Banker": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Islamic Affairs Officer": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Banking Officer": {
+  "onet_code": "13-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Capital Market Executive": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Child Rearing Specialist": {
+  "onet_code": "21-1021.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Islamic Content Writer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Islamic Counsellor": {
+  "onet_code": "21-1019.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Court Judge": {
+  "onet_code": "23-1023.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Islamic Curriculum Developer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.92,
+  "source_run": "final"
+ },
+ "Islamic E-Learning Content Developer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "Islamic Education Broadcaster": {
+  "onet_code": "27-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Education Coordinator": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Islamic Education Inspector": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Education Researcher": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Islamic Education Teacher": {
+  "onet_code": "25-2031.00",
+  "confidence": 0.82,
+  "source_run": "final"
+ },
+ "Islamic Education Trainer": {
+  "onet_code": "13-1151.00",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "Islamic Ethics Consultant": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Islamic Finance Advisor": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "Islamic Finance Consultant": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Finance Executive": {
+  "onet_code": "13-2099.00",
+  "confidence": 0.82,
+  "source_run": "final"
+ },
+ "Islamic Heritage Researcher": {
+  "onet_code": "19-3093.00",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "Islamic Historian": {
+  "onet_code": "19-3093.00",
+  "confidence": 0.98,
+  "source_run": "final"
+ },
+ "Islamic Judge (Qadi)": {
+  "onet_code": "23-1023.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Islamic Law Consultant": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Legal Researcher": {
+  "onet_code": "23-2011.00",
+  "confidence": 0.88,
+  "source_run": "final"
+ },
+ "Islamic Legal Trainer": {
+  "onet_code": "13-1151.00",
+  "confidence": 0.82,
+  "source_run": "final"
+ },
+ "Islamic NGO Education Officer": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Islamic NGO Officer": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.82,
+  "source_run": "final"
+ },
+ "Islamic Scholar": {
+  "onet_code": "25-1126.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Islamic Studies Lecturer": {
+  "onet_code": "25-1126.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Islamic Wealth Management Advisor": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Islamic Youth Educator": {
+  "onet_code": "21-2021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Islamic Youth Mentor": {
+  "onet_code": "21-2021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Italian Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Japanese Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Jazz Musician": {
+  "onet_code": "27-2042.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Judicial Officer": {
+  "onet_code": "23-1023.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Kindergarten Teacher": {
+  "onet_code": "25-2012.00",
+  "confidence": 1.0,
+  "source_run": "final"
+ },
+ "Kinesiologist": {
+  "onet_code": "29-1128.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Laboratory Manager": {
+  "onet_code": "11-9121.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Laboratory Technician": {
+  "onet_code": "19-4099.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Laboratory Technologist": {
+  "onet_code": "29-2011.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Land Economist": {
+  "onet_code": "19-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Land Use Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Land and Property Surveyor": {
+  "onet_code": "17-1022.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Language Arts Specialist": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Language Assessment Specialist": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Language Consultant": {
+  "onet_code": "NONE",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Language Curriculum Developer": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Language Instructor": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Language Learning Specialist": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Language Planner": {
+  "onet_code": "NONE",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Language Policy Officer": {
+  "onet_code": "NONE",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Language Researcher": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Language Specialist": {
+  "onet_code": "27-3099.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Language Trainer": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Law Enforcement Officer Specializing In Shariah": {
+  "onet_code": "33-3051.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Learning Disabilities Specialist": {
+  "onet_code": "25-2059.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Lecturer": {
+  "onet_code": "25-1199.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Lecturer In Islamic Universities": {
+  "onet_code": "25-1126.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Lecturer In Shariah And Law": {
+  "onet_code": "25-1112.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Lecturer In Syariah Studies": {
+  "onet_code": "25-1126.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Lecturer or Academic Researcher in Islamic Finance": {
+  "onet_code": "25-1011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Legal Advisor In Islamic Finance": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Legal Affairs Manager": {
+  "onet_code": "11-9199.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Legal Auditor": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Legal Consultant": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Legal Consultant In Syariah Law": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Legal Executive": {
+  "onet_code": "23-2011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Legal Officer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Legal Policy Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Legal Researcher": {
+  "onet_code": "23-2011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Legislative Drafter": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Lexicographer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Lighting Designer": {
+  "onet_code": "27-1029.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Linguistic Researcher": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Literacy Coach": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Literary Critic": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Literature Researcher": {
+  "onet_code": "NONE",
+  "confidence": 0.5,
+  "source_run": "final"
+ },
+ "Localization Specialist": {
+  "onet_code": "27-3091.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Machine Learning Engineer": {
+  "onet_code": "15-2051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Maintenance Manager": {
+  "onet_code": "11-3013.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Makeup Artist": {
+  "onet_code": "39-5091.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Malay Language Editor": {
+  "onet_code": "27-3041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Malay Language Teacher": {
+  "onet_code": "25-3099.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Management Accountant": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Management Consultant": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Maritime Policy Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Maritime Trade Analyst": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Marketing Communication Specialist": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Marriage Counselor": {
+  "onet_code": "21-1013.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Media Analyst": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Media Designer": {
+  "onet_code": "27-1024.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Media Executive": {
+  "onet_code": "27-3099.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Media Planner": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Media Producer": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Media Researcher": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Media Specialist": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Media and Communications Specialist": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Mediator In Family And Inheritance Matters": {
+  "onet_code": "23-1022.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Medical Consultant": {
+  "onet_code": "29-1229.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Medical Device Designer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Medical Device Developer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Medical Electronics Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Medical Imaging Specialist": {
+  "onet_code": "29-2034.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Medical Laboratory Scientist": {
+  "onet_code": "29-2011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Medical Lecturer": {
+  "onet_code": "25-1071.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Medical Officer": {
+  "onet_code": "29-1229.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Medical Physicist": {
+  "onet_code": "19-2012.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Medical Sales Representative": {
+  "onet_code": "41-4011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Medical Scientist": {
+  "onet_code": "19-1042.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Micro Teaching Specialist": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Microcomputer and Digital Systems Engineer": {
+  "onet_code": "17-2061.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Microelectronics Engineer": {
+  "onet_code": "17-2199.06",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Midwife": {
+  "onet_code": "29-9099.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Mining Geologist": {
+  "onet_code": "19-2042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Mobile App Developer": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Molecular Geneticist": {
+  "onet_code": "19-1029.03",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Monitoring Specialist": {
+  "onet_code": "NONE",
+  "confidence": 0.4,
+  "source_run": "final"
+ },
+ "Moral And Civic Education Teacher (Islamic Perspective)": {
+  "onet_code": "25-3099.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Mosque Administrator": {
+  "onet_code": "21-2021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Mosque Imam": {
+  "onet_code": "21-2011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Movement Coach": {
+  "onet_code": "39-9031.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Multimedia Artist": {
+  "onet_code": "27-1014.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Multimedia Producer": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Music Analyst": {
+  "onet_code": "NONE",
+  "confidence": 0.5,
+  "source_run": "final"
+ },
+ "Music Appreciation Specialist": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Music Educator": {
+  "onet_code": "25-1121.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Music Ensemble Director": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Music Pedagogue": {
+  "onet_code": "25-1121.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Music Producer": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Music and Movement Instructor": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Music for Animation and Film Composer": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "NGO Coordinator": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "NGO Legal Advisor": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "NGO Program Officer": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "NGO Worker Specializing In Islamic Law": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "NGO Worker/Coordinator": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Nanomaterials Engineer": {
+  "onet_code": "17-2199.09",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Nanotechnology Engineer": {
+  "onet_code": "17-2199.09",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Nanotechnology Researcher": {
+  "onet_code": "17-2199.09",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Natural Language Processing Engineer": {
+  "onet_code": "15-1221.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Network Engineer": {
+  "onet_code": "15-1241.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Network Security Specialist": {
+  "onet_code": "15-1212.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "News Broadcaster": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "News Writer": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Non-Governmental Organization (NGO) Specialist": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Non-Governmental Organization (NGO) Worker": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Nonprofit Organization Specialist": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Nonprofit Program Manager": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Notary Public": {
+  "onet_code": "23-2099.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Nurse Case Manager": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Nurse Researcher": {
+  "onet_code": "19-1042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Obstetrician and Gynecologist": {
+  "onet_code": "29-1218.00",
+  "confidence": 1.0,
+  "source_run": "final"
+ },
+ "Occupational Health Doctor": {
+  "onet_code": "29-1229.05",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Occupational Health Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Online Counselor": {
+  "onet_code": "21-1014.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Operating Room Nurse": {
+  "onet_code": "29-1141.01",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Operations Analyst": {
+  "onet_code": "15-2031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Oral Medicine Specialist": {
+  "onet_code": "29-1029.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Orchestra Conductor": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Paediatric Dentist": {
+  "onet_code": "29-1029.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Palliative Care Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Pediatrician": {
+  "onet_code": "29-1221.00",
+  "confidence": 1.0,
+  "source_run": "final"
+ },
+ "Pension Consultant": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Performance Analyst in Literature Education": {
+  "onet_code": "NONE",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Performance Artist": {
+  "onet_code": "27-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Performance Coach": {
+  "onet_code": "27-2022.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Performance Designer": {
+  "onet_code": "27-1027.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Performing Arts Educator": {
+  "onet_code": "25-1121.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Pharmaceutical Sales Representative": {
+  "onet_code": "41-4011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Pharmaceutical Scientist": {
+  "onet_code": "19-1042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Pharmacy Benefits Analyst": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Physical Therapy Assistant": {
+  "onet_code": "31-2021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Piano Instructor": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Planning Officer": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Policy Advisor": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Policy Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Policy Analyst In Islamic Law": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Policy Writer": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Political Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Portfolio Manager": {
+  "onet_code": "11-3031.03",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Power Plant Engineer": {
+  "onet_code": "17-2199.03",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Pricing Analyst": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Principal Study Musician": {
+  "onet_code": "27-2042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Private Practice Owner": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Process Design Engineer": {
+  "onet_code": "17-2041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Process Integration Engineer": {
+  "onet_code": "17-2112.03",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Process Safety Consultant": {
+  "onet_code": "17-2111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Product Design Engineer": {
+  "onet_code": "27-1021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Production Manager": {
+  "onet_code": "11-3051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Program Coordinator for Counseling Services": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Property Consultant": {
+  "onet_code": "41-9022.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Prosthetic Designer": {
+  "onet_code": "29-2091.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Prosthetics and Orthotics Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Public Affairs Manager": {
+  "onet_code": "11-2032.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Public Health Consultant": {
+  "onet_code": "NONE",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Public Health Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Public Health Pharmacist": {
+  "onet_code": "29-1051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Public Policy Advisor": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Public Policy Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Public Prosecutor In Islamic Courts": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Public Relations Executive": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Public Relations Officer": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Public Sector Economist": {
+  "onet_code": "19-3011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Public Speaker On Syariah Issues": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Publishing Assistant": {
+  "onet_code": "27-3041.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Publishing Manager": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Publishing Professional": {
+  "onet_code": "27-3099.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Quality Control Engineer": {
+  "onet_code": "17-2112.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Quantity Surveyor": {
+  "onet_code": "13-1051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Quran Memorization Coach": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Quranic Studies Lecturer": {
+  "onet_code": "25-1126.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Quranic Studies Specialist": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Real Estate Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Real Estate Researcher": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Real Estate Valuer": {
+  "onet_code": "13-2023.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Real-Time Systems Developer": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Regulatory Affairs Officer": {
+  "onet_code": "13-1041.07",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Rehabilitation Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Reinforced Concrete Engineer": {
+  "onet_code": "17-2051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Reinsurance Analyst": {
+  "onet_code": "13-2054.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Religious Advisor": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Religious Affairs Officer": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Religious Broadcaster": {
+  "onet_code": "27-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Religious Counsellor": {
+  "onet_code": "21-1019.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Religious Event Organizer": {
+  "onet_code": "13-1121.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Religious School Administrator": {
+  "onet_code": "11-9032.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Religious Studies Scholar": {
+  "onet_code": "25-1126.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Religious Teacher": {
+  "onet_code": "25-3021.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Remote Sensing Specialist": {
+  "onet_code": "19-2099.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Renewable Energy Consultant": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Research Assistant": {
+  "onet_code": "19-4061.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Research Assistant in Sports Science": {
+  "onet_code": "19-4099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Research Officer": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Research Officer (Islamic Economics)": {
+  "onet_code": "19-3011.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Research Scientist": {
+  "onet_code": "NONE",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Research and Development Engineer": {
+  "onet_code": "17-2199.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Researcher": {
+  "onet_code": "NONE",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Researcher in Islamic Theology": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Researcher in Law": {
+  "onet_code": "23-2099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Retail Manager": {
+  "onet_code": "41-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Risk Assessor": {
+  "onet_code": "13-2054.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Risk Manager": {
+  "onet_code": "11-3031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "STEM Program Coordinator": {
+  "onet_code": "25-9031.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Safety Engineer": {
+  "onet_code": "17-2111.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Safety and Compliance Engineer": {
+  "onet_code": "17-2111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Sales Executive": {
+  "onet_code": "41-3091.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "School Health Nurse": {
+  "onet_code": "29-1141.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Science Communicator": {
+  "onet_code": "27-3042.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Science Outreach Officer": {
+  "onet_code": "27-3031.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Science Teacher": {
+  "onet_code": "25-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Science Writer": {
+  "onet_code": "27-3042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Scientific Writer": {
+  "onet_code": "27-3042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Screenwriter": {
+  "onet_code": "27-3043.05",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Scriptwriter": {
+  "onet_code": "27-3043.05",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Security Analyst": {
+  "onet_code": "15-1212.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Seismologist": {
+  "onet_code": "19-2042.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Shariah Advisor": {
+  "onet_code": "21-2099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Shariah Compliance Officer": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Shariah Lawyer": {
+  "onet_code": "23-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Site Engineer": {
+  "onet_code": "17-2051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Site Inspector": {
+  "onet_code": "47-4011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Site Quantity Surveyor": {
+  "onet_code": "13-1051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Site Supervisor": {
+  "onet_code": "47-1011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Social Entrepreneur": {
+  "onet_code": "11-1011.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Social Media Manager": {
+  "onet_code": "11-2021.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Social Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Social Policy Advisor": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Social Researcher": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Social Services Administrator": {
+  "onet_code": "11-9151.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Social Services Coordinator": {
+  "onet_code": "21-1099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Social Worker": {
+  "onet_code": "21-1029.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Social and Cultural Analyst": {
+  "onet_code": "19-3099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Software Maintenance Specialist": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Software Quality Analyst": {
+  "onet_code": "15-1253.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Software Requirements Analyst": {
+  "onet_code": "15-1211.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Software Tester": {
+  "onet_code": "15-1253.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Soil Scientist": {
+  "onet_code": "19-1013.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Solid Waste Management Engineer": {
+  "onet_code": "17-2081.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Songwriter": {
+  "onet_code": "27-2041.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Sound Designer": {
+  "onet_code": "27-4014.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Southeast Asia Regional Analyst": {
+  "onet_code": "19-3094.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Spanish Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Spatial Analyst": {
+  "onet_code": "15-1299.02",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Speech Analyst": {
+  "onet_code": "15-2051.00",
+  "confidence": 0.65,
+  "source_run": "final"
+ },
+ "Speech Therapist Assistant": {
+  "onet_code": "31-9099.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Speechwriter": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sponsorship Coordinator": {
+  "onet_code": "13-1131.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Sports Agent": {
+  "onet_code": "13-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sports Analyst": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Sports Coach": {
+  "onet_code": "27-2022.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sports Consultant": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Sports Data Analyst": {
+  "onet_code": "15-2051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Sports Development Officer": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Sports Journalist": {
+  "onet_code": "27-3023.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sports Marketing Manager": {
+  "onet_code": "11-2021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sports Medicine Technician": {
+  "onet_code": "29-9091.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Sports Nutritionist": {
+  "onet_code": "29-1031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sports Product Manager": {
+  "onet_code": "13-1082.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Sports Psychologist Assistant": {
+  "onet_code": "19-3039.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Sports Statistician": {
+  "onet_code": "15-2041.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Stage Combat Instructor": {
+  "onet_code": "25-1121.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Stage Director": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Stage Manager": {
+  "onet_code": "27-2012.05",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Stage Technician": {
+  "onet_code": "27-4099.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Statistical Programmer": {
+  "onet_code": "15-1251.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Strategic Planner": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Strategic Planning Executive": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Structural Engineer": {
+  "onet_code": "17-2051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Substance Abuse Counselor": {
+  "onet_code": "21-1011.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Subtitle Translator": {
+  "onet_code": "27-3091.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Subtitler": {
+  "onet_code": "27-3091.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Subtitling Specialist": {
+  "onet_code": "27-3091.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Supply Chain Coordinator": {
+  "onet_code": "13-1081.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Surgeon": {
+  "onet_code": "29-1249.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Sustainability Officer": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Sustainable Design Engineer": {
+  "onet_code": "17-2081.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Sustainable Development Consultant": {
+  "onet_code": "13-1199.05",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Sustainable Development Engineer": {
+  "onet_code": "17-2081.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Syariah Auditor": {
+  "onet_code": "13-2011.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Systems Analyst": {
+  "onet_code": "15-1211.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "TESL Program Director": {
+  "onet_code": "11-9039.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Tahfiz School Teacher": {
+  "onet_code": "25-3099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Takaful (Islamic Insurance) Agent": {
+  "onet_code": "41-3021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Tamil Language Teacher": {
+  "onet_code": "25-1124.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Team Operations Manager": {
+  "onet_code": "11-1021.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Technical Consultant": {
+  "onet_code": "15-1211.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Technical Officer": {
+  "onet_code": "17-3029.00",
+  "confidence": 0.65,
+  "source_run": "final"
+ },
+ "Technopreneur": {
+  "onet_code": "11-1011.00",
+  "confidence": 0.6,
+  "source_run": "final"
+ },
+ "Telecommunications Engineer": {
+  "onet_code": "15-1241.01",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Tendering Specialist": {
+  "onet_code": "13-1051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Textbook Writer For Islamic Subjects": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Theatre Critic": {
+  "onet_code": "27-3043.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Theatre Designer": {
+  "onet_code": "27-1027.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Theatre Director": {
+  "onet_code": "27-2012.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Theatre Manager": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Theatre Technician": {
+  "onet_code": "27-4099.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Tissue Engineer": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Tissue Engineering Specialist": {
+  "onet_code": "17-2031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Tourism Consultant": {
+  "onet_code": "13-1111.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Tourism Development Officer": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Tournament Director": {
+  "onet_code": "11-9072.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Town Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Trade Analyst": {
+  "onet_code": "13-1161.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Trade and Investment Officer": {
+  "onet_code": "13-1199.00",
+  "confidence": 0.75,
+  "source_run": "final"
+ },
+ "Traditional Dance Performer": {
+  "onet_code": "27-2031.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Traditional Music Specialist": {
+  "onet_code": "27-2042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Treasury Analyst": {
+  "onet_code": "13-2051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "UI/UX Designer": {
+  "onet_code": "15-1255.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "University Lecturer": {
+  "onet_code": "25-1199.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Urban Designer": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Urban Sustainability Planner": {
+  "onet_code": "19-3051.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "VLSI Design Engineer": {
+  "onet_code": "17-2072.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Vaccine Development Specialist": {
+  "onet_code": "19-1042.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Valuation Executive": {
+  "onet_code": "13-2023.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Value Engineer": {
+  "onet_code": "17-2112.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ },
+ "Veteran’s Affairs Dentist": {
+  "onet_code": "29-1021.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Vibration and Condition": {
+  "onet_code": "NONE",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Virtual Reality Developer": {
+  "onet_code": "15-1252.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Waste Management Officer": {
+  "onet_code": "19-2041.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Waste Water Treatment Engineer": {
+  "onet_code": "17-2051.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Water Resource Engineer": {
+  "onet_code": "17-2051.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Water Resources Engineer": {
+  "onet_code": "17-2051.02",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Wealth Management Advisor": {
+  "onet_code": "13-2052.00",
+  "confidence": 0.95,
+  "source_run": "final"
+ },
+ "Wellness Consultant": {
+  "onet_code": "11-9179.01",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Wildlife Conservationist": {
+  "onet_code": "19-1031.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Wireless Communication Engineer": {
+  "onet_code": "15-1241.01",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Wireless Power Transfer Engineer": {
+  "onet_code": "17-2071.00",
+  "confidence": 0.9,
+  "source_run": "final"
+ },
+ "Writing Instructor": {
+  "onet_code": "25-1123.00",
+  "confidence": 0.8,
+  "source_run": "final"
+ },
+ "Zakat and Waqf Management Officer": {
+  "onet_code": "13-2099.00",
+  "confidence": 0.7,
+  "source_run": "final"
+ },
+ "Zoning Officer": {
+  "onet_code": "13-1041.00",
+  "confidence": 0.85,
+  "source_run": "final"
+ }
+}
