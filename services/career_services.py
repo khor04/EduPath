@@ -19,6 +19,7 @@ from models.onet_occupation import OnetOccupation
 from models.onet_occupation_concept import OnetOccupationConcept
 from models.career_recommendation import CareerRecommendation
 from services.cgpa_services import GRADE_POINTS, FAIL_GRADES
+from services.programme_careers import get_programme_careers
 
 MODEL_NAME = "gemini-3.6-flash"
 CLASSIFY_PROMPT_VERSION = "v1"
@@ -984,8 +985,72 @@ def _career_match_tier(similarity):
     return "Moderate Match", "moderate"
 
 
+def _rank_programme_careers(student_vector, programme_careers, occupation_vectors, occupations, top_n):
+    """
+    Ranks the careers a programme officially leads to (services/
+    programme_careers.py) by how closely the student's profile matches
+    each career's O*NET occupation -- the same cosine similarity as the
+    unrestricted ranking, over a much smaller and relevant candidate set.
+
+    Several UM titles can share one O*NET occupation (a Nursing student's
+    "Pediatric Nurse", "Geriatric Nurse" and "School Health Nurse" are all
+    O*NET's Registered Nurses), so they would tie at exactly the same
+    score and crowd out genuinely different careers. They are merged into
+    ONE result under the first title UM lists, with the rest kept in
+    "also_titles" so nothing is silently dropped.
+
+    Ties between different occupations keep UM's own listing order.
+    Pure function of its arguments (no DB access) so it can be tested
+    against saved data.
+    """
+    grouped = {}   # onet_code -> {"title", "onet_code", "also_titles"}; insertion order = UM listing order
+    for career in programme_careers:
+        code = career["onet_code"]
+        if code not in occupation_vectors:
+            continue   # an occupation with no skill ratings can't be scored
+        if code in grouped:
+            grouped[code]["also_titles"].append(career["um_title"])
+        else:
+            grouped[code] = {"title": career["um_title"], "onet_code": code, "also_titles": []}
+
+    scored = [
+        (_cosine_similarity(student_vector, occupation_vectors[code]), order, entry)
+        for order, (code, entry) in enumerate(grouped.items())
+    ]
+    scored.sort(key=lambda row: (-row[0], row[1]))
+
+    results = []
+    for similarity, _, entry in scored[:top_n]:
+        code = entry["onet_code"]
+        top_concepts = _top_contributing_concepts(student_vector, occupation_vectors[code], top_n=5)
+        matched_competencies = list(dict.fromkeys(
+            CONCEPT_TO_COMPETENCY[key] for key in top_concepts if key in CONCEPT_TO_COMPETENCY
+        ))
+        tier, tier_class = _career_match_tier(similarity)
+
+        results.append({
+            "onet_soc_code": code,
+            "title": entry["title"],
+            "also_titles": entry["also_titles"],
+            "onet_title": occupations[code]["title"],
+            "description": occupations[code]["description"],
+            "similarity": round(similarity, 4),
+            "match_percentage": round(similarity * 100, 1),
+            "tier": tier,
+            "tier_class": tier_class,
+            "matched_competencies": matched_competencies,
+        })
+
+    return results
+
+
 def match_careers(user_id, top_n=10, profile=None):
     """
+    For a student whose programme has an official UM career list, ranks
+    only those careers (see _rank_programme_careers and services/
+    programme_careers.py); otherwise ranks every O*NET occupation, as
+    described below.
+
     Ranks O*NET occupations by cosine similarity between the student's
     O*NET concept-level profile (build_student_profile()) and each
     occupation's Skill/Knowledge importance vector
@@ -1033,6 +1098,14 @@ def match_careers(user_id, top_n=10, profile=None):
     }
 
     occupation_vectors, occupations = _get_occupation_vectors()
+
+    # Restrict to the careers UM lists for the student's own programme. An
+    # unknown programme (e.g. an admin's placeholder) falls back to ranking
+    # every O*NET occupation below, so no student ever gets an empty page.
+    user = User.query.get(user_id)
+    programme_careers = get_programme_careers(user.programme) if user else None
+    if programme_careers:
+        return _rank_programme_careers(student_vector, programme_careers, occupation_vectors, occupations, top_n)
 
     # Score every occupation first (cheap -- just the cosine calc), then
     # only compute "why it matched" for the occupations that actually

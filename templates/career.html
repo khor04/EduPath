@@ -95,9 +95,9 @@
             <h2>Top career matches based on your O*NET skill profile</h2>
         </div>
         <p class="career-methodology-note">
-            Ranked by profile similarity between your O*NET-mapped skill profile and real occupation
-            data from the O*NET database (1,016 occupations). Similarity indicates how closely your
-            O*NET skill profile matches the occupation's knowledge profile — it is not a probability
+            These are the careers UM lists for your programme, ranked by profile similarity between
+            your O*NET-mapped skill profile and each career's O*NET occupation profile. The percentage
+            shows how closely your profile matches that occupation's profile — it is not a probability
             of career success.
         </p>
 
@@ -106,38 +106,55 @@
             No career matches could be computed from your current transcript yet.
         </div>
         {% else %}
-        <div class="career-grid">
-            {% for c in careers %}
-            {% set desc_id = "desc-" ~ (c.onet_soc_code | replace("-", "") | replace(".", "")) %}
-            <div class="career-card">
-                <i class="bi bi-info-circle career-info-icon" onclick="toggleCareerDescription('{{ desc_id }}')"></i>
-                <div class="career-body">
-                    <h3>{{ c.title }}</h3>
-                    <p id="{{ desc_id }}" class="career-description hidden">{{ c.description }}</p>
-                    <p class="career-score career-tier-{{ c.tier_class }}">
-                        {{ c.match_percentage }}% profile similarity
-                        <span class="career-tier-badge career-tier-{{ c.tier_class }}">{{ c.tier }}</span>
-                    </p>
-                    <strong>Why this matches you:</strong>
-                    <ul>
-                        {% for competency in c.matched_competencies %}
-                        <li>{{ competency }}</li>
-                        {% endfor %}
-                    </ul>
+        {% macro career_card(c, key, best=False) %}
+        <div class="career-card{% if best %} career-card-best{% endif %}">
+            <i class="bi bi-info-circle career-info-icon" onclick="toggleCareerDescription('desc-{{ key }}')"></i>
+            <div class="career-body">
+                <h3>{{ c.title }}</h3>
+                {% if c.also_titles %}
+                <p class="career-also-covers">
+                    Also covers: {{ c.also_titles[:3] | join(", ") }}{% if c.also_titles | length > 3 %}, +{{ c.also_titles | length - 3 }} more{% endif %}
+                </p>
+                {% endif %}
+                <p id="desc-{{ key }}" class="career-description hidden">
+                    <strong>Closest O*NET occupation:</strong> {{ c.onet_title }}. {{ c.description }}
+                </p>
+                <p class="career-score">{{ c.match_percentage }}% profile similarity</p>
+                <strong>Why this matches you:</strong>
+                <ul>
+                    {% for competency in c.matched_competencies %}
+                    <li>{{ competency }}</li>
+                    {% endfor %}
+                </ul>
 
-                    <div class="career-feedback hidden" id="feedback-{{ c.career_id }}">
-                        <div class="career-feedback-buttons">
-                            <button onclick="submitCareerFeedback({{ c.career_id }}, 1)" title="Very Poor">😞</button>
-                            <button onclick="submitCareerFeedback({{ c.career_id }}, 2)" title="Poor">😐</button>
-                            <button onclick="submitCareerFeedback({{ c.career_id }}, 3)" title="Neutral">🙂</button>
-                            <button onclick="submitCareerFeedback({{ c.career_id }}, 4)" title="Good">😊</button>
-                            <button onclick="submitCareerFeedback({{ c.career_id }}, 5)" title="Excellent">😍</button>
-                        </div>
+                <div class="career-feedback hidden" id="feedback-{{ c.career_id }}">
+                    <div class="career-feedback-buttons">
+                        <button onclick="submitCareerFeedback({{ c.career_id }}, 1)" title="Very Poor">😞</button>
+                        <button onclick="submitCareerFeedback({{ c.career_id }}, 2)" title="Poor">😐</button>
+                        <button onclick="submitCareerFeedback({{ c.career_id }}, 3)" title="Neutral">🙂</button>
+                        <button onclick="submitCareerFeedback({{ c.career_id }}, 4)" title="Good">😊</button>
+                        <button onclick="submitCareerFeedback({{ c.career_id }}, 5)" title="Excellent">😍</button>
                     </div>
                 </div>
             </div>
+        </div>
+        {% endmacro %}
+
+        <h3 class="career-group-heading">Best matches</h3>
+        <div class="career-grid">
+            {% for c in best_careers %}
+            {{ career_card(c, "best-" ~ loop.index, best=True) }}
             {% endfor %}
         </div>
+
+        {% if more_careers %}
+        <h3 class="career-group-heading">You may also like</h3>
+        <div class="career-grid">
+            {% for c in more_careers %}
+            {{ career_card(c, "more-" ~ loop.index) }}
+            {% endfor %}
+        </div>
+        {% endif %}
 
         <div class="career-feedback-toggle-row">
             <button class="career-feedback-toggle-btn" onclick="toggleAllCareerFeedback()">Rate These Recommendations</button>

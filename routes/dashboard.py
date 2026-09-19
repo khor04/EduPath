@@ -87,8 +87,7 @@ def dashboard():
 
     dashboard_strengths = []
     dashboard_weaknesses = []
-    dashboard_strong_careers = []
-    dashboard_moderate_careers = []
+    dashboard_top_careers = []
 
     if has_skill_data:
         competency_profile = build_competency_profile(concept_profile)
@@ -104,8 +103,7 @@ def dashboard():
         ]
 
         dashboard_careers = match_careers(current_user.user_id, top_n=3, profile=concept_profile)
-        dashboard_strong_careers = [c["title"] for c in dashboard_careers if c["tier_class"] == "strong"]
-        dashboard_moderate_careers = [c["title"] for c in dashboard_careers if c["tier_class"] == "moderate"]
+        dashboard_top_careers = [c["title"] for c in dashboard_careers]
 
     return render_template(
         "dashboard.html",
@@ -121,8 +119,7 @@ def dashboard():
         has_skill_data=has_skill_data,
         dashboard_strengths=dashboard_strengths,
         dashboard_weaknesses=dashboard_weaknesses,
-        dashboard_strong_careers=dashboard_strong_careers,
-        dashboard_moderate_careers=dashboard_moderate_careers,
+        dashboard_top_careers=dashboard_top_careers,
         performance_alert=performance_alert
     )
 

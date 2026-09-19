@@ -123,7 +123,13 @@ function downloadCareerSectionAsPng() {
 
   btn.style.visibility = "hidden";
 
-  html2canvas(section, { backgroundColor: "#ffffff", scale: 2 })
+  // Leave out the controls that only make sense on screen: the "i" description
+  // toggles and the "Rate These Recommendations" button.
+  const isScreenOnly = el => el.classList && (
+    el.classList.contains("career-info-icon") || el.classList.contains("career-feedback-toggle-row")
+  );
+
+  html2canvas(section, { backgroundColor: "#ffffff", scale: 2, ignoreElements: isScreenOnly })
     .then(canvas => {
       const link = document.createElement("a");
       link.download = "career_recommendations.png";

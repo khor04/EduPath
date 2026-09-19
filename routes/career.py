@@ -16,6 +16,10 @@ from services.career_services import (
 
 career_bp = Blueprint("career", __name__)
 
+# Career page layout: the top matches, then a smaller "you may also like" row.
+BEST_MATCH_COUNT = 3
+MORE_MATCH_COUNT = 2
+
 @career_bp.route("/career")
 @login_required
 # Keyed per-user, not the default per-IP -- this is behind
@@ -35,7 +39,7 @@ def career():
 
     strengths = top_strengths(competency_profile, top_n=5)
     improvement_courses = identify_improvement_courses(current_user.user_id, top_n=5)
-    careers = match_careers(current_user.user_id, top_n=6, profile=concept_profile)
+    careers = match_careers(current_user.user_id, top_n=BEST_MATCH_COUNT + MORE_MATCH_COUNT, profile=concept_profile)
     save_skill_profile(current_user.user_id, competency_profile, top_n=5)
 
     name_to_career_id = save_career_recommendations(current_user.user_id, careers)
@@ -51,6 +55,8 @@ def career():
         strengths=strengths,
         improvement_courses=improvement_courses,
         careers=careers,
+        best_careers=careers[:BEST_MATCH_COUNT],
+        more_careers=careers[BEST_MATCH_COUNT:],
         radar_labels=radar_labels,
         radar_values=radar_values,
     )

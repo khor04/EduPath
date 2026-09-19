@@ -192,7 +192,7 @@ margin-bottom: 20px;
 
 .career-card {
   background: white;
-  box-shadow: 0 0 0 1px #ddd;
+  border: 1px solid #ddd;   /* a real border, not a 0-blur box-shadow: the PNG export (html2canvas) paints those as solid blocks */
   border-radius: 6px;
   transition: box-shadow 0.15s;
   position: relative;
@@ -200,6 +200,33 @@ margin-bottom: 20px;
 
 .career-card:hover {
   box-shadow: 0 4px 14px rgba(22, 139, 209, 0.18);
+}
+
+/* Top matches: a light green tint and green left edge mark rank, not a claim about
+   how good the match is -- the percentage still says that. Hover only lifts the
+   card; nothing depends on it, since touch screens have no hover. */
+.career-card-best {
+  background: #f3faf5;
+  border-color: #cfe8d6;
+  border-left: 4px solid #2f9e44;   /* a real border: html2canvas cannot draw inset shadows and fills them solid */
+}
+
+.career-card-best .career-score {
+  color: #2b8a3e;
+}
+
+@media (hover: hover) {
+  .career-card {
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+
+  .career-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .career-card-best:hover {
+    box-shadow: 0 6px 16px rgba(47, 158, 68, 0.25);
+  }
 }
 
 .career-img {
@@ -502,4 +529,19 @@ background: #168bd1;
   .career-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Best matches / You may also like */
+.career-group-heading {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 22px 0 12px;
+  color: #0f460e;
+}
+
+.career-also-covers {
+  font-size: 14px;
+  font-weight:bolder;
+  color: #404040;
+  margin: -4px 0 8px;
 }

@@ -16,6 +16,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils.validators import validate_course_row, MAX_COURSES_PER_SEMESTER
 from services.career_services import build_student_profile
+from utils.programmes import normalize_programme, programme_word_set, programmes_match
 
 
 transcript_bp = Blueprint("transcript", __name__)
@@ -235,64 +236,6 @@ def extract_programme_from_transcript(all_words):
 
     return value or None
 
-
-def normalize_programme(programme):
-    if not programme:
-        return ""
-
-    programme = programme.upper().strip()
-
-    programme = programme.replace("&", "AND")
-
-    # Drop punctuation (commas, parentheses, hyphens, periods, ...)
-    # but keep the words themselves — a programme's parenthetical
-    # specialization (e.g. "(INFORMATION SYSTEMS)") is often the
-    # ONLY thing that distinguishes it from a sibling programme in
-    # the same faculty, so we must never discard that text.
-    programme = re.sub(r"[^A-Z0-9\s]", " ", programme)
-
-    programme = re.sub(r"\s+", " ", programme).strip()
-
-    return programme
-
-
-def programme_word_set(programme):
-    """
-    Order-independent, singularized word set for a programme name.
-
-    Used to tolerate cosmetic differences between the programme
-    name a student picks at registration (from a fixed, official
-    list) and however it happens to be printed on their PDF
-    transcript — case, punctuation, "&" vs "and", and singular vs
-    plural nouns (e.g. "SYSTEM" vs "SYSTEMS") — without loosening
-    the comparison enough to treat two genuinely different
-    programmes/specializations as the same.
-    """
-
-    def singularize(word):
-        if len(word) > 3 and word.endswith("S") and not word.endswith("SS"):
-            return word[:-1]
-        return word
-
-    words = normalize_programme(programme).split()
-
-    return {singularize(word) for word in words}
-
-
-def programmes_match(transcript_programme, registered_programme):
-    if not transcript_programme or not registered_programme:
-        return False
-
-    if (
-        normalize_programme(transcript_programme)
-        == normalize_programme(registered_programme)
-    ):
-        return True
-
-    return (
-        programme_word_set(transcript_programme)
-        == programme_word_set(registered_programme)
-    )
 
 @transcript_bp.route("/upload-transcript", methods=["POST"])
 @login_required

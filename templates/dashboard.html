@@ -163,20 +163,9 @@
       <p class="empty-message">Upload your transcript to see career recommendations.</p>
       {% else %}
       <div class="career-match">
-        <strong class="strong-match">STRONG MATCH</strong>
+        <strong class="strong-match">BEST MATCHES FOR YOUR PROGRAMME</strong>
         <ul>
-          {% for title in dashboard_strong_careers %}
-          <li>{{ title }}</li>
-          {% else %}
-          <li>None yet</li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div class="career-match">
-        <strong class="moderate-match">MODERATE MATCH</strong>
-        <ul>
-          {% for title in dashboard_moderate_careers %}
+          {% for title in dashboard_top_careers %}
           <li>{{ title }}</li>
           {% else %}
           <li>None yet</li>
