@@ -28,6 +28,28 @@ GRADE_POINTS = {
     "F":  0.00,
 }
 
+# Official UM marks -> grade boundaries, highest first: (grade, minimum
+# mark). Verified against UM's published grading scheme (University
+# Malaya Rules and Regulations; Faculty of Science handbook 2025/2026),
+# which gives each band as X.00-X.99 -- so a mark is graded as-is and
+# must never be rounded up across a boundary (74.6 is a B+, not an A-).
+# Same grades as GRADE_POINTS above; kept next to it so the two can't
+# drift apart.
+GRADE_MIN_MARK = [
+    ("A+", 90),
+    ("A",  80),
+    ("A-", 75),
+    ("B+", 70),
+    ("B",  65),
+    ("B-", 60),
+    ("C+", 55),
+    ("C",  50),
+    ("C-", 45),
+    ("D+", 40),
+    ("D",  35),
+    ("F",   0),
+]
+
 
 class Attempt:
     """
@@ -139,6 +161,13 @@ def simulate_cgpa(user_id, simulated_entries):
     simulated_entries: list of dicts, each either
       {"type": "retake", "course_id": int, "grade": "A"}
       {"type": "future", "credits": float, "grade": "A"}
+      {"type": "current", "course_code": str, "credits": float, "grade": "A"}
+
+    "current" is a course being taken right now (the Grade Tracker).
+    Unlike "future" it keeps its REAL course code, so if the student
+    is retaking a course they already have a transcript grade for, the
+    best-attempt rule applies to it exactly as it will once the grade
+    is officially recorded.
     """
 
     courses = _fetch_user_courses(user_id)
@@ -179,6 +208,18 @@ def simulate_cgpa(user_id, simulated_entries):
             # never merges with a real course code, or with
             # another future-course entry.
             course_code = f"__FUTURE_{index}__"
+
+        elif entry_type == "current":
+
+            credit_hour = float(entry.get("credits") or 0)
+
+            if credit_hour <= 0:
+                raise ValueError("Current course credits must be greater than 0.")
+
+            course_code = (entry.get("course_code") or "").strip().upper()
+
+            if not course_code:
+                raise ValueError("Current course needs a course code.")
 
         else:
             raise ValueError(f"Unknown entry type: {entry_type!r}")

@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tracker.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="tracker-page">
+
+  <h1 class="page-title">Grade Tracker</h1>
+  <p class="page-subtitle">
+    Enter your marks as they come in to see your current performance, your projected grade,
+    and what you need to reach your target grade.
+  </p>
+
+  <p id="trackerError" class="tracker-error" role="alert"></p>
+
+  <div id="trackerOutlook"></div>
+
+  <details class="tracker-card grade-scale" id="gradeScale">
+    <summary>Grade Scale</summary>
+    <p class="tracker-note">
+      Used to determine projected grades and required marks. Letter-grade results are
+      calculated using the bottom of their grade band.
+    </p>
+    <table class="grade-scale-table">
+      <thead>
+        <tr><th>Marks</th><th>Grade</th><th>Grade Point</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        {% for row in grade_scale %}
+        <tr data-grade="{{ row.grade }}"{% if row.result == "Fail" %} class="fail-row"{% endif %}>
+          <td>{{ row.marks }}</td>
+          <td>{{ row.grade }}</td>
+          <td>{{ row.grade_point }}</td>
+          <td>{{ row.result }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </details>
+
+  <div id="trackerCourses"></div>
+
+  <div class="tracker-card add-course-card">
+    <p class="card-label">CURRENT SEMESTER</p>
+    <h2>Add a Course</h2>
+
+    <form id="addCourseForm" class="add-course-form" autocomplete="off">
+      <label>Course code
+        <input type="text" name="course_code" maxlength="20" placeholder="e.g. WIA2004" required>
+      </label>
+      <label class="wide">Course name
+        <input type="text" name="course_name" maxlength="200" placeholder="e.g. Database Systems">
+      </label>
+      <label>Credit hours
+        <input type="number" name="credit_hour" min="0.5" max="20" step="0.5" value="3" required>
+      </label>
+      <label>Target grade
+        <select name="target_grade" id="addCourseTarget"></select>
+      </label>
+      <button type="submit" class="tracker-btn">+ Add Course</button>
+    </form>
+  </div>
+
+</div>
+
+<script>
+  const initialState = {{ state | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/tracker.js') }}"></script>
+
+{% endblock %}

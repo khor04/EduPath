@@ -32,6 +32,7 @@ def create_app():
     from routes.chat import chat_bp
     from routes.admin import admin_bp
     from routes.share import share_bp
+    from routes.tracker import tracker_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
@@ -45,6 +46,7 @@ def create_app():
     app.register_blueprint(chat_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(share_bp)
+    app.register_blueprint(tracker_bp)
 
     # Landing page only
     @app.route("/")
@@ -67,6 +69,7 @@ def create_app():
         from models.onet_occupation import OnetOccupation
         from models.onet_occupation_concept import OnetOccupationConcept
         from models.report_share import ReportShare
+        from models.tracked_course import TrackedCourse, Assessment
 
         db.create_all()
         print("✅ Database tables created successfully")
