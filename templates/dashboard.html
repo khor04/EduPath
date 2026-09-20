@@ -193,6 +193,14 @@
 
         <p class="share-note" id="shareLoading">Loading…</p>
 
+        <!-- The check for an existing link failed. Deliberately no "Create Link"
+             here: we don't know that there is no link, and creating one would
+             replace (and break) an existing one. -->
+        <div id="shareStepRetry" hidden>
+          <p>We couldn't load your sharing link just now. Please try again.</p>
+          <button type="button" class="share-primary-btn" id="retryShareBtn">Try Again</button>
+        </div>
+
         <!-- No live link yet -->
         <div id="shareStepCreate" hidden>
           <p>Create a temporary link you can send to your academic advisor. It opens a read-only

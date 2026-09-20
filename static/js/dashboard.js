@@ -268,6 +268,8 @@ if (shareModalEl) {
   const loadingEl = document.getElementById("shareLoading");
   const stepCreate = document.getElementById("shareStepCreate");
   const stepDone = document.getElementById("shareStepDone");
+  const stepRetry = document.getElementById("shareStepRetry");
+  const retryBtn = document.getElementById("retryShareBtn");
   const createBtn = document.getElementById("createShareBtn");
   const newBtn = document.getElementById("newShareBtn");
   const copyBtn = document.getElementById("copyShareBtn");
@@ -280,11 +282,12 @@ if (shareModalEl) {
     errorEl.hidden = false;
   }
 
-  // Exactly one of the three panels is visible at a time.
+  // Exactly one of the panels is visible at a time.
   function showPanel(panel) {
     loadingEl.hidden = panel !== "loading";
     stepCreate.hidden = panel !== "create";
     stepDone.hidden = panel !== "done";
+    stepRetry.hidden = panel !== "retry";
   }
 
   function showLink(data) {
@@ -297,27 +300,45 @@ if (shareModalEl) {
     showPanel("done");
   }
 
+  // Returns the server's answer, or null if it couldn't be obtained.
+  // Tried twice because the first request after a quiet spell can fail
+  // transiently (e.g. the server's database connection went stale while
+  // idle) and a retry succeeds. A failure must stay distinguishable from
+  // "has_link: false" -- treating it as "no link" would invite the
+  // student to create a new one, which replaces the link their advisor
+  // already has.
+  async function fetchCurrentLink() {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const res = await fetch("/dashboard/report/share");
+        const data = await res.json();
+        if (res.ok && data.success) return data;
+      } catch (err) {
+        console.error("load share link error:", err);
+      }
+    }
+    return null;
+  }
+
   // Every time the dialog opens, ask the server for the live link (it
   // can re-derive it), so closing the dialog never loses it.
-  shareModalEl.addEventListener("show.bs.modal", async () => {
+  async function loadShareState() {
     errorEl.hidden = true;
     showPanel("loading");
 
-    try {
-      const res = await fetch("/dashboard/report/share");
-      const data = await res.json();
+    const data = await fetchCurrentLink();
 
-      if (res.ok && data.success && data.has_link) {
-        showLink(data);
-      } else {
-        showPanel("create");
-      }
-    } catch (err) {
-      console.error("load share link error:", err);
+    if (data === null) {
+      showPanel("retry");
+    } else if (data.has_link) {
+      showLink(data);
+    } else {
       showPanel("create");
-      showShareError("Could not check for an existing link. You can still create a new one.");
     }
-  });
+  }
+
+  shareModalEl.addEventListener("show.bs.modal", loadShareState);
+  retryBtn.addEventListener("click", loadShareState);
 
   async function createLink(button) {
     errorEl.hidden = true;

@@ -17,6 +17,17 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # A hosted Postgres (Supabase) closes connections that sit idle, but
+    # the pool keeps handing them out, so the first request after a
+    # quiet spell hits a dead connection and 500s -- then works on retry
+    # once the pool has discarded it. pre_ping tests a connection before
+    # use and transparently replaces a dead one; recycle retires
+    # connections before the server's idle cutoff.
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 280,
+    }
+
     MAIL_SERVER = "smtp.gmail.com"
     MAIL_PORT = 587
     MAIL_USE_TLS = True
