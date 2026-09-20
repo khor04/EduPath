@@ -16,12 +16,20 @@
 
 <body>
     <div class="topbar">
-        <div class="logo">
-            <img src="/static/images/Logo design for CGPA Hub-Photoroom.png" class="logo_design">
-            <img src="/static/images/EduPath.png" class="logo_text">
-            <span class="admin-badge">Admin</span>
+        <div class="topbar-left">
+            <button id="menuToggleBtn" class="menu-toggle-btn" aria-label="Open menu" aria-expanded="false">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <div class="logo">
+                <img src="/static/images/Logo design for CGPA Hub-Photoroom.png" class="logo_design">
+                <img src="/static/images/EduPath.png" class="logo_text">
+                <span class="admin-badge">Admin</span>
+            </div>
         </div>
     </div>
+
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 
     <div class="page-layout">
 
@@ -65,5 +73,6 @@
 
     </div>
 
+    <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
 </body>
 </html>
