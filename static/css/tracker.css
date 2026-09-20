@@ -233,8 +233,25 @@
   outline: none;
 }
 
+/* Keep the input and its "%" on one line -- the cell is narrow on mobile,
+   so without this the "%" wrapped underneath the box. */
+.num-col {
+  white-space: nowrap;
+}
+
+/* Weights are at most 3 digits (100), so the box only needs to fit that.
+   Spinners are hidden because they eat into that width on desktop. */
 .weight-input {
-  width: 72px;
+  width: 52px;
+  text-align: right;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.weight-input::-webkit-outer-spin-button,
+.weight-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .estimate-note {
