@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 instance/
 *.log
+demo.db
+demo_onet_snapshot.json

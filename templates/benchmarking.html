@@ -17,7 +17,7 @@
     <input type="hidden" name="choice" value="no">
     <span>Data sharing: On</span>
     <button type="submit" class="link-btn"
-      onclick="return confirm('Stop sharing your data with peer benchmarking? You will also lose access to view peer comparisons until you turn sharing back on.')">
+      onclick="return confirm('Stop sharing your data? Your results will no longer be included in the peer benchmarking and course statistics other students see, and you will lose access to view them until you turn sharing back on.')">
       Change preference
     </button>
   </form>
@@ -137,6 +137,62 @@
 
   </div>
 
+
+  <!-- COURSE STATISTICS -->
+  <div class="chart-card course-stats-card" id="courseStatsCard"
+       data-url="{{ url_for('benchmark.course_stats') }}">
+
+    <p class="card-label">COURSE STATISTICS</p>
+    <h2>How did other students do?</h2>
+
+    <p class="course-stats-intro">
+      Average grade, fail rate and retake rate for each course, from other students who
+      agreed to share their results. A course is listed once at least {{ min_peers }}
+      other students have taken it.
+    </p>
+
+    <div class="course-stats-controls">
+      <input type="search" id="courseSearch" placeholder="Search course code or name"
+             aria-label="Search courses" autocomplete="off">
+      <select id="courseScope" aria-label="Which students to include">
+        <option value="programme">Students in my programme</option>
+        <option value="faculty">Students in my faculty</option>
+      </select>
+      <select id="courseStatus" aria-label="Show courses by your status">
+        <option value="all">All courses</option>
+        <option value="taken">Courses I have taken</option>
+        <option value="in_progress">In progress</option>
+        <option value="not_taken">Not taken yet</option>
+      </select>
+    </div>
+
+    <p id="courseStatsMessage" class="course-stats-message" role="status"></p>
+
+    <div class="course-stats-table-wrapper">
+      <table class="course-stats-table" id="courseStatsTable" hidden>
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Students</th>
+            <th>Avg grade</th>
+            <th>Fail rate</th>
+            <th>Retake rate</th>
+            <th>Your status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p class="course-stats-note">
+      <b>How these statistics are calculated: </b>
+      Statistics are based on each student's first time taking the course, using available uploaded transcripts. 
+      <b>"Fail"</b> means a grade of {{ fail_grades | join(', ') }}. 
+      <b>Retake rate</b> shows the percentage of students who took the course more than once.
+    </p>
+
+  </div>
+
 </div>
 
 <!-- Shown once, only if the initially-selected semester lacks enough
@@ -162,5 +218,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/benchmark.js') }}"></script>
+<script src="{{ url_for('static', filename='js/course_stats.js') }}"></script>
 
 {% endblock %}

@@ -10,13 +10,21 @@ from models.contact import ContactMessage
 from models.career_recommendation import CareerRecommendation
 from models.feedback import Feedback
 from models.target_cgpa import TargetCGPA
-from services.cgpa_services import detect_trend
+from services.cgpa_services import detect_trend, FAIL_GRADES, GRADE_POINTS
+from services.course_stats_services import compute_course_stats
 
 # Anonymity floor for the Performance Trends view. Deliberately stricter
 # than benchmark_services.MIN_PEERS (2): that one only gates a student
 # seeing their own standing, whereas this one is what stops an admin
 # from pinning "declining" on a specific student in a small group.
 MIN_TREND_GROUP = 5
+
+# Same reasoning, same number, for the Course Difficulty view: a course
+# with only a couple of students would show staff those students' grades
+# almost one by one. Like Performance Trends, this view counts every
+# non-admin student, whatever their sharing choice (which only governs
+# what other students can see) -- so the floor is what protects them.
+MIN_COURSE_GROUP = MIN_TREND_GROUP
 
 INSUFFICIENT_DATA = "Insufficient Data"
 
@@ -381,3 +389,105 @@ def _present_counts(counts, min_group):
         result["declining_display"] = "Withheld"
 
     return result
+
+
+# ---------------------------------------------------------------------------
+# Course Difficulty
+# ---------------------------------------------------------------------------
+
+# Sort key for each choice in the dropdown. Ties always fall back to the
+# course code so the order is stable between page loads.
+COURSE_SORTS = {
+    "fail_rate": ("Highest fail rate", lambda r: (-r["fail_rate"], r["course_code"])),
+    "avg": ("Lowest average grade", lambda r: (r["avg_grade_point"], r["course_code"])),
+    "students": ("Most students", lambda r: (-r["sample_size"], r["course_code"])),
+    "code": ("Course code", lambda r: r["course_code"]),
+}
+DEFAULT_COURSE_SORT = "fail_rate"
+
+
+def _build_grade_bands():
+    """
+    Segments of the grade-spread bar, best -> worst, built from
+    GRADE_POINTS/FAIL_GRADES so the bar can't drift from the rules the
+    rest of the app uses. Every grade in FAIL_GRADES goes in one "Fail"
+    segment whatever its letter (C- is a fail here), which makes the red
+    segment exactly the fail-rate figure. The other grades group by
+    letter: A, B, C.
+    """
+    bands = {}
+    for grade in GRADE_POINTS:
+        key = "Fail" if grade in FAIL_GRADES else grade[0]
+        bands.setdefault(key, []).append(grade)
+    return [
+        {"key": key, "grades": grades, "label": f"{key} ({', '.join(grades)})"}
+        for key, grades in bands.items()
+    ]
+
+
+GRADE_BANDS = _build_grade_bands()
+
+
+def get_course_filter_options():
+    """
+    Programmes and sessions that actually have student transcripts, for
+    the Course Difficulty dropdowns (newest session first).
+    """
+    pool = (
+        db.session.query(User.programme)
+        .join(Transcript, Transcript.user_id == User.user_id)
+        .join(Semester, Semester.transcript_id == Transcript.transcript_id)
+        .filter(User.is_admin == False)
+    )
+    return {
+        "programmes": [p for (p,) in pool.distinct().order_by(User.programme).all()],
+        "sessions": [
+            s for (s,) in pool.with_entities(Semester.academic_session)
+            .distinct().order_by(Semester.academic_session.desc()).all()
+        ],
+        "sorts": {key: label for key, (label, _) in COURSE_SORTS.items()},
+    }
+
+
+def get_course_difficulty(programme=None, session=None, sort=DEFAULT_COURSE_SORT):
+    """
+    Per-course grade spread and fail rate for the staff Course
+    Difficulty view (see compute_course_stats() for exactly what is
+    counted and why the fail rate can only understate).
+
+    Uses MIN_COURSE_GROUP, not the student-facing MIN_PEERS: a course
+    below it is never shown, and only the number of such courses
+    (`hidden_courses`) leaves this function. Each row carries counts
+    per grade band and nothing student-level.
+
+    Known limit, same as get_trend_summary(): suppression is per view.
+    Comparing "All programmes" with one programme can still be
+    subtracted, so every row shown must independently clear the floor.
+    """
+    every_course = compute_course_stats(
+        programme=programme, session=session, min_students=1, consenting_only=False
+    )
+    shown = [r for r in every_course if r["sample_size"] >= MIN_COURSE_GROUP]
+    shown.sort(key=COURSE_SORTS.get(sort, COURSE_SORTS[DEFAULT_COURSE_SORT])[1])
+
+    rows = []
+    for course in shown:
+        n = course["sample_size"]
+        bands = []
+        for band in GRADE_BANDS:
+            count = sum(course["distribution"][g] for g in band["grades"])
+            bands.append({
+                "key": band["key"],
+                "label": band["label"],
+                "count": count,
+                "pct": round(100 * count / n, 1),
+            })
+        rows.append({**course, "bands": bands})
+
+    return {
+        "rows": rows,
+        "bands": GRADE_BANDS,
+        "fail_grades": [g for g in GRADE_POINTS if g in FAIL_GRADES],
+        "min_group": MIN_COURSE_GROUP,
+        "hidden_courses": len(every_course) - len(shown),
+    }

@@ -239,10 +239,62 @@
 .trend-bar--declining { background: #dc2626; }
 .trend-bar--insufficient-data { background: #9ca3af; }
 
-.trend-footnote {
+/* Course Difficulty */
+.course-name {
+  display: block;
   font-size: 12px;
-  color: #666;
-  max-width: 720px;
+  color: #777;
+}
+
+.course-muted {
+  color: #777;
+  font-size: 12px;
+}
+
+.course-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: #555;
+}
+
+.course-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.course-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.course-spread-head,
+.course-spread-cell {
+  min-width: 180px;
+  width: 30%;
+}
+
+.course-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f1f1f8;
+}
+
+.course-band--a { background: #16a34a; }
+.course-band--b { background: #65a30d; }
+.course-band--c { background: #d97706; }
+.course-band--fail { background: #dc2626; }
+
+.trend-footnote {
+  font-size: 13px;
+  color: #424141;
+  max-width: 1200px;
 }
 
 .admin-feedback-overview {

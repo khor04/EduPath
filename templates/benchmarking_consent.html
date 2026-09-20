@@ -6,19 +6,33 @@
 
 {% block content %}
 <div class="container text-center mt-5" style="max-width: 560px;">
-    <h3>Help Build Peer Benchmarking</h3>
+    <h3>Share Your Results Anonymously</h3>
 
     <p>
-        Peer Benchmarking compares your GPA against other students in your programme
-        and batch, using an anonymous, aggregated average — never an individual
-        classmate's result or identity.
+        If you choose to share, your academic results are combined with those of other students
+        who also agreed to produce anonymous statistics:
+    </p>
+
+    <ul class="text-start">
+        <li>
+            <strong>Peer Benchmarking</strong> — compares your GPA with students in your
+            programme and batch.
+        </li>
+        <li>
+            <strong>Course Statistics</strong> — course averages, fail rates and retake rates,
+            shown to students.
+        </li>
+    </ul>
+
+    <p>
+        Only combined figures are shown — never your name or individual grades. Statistics are
+        hidden when there are too few students to protect anonymity.
     </p>
 
     <p>
-        Choose whether your academic results should be included in that anonymous
-        comparison shown to other students in your programme and batch. This also
-        controls whether you can view the comparison yourself — you can change your
-        choice at any time.
+        Your choice controls whether your results are included in these statistics and whether
+        you can view peer benchmarking and course statistics. You can change your choice anytime
+        in Profile.
     </p>
 
     <form method="POST" action="{{ url_for('benchmark.benchmark_consent') }}" class="d-flex flex-column align-items-center gap-2 mt-4">

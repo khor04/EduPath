@@ -10,6 +10,9 @@ from services.admin_services import (
     get_platform_stats,
     get_trend_filter_options,
     get_trend_summary,
+    get_course_filter_options,
+    get_course_difficulty,
+    DEFAULT_COURSE_SORT,
 )
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
@@ -85,4 +88,32 @@ def admin_trends():
         selected_programme=programme,
         selected_batch=batch,
         summary=get_trend_summary(programme=programme, batch=batch),
+    )
+
+
+@admin_bp.route("/courses")
+@admin_required
+def admin_courses():
+    options = get_course_filter_options()
+
+    # Same rule as /trends: only values the dropdowns could have
+    # produced, anything else falls back to the default.
+    programme = request.args.get("programme")
+    session = request.args.get("session")
+    sort = request.args.get("sort")
+    if programme not in options["programmes"]:
+        programme = None
+    if session not in options["sessions"]:
+        session = None
+    if sort not in options["sorts"]:
+        sort = DEFAULT_COURSE_SORT
+
+    return render_template(
+        "admin/admin_courses.html",
+        active_admin_page="courses",
+        options=options,
+        selected_programme=programme,
+        selected_session=session,
+        selected_sort=sort,
+        summary=get_course_difficulty(programme=programme, session=session, sort=sort),
     )

@@ -6,6 +6,8 @@ from models.transcript import Transcript
 from models.semester import Semester
 from models.users import User
 from services.benchmark_services import compute_cohort_standing, MIN_PEERS
+from services.cgpa_services import FAIL_GRADES, GRADE_POINTS
+from services.course_stats_services import get_student_course_list, get_viewer_course_status
 
 benchmark_bp = Blueprint("benchmark", __name__)
 
@@ -70,6 +72,8 @@ def benchmark():
     return render_template(
         "benchmarking.html",
         semesters=semester_options,
+        min_peers=MIN_PEERS,
+        fail_grades=[g for g in GRADE_POINTS if g in FAIL_GRADES],
         active_page="benchmark"
     )
 
@@ -236,4 +240,35 @@ def benchmark_trend():
         "student": student,
         "cohort": cohort,
         "trend_insight": trend_insight
+    })
+
+
+@benchmark_bp.route("/api/course-stats")
+@login_required
+def course_stats():
+    # Same rule as the other benchmark APIs: consent gates access as
+    # well as participation, checked here and not just on the page.
+    if current_user.benchmark_consent is not True:
+        return jsonify({"error": "consent_required", "courses": []})
+
+    scope = "faculty" if request.args.get("scope") == "faculty" else "programme"
+    courses = get_student_course_list(current_user, scope=scope)
+    status = get_viewer_course_status(current_user.user_id)
+
+    # Only what the table shows -- no grade distribution or ids.
+    return jsonify({
+        "scope": scope,
+        "courses": [
+            {
+                "course_code": c["course_code"],
+                "course_name": c["course_name"],
+                "sample_size": c["sample_size"],
+                "avg_grade": c["avg_grade"],
+                "avg_grade_point": c["avg_grade_point"],
+                "fail_rate": c["fail_rate"],
+                "retake_rate": c["retake_rate"],
+                "status": status.get(c["course_code"], "not_taken"),
+            }
+            for c in courses
+        ],
     })

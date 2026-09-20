@@ -1,0 +1,111 @@
+{% extends "admin/admin_layout.html" %}
+
+{% block content %}
+
+<h1 class="page-title">Course Difficulty</h1>
+<p class="page-subtitle">
+    Anonymous grade spread and fail rate per course. No names, IDs or individual results are shown.
+</p>
+
+<form method="get" class="admin-card trend-filter">
+    <label>
+        Programme
+        <select name="programme">
+            <option value="">All programmes</option>
+            {% for p in options.programmes %}
+            <option value="{{ p }}" {% if p == selected_programme %}selected{% endif %}>{{ p }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>
+        First taken in
+        <select name="session">
+            <option value="">All sessions</option>
+            {% for s in options.sessions %}
+            <option value="{{ s }}" {% if s == selected_session %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>
+        Sort by
+        <select name="sort">
+            {% for key, label in options.sorts.items() %}
+            <option value="{{ key }}" {% if key == selected_sort %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <button type="submit" class="trend-filter-btn">Apply</button>
+</form>
+
+{% if not summary.rows %}
+
+<div class="admin-card">
+    <p class="empty-message">
+        No course has enough students to be shown for this selection. A course appears once
+        at least {{ summary.min_group }} students have taken it, so that no individual
+        student's grade can be picked out.
+        {% if selected_programme or selected_session %}Try a broader programme or session.{% endif %}
+    </p>
+</div>
+
+{% else %}
+
+<div class="admin-card">
+    <div class="course-legend">
+        {% for band in summary.bands %}
+        <span class="course-legend-item">
+            <span class="course-swatch course-band--{{ band.key | lower }}"></span>{{ band.label }}
+        </span>
+        {% endfor %}
+    </div>
+
+    <div class="admin-table-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Students</th>
+                    <th>Avg grade</th>
+                    <th>Fail rate</th>
+                    <th>Retake rate</th>
+                    <th class="course-spread-head">Grade spread</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in summary.rows %}
+                <tr>
+                    <td>
+                        <strong>{{ row.course_code }}</strong>
+                        {% if row.course_name %}<span class="course-name">{{ row.course_name }}</span>{% endif %}
+                    </td>
+                    <td>{{ row.sample_size }}</td>
+                    <td>{{ row.avg_grade }} <span class="course-muted">({{ '%.2f' % row.avg_grade_point }})</span></td>
+                    <td>{{ '%.1f' % row.fail_rate }}%</td>
+                    <td>{{ '%.1f' % row.retake_rate }}%</td>
+                    <td class="course-spread-cell">
+                        <div class="course-bar" role="img"
+                             aria-label="{% for b in row.bands %}{{ b.label }}: {{ b.count }}{% if not loop.last %}; {% endif %}{% endfor %}">
+                            {% for b in row.bands if b.count %}
+                            <div class="course-band course-band--{{ b.key | lower }}"
+                                 style="width: {{ b.pct }}%"
+                                 title="{{ b.label }}: {{ b.count }} student{{ '' if b.count == 1 else 's' }} ({{ '%.0f' % b.pct }}%)"></div>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endif %}
+
+<p class="trend-footnote">
+    <b>How these statistics are calculated:</b>
+    Statistics use each student's first time taking the course, based on available uploaded transcripts. All students with an uploaded transcript
+    are included, whether or not they chose to share with other students. <b>"Fail"</b> means a grade of {{ summary.fail_grades | join(', ') }}. <b>Retake rate</b> is the percentage of students who took the course more than once. A course is shown only when
+    at least {{ summary.min_group }} students have taken it. Results may be lower than the actual university-wide figures because they are based only on available uploaded transcripts.
+</p>
+
+{% endblock %}

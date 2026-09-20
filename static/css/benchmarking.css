@@ -253,3 +253,103 @@
     font-size: 13px;
     cursor: pointer;
 }
+
+/* Course Statistics */
+.course-stats-card {
+    margin-top: 28px;
+}
+
+.course-stats-intro,
+.course-stats-note {
+    font-size: 13px;
+    color: #424141;
+    max-width: 1200px;
+}
+
+.course-stats-note {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.course-stats-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 14px 0 8px;
+}
+
+.course-stats-controls input,
+.course-stats-controls select {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.course-stats-controls input {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+.course-stats-message {
+    font-size: 13px;
+    color: #777;
+    margin: 6px 0 10px;
+}
+
+.course-stats-table-wrapper {
+    overflow-x: auto;
+}
+
+.course-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.course-stats-table th,
+.course-stats-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    vertical-align: top;
+}
+
+.course-stats-table th {
+    color: #7776B3;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.course-stats-name {
+    display: block;
+    font-size: 12px;
+    color: #777;
+}
+
+/* Course Statistics: your status per course */
+.course-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.course-status--taken {
+    background: #e7f5ec;
+    color: #146c2e;
+}
+
+.course-status--in_progress {
+    background: #e8f0fe;
+    color: #1a4fa3;
+}
+
+.course-status--not_taken {
+    background: #f1f1f5;
+    color: #666;
+}
