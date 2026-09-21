@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, jsonify
 from markupsafe import Markup
-from extensions import db, mail, limiter
+from extensions import db, mail, limiter, ip_and_email_key
 from models.users import User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -110,8 +110,16 @@ EduPath System
 
     mail.send(msg)
 
+# The sign-in forms below are used by visitors without an account, so they
+# can only be counted by IP -- and a classroom on one Wi-Fi shares one IP.
+# Each gets two limits: a strict one per IP + typed email (stops repeated
+# attempts on one account) and a classroom-sized one per IP alone (stops one
+# machine spraying many different emails).
+
 @auth_bp.route("/check-availability", methods=["POST"])
-@limiter.limit("15 per minute")
+# Fires as the student types their username/email (debounced), so a room
+# signing up together makes many calls. Nothing is created or sent here.
+@limiter.limit("120 per minute")
 def check_availability():
     try:
         data = request.get_json(silent=True) or {}
@@ -147,6 +155,8 @@ def check_availability():
     
     
 @auth_bp.route("/signup", methods=["GET", "POST"])
+@limiter.limit("5 per minute", methods=["POST"], key_func=ip_and_email_key)
+@limiter.limit("100 per hour", methods=["POST"])
 def register():
     
     if request.method == "POST":
@@ -238,7 +248,9 @@ def register():
 
 
 @auth_bp.route("/verify-code", methods=["GET", "POST"])
-@limiter.limit("20 per minute", methods=["POST"])
+# Code guessing is also capped per account by MAX_VERIFICATION_ATTEMPTS.
+@limiter.limit("10 per minute", methods=["POST"], key_func=ip_and_email_key)
+@limiter.limit("60 per minute", methods=["POST"])
 def verify_code_page():
 
     if request.method == "POST":
@@ -358,7 +370,9 @@ def verify_code_page():
 
 
 @auth_bp.route("/resend-code", methods=["POST"])
-@limiter.limit("10 per minute")
+# Sends an email. Also has a per-account RESEND_COOLDOWN of 60 seconds.
+@limiter.limit("3 per minute", key_func=ip_and_email_key)
+@limiter.limit("30 per minute")
 def resend_code():
     email = (request.form.get("email") or "").strip()
 
@@ -381,7 +395,8 @@ def resend_code():
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
-@limiter.limit("10 per minute", methods=["POST"])
+@limiter.limit("5 per minute", methods=["POST"], key_func=ip_and_email_key)
+@limiter.limit("60 per minute", methods=["POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
@@ -414,7 +429,9 @@ def login():
     return render_template("login.html")
 
 @auth_bp.route("/forgot-password", methods=["GET", "POST"])
-@limiter.limit("10 per minute", methods=["POST"])
+# Sends an email.
+@limiter.limit("3 per minute", methods=["POST"], key_func=ip_and_email_key)
+@limiter.limit("30 per minute", methods=["POST"])
 def forgot_password():
 
     if request.method == "POST":

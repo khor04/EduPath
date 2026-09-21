@@ -17,17 +17,30 @@
     <form id="contactForm" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-        <label>Name</label>
-        <input type="text" id="name" name="name" placeholder="Your name">
-        <div id="nameError" class="error"></div>   
+        {% if notice %}
+        <div class="notice" role="alert">{{ notice }}</div>
+        {% endif %}
 
-        <label>Email</label>
-        <input type="email" id="email" name="email" placeholder="Your email">
-        <div id="emailError" class="error"></div>     
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name"
+               maxlength="{{ limits.name }}" value="{{ values.name or '' }}">
+        <div id="nameError" class="error">{{ errors.name or '' }}</div>
 
-        <label>Message</label>
-        <textarea id="message" name="message" placeholder="Your message"></textarea>
-        <div id="messageError" class="error"></div>   
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email"
+               maxlength="{{ limits.email }}" value="{{ values.email or '' }}">
+        <div id="emailError" class="error">{{ errors.email or '' }}</div>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Your message"
+                  maxlength="{{ limits.message }}">{{ values.message or '' }}</textarea>
+        <div id="messageError" class="error">{{ errors.message or '' }}</div>
+
+        {# Honeypot: hidden from people and screen readers; only bots fill it in. #}
+        <div class="hp-field" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
 
         <button type="submit">Submit</button>
 
@@ -65,7 +78,7 @@
         if (email === "") {
             document.getElementById("emailError").innerText = "Email is required";
             valid = false;
-        } else if (!email.includes("@")) {
+        } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
             document.getElementById("emailError").innerText = "Invalid email format";
             valid = false;
         }

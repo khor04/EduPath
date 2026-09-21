@@ -1,0 +1,73 @@
+{% if current_user.is_authenticated and current_user.is_admin %}
+    {% extends "admin/admin_layout.html" %}
+{% elif current_user.is_authenticated %}
+    {% extends "layout.html" %}
+{% else %}
+    {% extends "layout_public.html" %}
+{% endif %}
+
+{% block content %}
+{# Styles live here rather than in a styles block: this page can sit in any of
+   three layouts, and the admin one has no styles block. #}
+<style>
+    .rate-limited {
+        max-width: 520px;
+        margin: 60px auto;
+        padding: 0 16px;
+        text-align: center;
+    }
+    .rate-limited-icon {
+        font-size: 44px;
+        color: #7776B3;
+    }
+    .rate-limited h1 {
+        color: #7776B3;
+        font-size: 28px;
+        font-weight: 800;
+        margin: 10px 0 12px;
+    }
+    .rate-limited p {
+        color: #555;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    .rate-limited-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 24px;
+    }
+    .rate-limited-actions a {
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .rate-limited-primary {
+        background: #7776B3;
+        color: #fff;
+    }
+    .rate-limited-secondary {
+        border: 1px solid #7776B3;
+        color: #7776B3;
+    }
+</style>
+
+<div class="rate-limited" role="alert">
+    <div class="rate-limited-icon" aria-hidden="true">&#9203;</div>
+    <h1>Please slow down a little</h1>
+    <p>
+        You've made a lot of requests in a short time, so we've paused them for now to keep
+        EduPath running smoothly for everyone.
+    </p>
+    <p><strong>Please wait {{ wait }} and try again.</strong></p>
+
+    <div class="rate-limited-actions">
+        <a href="{{ back_url }}" class="rate-limited-primary">Go back</a>
+        {% if back_url != home_url %}
+        <a href="{{ home_url }}" class="rate-limited-secondary">Home</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

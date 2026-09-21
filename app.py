@@ -14,6 +14,11 @@ def create_app():
     csrf.init_app(app)
     limiter.init_app(app)
 
+    # One friendly page (or JSON message, for fetch() calls) whenever any
+    # rate limit is hit, instead of Flask-Limiter's bare 429 page.
+    from utils.rate_limit import handle_rate_limited
+    app.register_error_handler(429, handle_rate_limited)
+
     @login_manager.user_loader
     def load_user(user_id):
         from models.users import User

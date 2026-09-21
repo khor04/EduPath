@@ -74,3 +74,21 @@ button:hover {
   }
 }
 
+
+.notice {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #fff4e5;
+  color: #8a4b00;
+  font-size: 14px;
+}
+
+/* Honeypot: moved off-screen rather than display:none, which some bots skip. */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
