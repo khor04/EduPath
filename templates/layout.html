@@ -27,10 +27,17 @@
                 <i class="bi bi-list"></i>
             </button>
 
-            <div class="logo">
-                <img src="/static/images/Logo design for CGPA Hub-Photoroom.png" class="logo_design">
-                <img src="/static/images/EduPath.png" class="logo_text">
-            </div>
+            {% if current_user.is_authenticated and current_user.is_admin %}
+            {% set logo_href = url_for('admin.admin_stats') %}
+            {% elif current_user.is_authenticated %}
+            {% set logo_href = url_for('dashboard.dashboard') %}
+            {% else %}
+            {% set logo_href = url_for('landing') %}
+            {% endif %}
+            <a href="{{ logo_href }}" class="logo" aria-label="EduPath home">
+                <img src="/static/images/Logo design for CGPA Hub-Photoroom.png" class="logo_design" alt="">
+                <img src="/static/images/EduPath.png" class="logo_text" alt="EduPath">
+            </a>
         </div>
 
         <div class="profile">

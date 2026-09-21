@@ -14,10 +14,10 @@
 
     <!-- PUBLIC NAVBAR -->
     <nav class="navbar">
-        <div class="brand">
-            <img src="{{ url_for('static', filename='images/Logo design for CGPA Hub-Photoroom.png') }}" class="logo_design">
-            <img src="{{ url_for('static', filename='images/EduPath.png') }}" class="logo_text">
-        </div>
+        <a href="{{ url_for('landing') }}" class="brand" aria-label="EduPath home">
+            <img src="{{ url_for('static', filename='images/Logo design for CGPA Hub-Photoroom.png') }}" class="logo_design" alt="">
+            <img src="{{ url_for('static', filename='images/EduPath.png') }}" class="logo_text" alt="EduPath">
+        </a>
 
         <div class="nav-links">
             <a href="{{ url_for('auth.register') }}" class="register-btn">Register</a>
