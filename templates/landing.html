@@ -34,7 +34,7 @@
 
         <div class="feature-card">
             <div class="icon-box purple"><i class="bi bi-file-earmark-arrow-up"></i></div>
-            <h3>Smart Transcript Processing</h3>
+            <h3>Automated Transcript Processing</h3>
             <p>Upload your PDF transcript and automatically extract courses, grade, and semesters with accuracy.</p>
         </div>
 
@@ -47,30 +47,230 @@
 
         <div class="feature-card">
             <div class="icon-box yellow"><i class="bi bi-bullseye"></i></div>
-            <h3>Target CGPA Prediction</h3>
-            <p>Predict GPA needed to achieve your target CGPA, and what-if scenarios to reach your academic goals.
-            </p>
+            <h3>Target CGPA &amp; What-If Planning</h3>
+            <p>Predict the GPA you need to reach your target CGPA, and test how a retake or a new course would
+                change it.</p>
         </div>
 
         <div class="feature-card">
-            <div class="icon-box peach"><i class="bi bi-bar-chart"></i></div>
-            <h3>Peer Benchmarking</h3>
-            <p>See where you stand among your cohort with anonymous GPA distribution graph.</p>
+            <div class="icon-box peach"><i class="bi bi-clipboard-check"></i></div>
+            <h3>Grade Tracker</h3>
+            <p>Track coursework marks through the semester and see the grade you are heading for before the final
+                exam.</p>
         </div>
 
         <div class="feature-card">
-            <div class="icon-box blue"><i class="bi bi-briefcase"></i></div>
+            <div class="icon-box blue"><i class="bi bi-bar-chart"></i></div>
+            <h3>Peer Benchmarking &amp; Course Statistics</h3>
+            <p>See where you stand among your cohort, and check a course's average grade and fail rate before you
+                register for it.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon-box beige"><i class="bi bi-briefcase"></i></div>
             <h3>Career Path Suggestion</h3>
             <p>Discover suitable careers based on your academic strength and skill profile.</p>
         </div>
 
-        <div class="feature-card">
-            <div class="icon-box beige"><i class="bi bi-grid-fill"></i></div>
-            <h3>All-in-one Dashboard</h3>
-            <p>View your academic summary, trends, benchmarking, and career insights in one place.</p>
+    </div>
+</section>
+
+<!-- Feature showcase -->
+<section class="showcase">
+
+    <div class="showcase-head">
+        <h2>See EduPath in Action</h2>
+        <p class="showcase-sub">
+            A look at the real screens, filled with sample data. Register to use them with
+            your own transcript.
+        </p>
+
+        <div class="showcase-tabs" role="tablist" aria-label="Who the feature is for">
+            <button type="button" class="showcase-tab is-active" role="tab"
+                    data-audience="student" aria-selected="true">For Students</button>
+            <button type="button" class="showcase-tab" role="tab"
+                    data-audience="staff" aria-selected="false">For University Staff</button>
+        </div>
+    </div>
+
+    <div class="showcase-viewport" tabindex="-1">
+
+        <button type="button" class="showcase-arrow showcase-arrow--prev" aria-label="Previous feature">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <div class="showcase-track">
+
+            <article class="showcase-slide is-active" data-audience="student" data-title="Dashboard">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>All-in-one Dashboard</h3>
+                    <p>Your CGPA, credits completed and GPA progression in one view, alongside your standing in your cohort. Download the whole thing as a PDF report, or share it with an advisor through a link that expires on its own.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_dashboard.webp') }}"
+                         alt="EduPath dashboard showing CGPA, credits and a GPA progression chart" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="student" data-title="Target CGPA Prediction">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>Target CGPA Prediction</h3>
+                    <p>Set the CGPA you are aiming for and how many credits you have left. EduPath works out the GPA you need across those credits, and shows best, realistic and worst-case outcomes so the target is honest rather than hopeful.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_analysis.webp') }}"
+                         alt="Target CGPA simulator showing required GPA and best, realistic and worst-case projections" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="student" data-title="What-If Simulator">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>What-If Simulator</h3>
+                    <p>Try a grade before you earn it. Add a course you plan to retake or have not taken yet, pick a hypothetical grade, and see exactly how your CGPA moves. Two plans can be saved and compared side by side.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_whatif.webp') }}"
+                         alt="Per-course CGPA simulator comparing a current and projected CGPA" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="student" data-title="Grade Tracker">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>Grade Tracker</h3>
+                    <p>Enter coursework marks as they come back, as 8/10, 75, 68% or a letter grade. EduPath shows how you are doing so far, the grade you are heading for, and the approximate mark you still need in what is left to reach your target.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_tracker.webp') }}"
+                         alt="Grade tracker showing current performance, projected grade and the mark needed in the final exam" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="student" data-title="Peer Benchmarking">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>Peer Benchmarking</h3>
+                    <p>See where your semester GPA sits within your cohort, next to the department average. Everything is anonymous and combined: no names, no individual results, and nothing is shown at all when the group is too small.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_benchmark.webp') }}"
+                         alt="Anonymous GPA distribution histogram with the student's position marked" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="student" data-title="Course Statistics">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>Course Statistics</h3>
+                    <p>Average grade, fail rate and retake rate for each course, drawn from students who agreed to share. Know which courses your seniors found hard before you register for them.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_coursestats.webp') }}"
+                         alt="Course statistics table listing average grade, fail rate and retake rate per course" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="student" data-title="Career Recommendation">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>Career Recommendation</h3>
+                    <p>Your transcript becomes a skill profile built on O*NET occupational data, then matched against the careers UM lists for your programme. Every match comes with the skills that explain it, not just a number.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/student_career.webp') }}"
+                         alt="Career recommendation page showing a skill radar chart and ranked career matches" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="staff" data-title="Platform Overview">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STAFF VIEW</p>
+                    <h3>Platform Overview</h3>
+                    <p>Registered and verified users, uploaded transcripts and data-sharing choices at a glance, broken down by faculty and by programme.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/admin_stats.webp') }}"
+                         alt="Admin platform statistics showing user counts and breakdowns by faculty and programme" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="staff" data-title="Performance Trends">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STAFF VIEW</p>
+                    <h3>Academic Performance Trends</h3>
+                    <p>How many students are improving, stable, volatile or declining, filtered by programme and batch, so support can be aimed where it is needed. Counts only, and any group smaller than five is withheld.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/admin_trends.webp') }}"
+                         alt="Admin performance trends showing counts of students per GPA trend" loading="lazy" width="1400">
+                </figure>
+            </article>
+
+            <article class="showcase-slide" data-audience="staff" data-title="Course Difficulty">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STAFF VIEW</p>
+                    <h3>Course Difficulty</h3>
+                    <p>Grade spread, fail rate and retake rate for every course, ranked so the hardest surface first. A course only appears once enough students have taken it for no individual grade to be identifiable.</p>
+                </div>
+                <figure class="showcase-shot">
+                    <div class="showcase-frame">
+                        <span class="showcase-frame-dots" aria-hidden="true"></span>
+                    </div>
+                    <img src="{{ url_for('static', filename='images/showcase/admin_courses.webp') }}"
+                         alt="Admin course difficulty table showing grade spread and fail rate per course" loading="lazy" width="1400">
+                </figure>
+            </article>
         </div>
 
+        <button type="button" class="showcase-arrow showcase-arrow--next" aria-label="Next feature">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+
     </div>
+
+    <div class="showcase-nav">
+        <div class="showcase-dots" role="group" aria-label="Choose a feature"></div>
+        <p class="showcase-counter" aria-live="polite"></p>
+    </div>
+
+    <p class="showcase-note">
+        <i class="bi bi-info-circle"></i>
+        Screenshots of the live system, using sample data. Staff views show combined figures only —
+        never an individual student's results.
+    </p>
+
+    <a href="{{ url_for('auth.register') }}" class="showcase-cta">Create an account to try it</a>
+
 </section>
 
 <!-- Steps -->
@@ -127,5 +327,6 @@
 </section>
 
 <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+<script src="{{ url_for('static', filename='js/showcase.js') }}"></script>
 
 {% endblock %}

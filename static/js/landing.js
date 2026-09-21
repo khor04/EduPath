@@ -39,7 +39,11 @@
     { threshold: 0.15 }
   );
 
-  document.querySelectorAll(".feature-card, .step-item, .step-line, .cta").forEach((el) => {
-    observer.observe(el);
-  });
+  document
+    .querySelectorAll(
+      ".feature-card, .step-item, .step-line, .cta, .showcase-head, .showcase-viewport"
+    )
+    .forEach((el) => {
+      observer.observe(el);
+    });
 })();

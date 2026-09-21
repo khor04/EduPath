@@ -515,3 +515,354 @@ footer {
     padding: 45px 25px;
   }
 }
+
+/* ================= Feature showcase =================
+   One feature per slide: copy on the left, a screenshot of the real
+   screen on the right. js/showcase.js moves .is-active between slides;
+   CSS shows only that one.
+
+   The first slide carries .is-active in the markup, so if that script
+   never runs (blocked, JS off) the section still shows a real feature
+   with its screenshot rather than collapsing to an empty strip -- only
+   the arrows and tabs go inert. */
+.showcase {
+  background: white;
+  padding: 70px 90px;
+  text-align: center;
+}
+
+.showcase-head h2 {
+  font-size: 34px;
+  margin-bottom: 12px;
+}
+
+.showcase-sub {
+  font-size: 16px;
+  color: #555;
+  max-width: 620px;
+  margin: 0 auto 28px;
+  line-height: 1.45;
+}
+
+/* Audience tabs */
+.showcase-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #f1f1f8;
+  margin-bottom: 40px;
+}
+
+.showcase-tab {
+  border: none;
+  background: none;
+  border-radius: 999px;
+  padding: 10px 26px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.showcase-tab:hover {
+  color: #7776B3;
+}
+
+.showcase-tab.is-active {
+  background: #7776B3;
+  color: white;
+}
+
+/* Slide area */
+.showcase-viewport {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 1340px;
+  margin: 0 auto;
+  outline: none;
+}
+
+.showcase-track {
+  flex: 1;
+  min-width: 0;
+}
+
+.showcase-slide {
+  display: none;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: 40px;
+  align-items: center;
+  text-align: left;
+}
+
+.showcase-slide.is-active {
+  display: grid;
+}
+
+.showcase-slide.is-active {
+  animation: showcaseFade 0.35s ease;
+}
+
+@keyframes showcaseFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-slide.is-active { animation: none; }
+}
+
+.showcase-eyebrow {
+  color: #7776B3;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.showcase-copy h3 {
+  font-size: 27px;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.showcase-copy p {
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #444;
+}
+
+/* A plain window frame around each screenshot, so it reads as a picture
+   of the app rather than something on this page you can click. */
+.showcase-shot {
+  margin: 0;
+  border: 1px solid #e2e2ee;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 14px 34px rgba(17, 17, 17, 0.10);
+}
+
+.showcase-frame {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  background: #f4f4fa;
+  border-bottom: 1px solid #e2e2ee;
+}
+
+.showcase-frame-dots {
+  width: 38px;
+  height: 8px;
+  background-image: radial-gradient(circle, #d2d2e2 3.5px, transparent 4px);
+  background-size: 13px 8px;
+  background-repeat: repeat-x;
+}
+
+.showcase-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Arrows */
+.showcase-arrow {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #e2e2ee;
+  border-radius: 50%;
+  background: white;
+  color: #7776B3;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.showcase-arrow:hover:not(:disabled) {
+  background: #f2f2fb;
+  box-shadow: 0 6px 14px rgba(17, 17, 17, 0.12);
+  transform: scale(1.06);
+}
+
+.showcase-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Dots + counter */
+.showcase-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 26px;
+}
+
+.showcase-dots {
+  display: flex;
+  gap: 0;
+}
+
+.showcase-dot {
+  width: 26px;
+  height: 26px;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  background: #d5d5e6;
+  background-clip: content-box;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.showcase-dot:hover {
+  background-color: #a9a8d0;
+}
+
+.showcase-dot.is-active {
+  background-color: #7776B3;
+  transform: scale(1.35);
+}
+
+.showcase-counter {
+  font-size: 13px;
+  color: #777;
+  font-variant-numeric: tabular-nums;
+}
+
+.showcase-note {
+  font-size: 13px;
+  color: #777;
+  max-width: 700px;
+  margin: 24px auto 0;
+  line-height: 1.5;
+}
+
+.showcase-note i {
+  margin-right: 5px;
+}
+
+.showcase-cta {
+  display: inline-block;
+  margin-top: 26px;
+  background: #7776B3;
+  color: white;
+  text-decoration: none;
+  padding: 12px 30px;
+  border-radius: 7px;
+  font-size: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Its display:inline-block would otherwise override the hidden attribute
+   the carousel sets on the staff tab. */
+.showcase-cta[hidden] {
+  display: none;
+}
+
+.showcase-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(17, 17, 17, 0.18);
+}
+
+/* Scroll-reveal, matching the rest of the page. Only the section's own
+   containers are hidden -- never .showcase-slide, whose visibility the
+   carousel owns. */
+@media (prefers-reduced-motion: no-preference) {
+  html:where(.js-anim-ready) .showcase-head,
+  html:where(.js-anim-ready) .showcase-viewport {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .showcase-head.in-view,
+  .showcase-viewport.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1200px) {
+  .showcase {
+    padding: 55px 30px;
+  }
+
+  /* Copy above the screenshot: side by side leaves neither wide enough
+     to read on a tablet. */
+  .showcase-slide {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .showcase-viewport {
+    gap: 10px;
+  }
+
+  .showcase-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 650px) {
+  .showcase {
+    padding: 45px 16px;
+  }
+
+  .showcase-head h2 {
+    font-size: 26px;
+  }
+
+  .showcase-sub {
+    font-size: 14.5px;
+  }
+
+  .showcase-tab {
+    padding: 9px 18px;
+    font-size: 14px;
+  }
+
+  .showcase-copy h3 {
+    font-size: 22px;
+  }
+
+  .showcase-copy p {
+    font-size: 14.5px;
+  }
+
+  /* Both arrows move below the slide on a phone: side arrows would
+     squeeze the screenshot into a strip. Giving the track a full-width
+     row of its own pushes them onto the next line together. */
+  .showcase-viewport {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .showcase-track {
+    flex: 0 0 100%;
+    order: -1;
+  }
+
+  .showcase-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .showcase-nav {
+    gap: 14px;
+    margin-top: 18px;
+  }
+}
