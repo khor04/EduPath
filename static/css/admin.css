@@ -332,3 +332,95 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Save as image (Performance Trends, Course Difficulty) */
+.has-export {
+  position: relative;
+}
+
+.admin-png-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e3e3f5;
+  border-radius: 6px;
+  background: white;
+  color: #7776B3;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.admin-png-btn:hover {
+  background: #f2f2fb;
+}
+
+/* Keep the legend clear of the button. */
+.has-export .course-legend {
+  padding-right: 44px;
+}
+
+/* Only shown inside the saved image (see js/admin_export.js). */
+.export-header {
+  display: none;
+}
+
+.export-section.exporting {
+  background: white;
+  padding: 24px;
+}
+
+.export-section.exporting .export-header {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.export-header h2 {
+  color: #7776B3;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.export-header p {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+/* The page's cards sit on a tinted background; on the white image they
+   need an edge instead. A real border, not a shadow: html2canvas paints
+   shadows as solid blocks. */
+.export-section.exporting .admin-card,
+.export-section.exporting .admin-stat-card {
+  border: 1px solid #e3e3f5;
+}
+
+.export-section.exporting .admin-table-wrapper {
+  overflow: visible;
+}
+
+/* Per-grade student counts under each grade-spread bar. Shown as text so
+   they are visible without hovering (and so they reach the saved image). */
+.course-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #555;
+}
+
+.course-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.course-count .course-swatch {
+  width: 9px;
+  height: 9px;
+}
+

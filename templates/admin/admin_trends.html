@@ -41,6 +41,16 @@
 
 {% else %}
 
+<div id="trendExport" class="export-section">
+<div class="export-header">
+    <h2>Academic Performance Trends</h2>
+    <p>
+        Programme: {{ selected_programme or "All programmes" }}
+        &middot; Batch: {{ selected_batch or "All batches" }}
+    </p>
+    <p>EduPath Admin &middot; Generated <span class="export-date"></span></p>
+</div>
+
 <div class="admin-stats-grid trend-headline-grid">
     <div class="admin-stat-card admin-stat-card--alert">
         <h3>Students with Declining Trends</h3>
@@ -54,7 +64,11 @@
     </div>
 </div>
 
-<div class="admin-card">
+<div class="admin-card has-export">
+    <button type="button" class="admin-png-btn" title="Save as image"
+            onclick="saveAdminSectionAsPng('trendExport', 'performance_trends')">
+        <i class="bi bi-download"></i>
+    </button>
     <p class="card-label">TREND DISTRIBUTION</p>
     <table class="admin-table">
         {% for row in summary.rows %}
@@ -80,6 +94,10 @@
     "&lt;{{ summary.min_group }}", and a further value may be shown as "Withheld" so that
     hidden counts cannot be worked out by subtraction.
 </p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="{{ url_for('static', filename='js/admin_export.js') }}"></script>
 
 {% endif %}
 

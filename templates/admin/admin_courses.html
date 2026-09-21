@@ -2,6 +2,15 @@
 
 {% block content %}
 
+{% macro footnote() %}
+<p class="trend-footnote">
+    <b>How these statistics are calculated:</b>
+    Statistics use each student's first time taking the course, based on available uploaded transcripts. All students with an uploaded transcript
+    are included, whether or not they chose to share with other students. <b>"Fail"</b> means a grade of {{ summary.fail_grades | join(', ') }}. <b>Retake rate</b> is the percentage of students who took the course more than once. A course is shown only when
+    at least {{ summary.min_group }} students have taken it. Results may be lower than the actual university-wide figures because they are based only on available uploaded transcripts.
+</p>
+{% endmacro %}
+
 <h1 class="page-title">Course Difficulty</h1>
 <p class="page-subtitle">
     Anonymous grade spread and fail rate per course. No names, IDs or individual results are shown.
@@ -48,9 +57,26 @@
     </p>
 </div>
 
+{{ footnote() }}
+
 {% else %}
 
-<div class="admin-card">
+<div id="courseExport" class="export-section">
+<div class="export-header">
+    <h2>Course Difficulty</h2>
+    <p>
+        Programme: {{ selected_programme or "All programmes" }}
+        &middot; First taken in: {{ selected_session or "All sessions" }}
+        &middot; Sorted by: {{ options.sorts[selected_sort] }}
+    </p>
+    <p>EduPath Admin &middot; Generated <span class="export-date"></span></p>
+</div>
+
+<div class="admin-card has-export">
+    <button type="button" class="admin-png-btn" title="Save as image"
+            onclick="saveAdminSectionAsPng('courseExport', 'course_difficulty')">
+        <i class="bi bi-download"></i>
+    </button>
     <div class="course-legend">
         {% for band in summary.bands %}
         <span class="course-legend-item">
@@ -91,6 +117,11 @@
                                  title="{{ b.label }}: {{ b.count }} student{{ '' if b.count == 1 else 's' }} ({{ '%.0f' % b.pct }}%)"></div>
                             {% endfor %}
                         </div>
+                        <div class="course-counts">
+                            {% for b in row.bands %}
+                            <span class="course-count"><span class="course-swatch course-band--{{ b.key | lower }}"></span>{{ b.key }} {{ b.count }}</span>
+                            {% endfor %}
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -99,13 +130,12 @@
     </div>
 </div>
 
+{{ footnote() }}
+</div>
+
 {% endif %}
 
-<p class="trend-footnote">
-    <b>How these statistics are calculated:</b>
-    Statistics use each student's first time taking the course, based on available uploaded transcripts. All students with an uploaded transcript
-    are included, whether or not they chose to share with other students. <b>"Fail"</b> means a grade of {{ summary.fail_grades | join(', ') }}. <b>Retake rate</b> is the percentage of students who took the course more than once. A course is shown only when
-    at least {{ summary.min_group }} students have taken it. Results may be lower than the actual university-wide figures because they are based only on available uploaded transcripts.
-</p>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="{{ url_for('static', filename='js/admin_export.js') }}"></script>
 
 {% endblock %}
