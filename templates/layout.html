@@ -40,6 +40,12 @@
             </a>
         </div>
 
+        <nav class="topbar-pages" aria-label="Site pages">
+            <a href="{{ url_for('info.about') }}" class="{% if active_page == 'about' %}is-active{% endif %}">About Us</a>
+            <a href="{{ url_for('info.contact') }}" class="{% if active_page == 'contact' %}is-active{% endif %}">Contact Us</a>
+            <a href="{{ url_for('info.privacy') }}" class="{% if active_page == 'privacy' %}is-active{% endif %}">Privacy Policy</a>
+        </nav>
+
         <div class="profile">
             {% if current_user.is_authenticated and current_user.is_admin %}
             <a href="{{ url_for('admin.admin_feedback') }}" class="admin-panel-link">
@@ -95,6 +101,21 @@
                 <li class="{% if active_page == 'career' %}active{% endif %}">
                     <a href="/career"><i class="bi bi-briefcase"></i> Career Recommendation</a>
                 </li>
+
+                <!-- Phones only: the top bar has no room for these there. -->
+                <li class="menu-divider mobile-only" aria-hidden="true"></li>
+
+                <li class="mobile-only {% if active_page == 'about' %}active{% endif %}">
+                    <a href="{{ url_for('info.about') }}"><i class="bi bi-info-circle"></i> About Us</a>
+                </li>
+
+                <li class="mobile-only {% if active_page == 'contact' %}active{% endif %}">
+                    <a href="{{ url_for('info.contact') }}"><i class="bi bi-envelope"></i> Contact Us</a>
+                </li>
+
+                <li class="mobile-only {% if active_page == 'privacy' %}active{% endif %}">
+                    <a href="{{ url_for('info.privacy') }}"><i class="bi bi-shield-check"></i> Privacy Policy</a>
+                </li>
             </ul>
 
             <div class="logout">
@@ -121,13 +142,8 @@
 
 
     <!-- Footer -->
-    <footer id="contact">
-        <p>@2026 EduPath. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="/about">About Us</a>
-            <a href="/contact">Contact Us</a>
-            <a href="/privacy">Privacy Policy</a>
-        </div>
+    <footer>
+        <p>© 2026 EduPath. All rights reserved.</p>
     </footer>
 
     {% if current_user.is_authenticated %}

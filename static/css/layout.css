@@ -97,6 +97,39 @@ html, body {
   height: 25px;
 }
 
+/* About / Contact / Privacy in the top bar on the left, right after the
+   logo; the profile icon stays on the right. The current page is
+   underlined. On phones they move into the menu drawer instead (see
+   .mobile-only below). */
+.topbar-pages {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: 20px;          /* plus the top bar's own 20px gap */
+  margin-right: auto;
+}
+
+.topbar-pages a,
+.topbar-pages a:hover {
+  color: white;               /* Bootstrap would make them blue */
+  text-decoration: none;
+}
+
+.topbar-pages a {
+  font-size: 17px;
+  font-weight: 600;
+  padding: 3px 0;
+  margin-top:5px;
+  border-bottom: 0.5px solid transparent;
+  opacity: 0.9;
+}
+
+.topbar-pages a:hover,
+.topbar-pages a.is-active {
+  opacity: 1;
+  border-bottom-color: white;
+}
+
 /* Profile */
 .user_icon {
   width: 35px;
@@ -175,6 +208,23 @@ html, body {
   background: rgba(255,255,255,0.35);
 }
 
+/* Menu items that only appear in the phone drawer (About / Contact /
+   Privacy, which sit in the top bar on wider screens). */
+.sidebar .menu li.mobile-only {
+  display: none;
+}
+
+.sidebar .menu li.menu-divider {
+  height: 1px;
+  margin: 6px 20px 14px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+}
+
+.sidebar .menu li.menu-divider:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
 
 .logout {
   padding: 10px 20px;
@@ -203,20 +253,8 @@ footer {
   flex-shrink: 0;
 }
 
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 10px;
-}
-
-.footer-links a {
-  color: white;
-  text-decoration: none;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
+footer p {
+  margin: 0;                  /* Bootstrap adds a bottom margin to <p> */
 }
 
 @media (max-width: 768px) {
@@ -256,6 +294,14 @@ footer {
 
   .sidebar .menu li {
     margin-bottom: 8px;
+  }
+
+  .topbar-pages {
+    display: none;
+  }
+
+  .sidebar .menu li.mobile-only {
+    display: block;
   }
 
   .sidebar .menu li a {
