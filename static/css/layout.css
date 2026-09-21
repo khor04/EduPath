@@ -10,6 +10,16 @@ html, body {
   margin: 0;
 }
 
+/* Top bar, page, footer stacked in a column at least the height of the
+   screen, so on a short page the content area grows and the footer sits
+   at the bottom instead of leaving blank white space under it. */
+body {
+  display: flex;
+  flex-direction: column;
+  height: auto;               /* grows past the screen on long pages */
+  min-height: 100vh;
+}
+
 .page-wrapper {
   min-height: 100vh;
   display: flex;
@@ -262,6 +272,7 @@ footer p {
   .page-layout {
     flex-direction: column;
     min-height: auto;
+    flex: 1 0 auto;           /* fills the screen on short pages (see body) */
   }
 
   .menu-toggle-btn {
@@ -328,6 +339,14 @@ footer p {
 
   .content {
     padding: 20px;
+  }
+
+  /* The round chat button is fixed in the bottom-right corner; keep the
+     footer text clear of it now that the footer sits at the bottom. */
+  footer {
+    padding-right: 90px;
+    font-size: 14px;
+    text-align: left;
   }
 }
 
