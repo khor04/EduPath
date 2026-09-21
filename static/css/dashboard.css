@@ -106,11 +106,21 @@
   line-height: 1.5;
 }
 
+.missing-sem-note {
+  margin-top: 5px;
+  margin: 12px 0 0;
+  color: #f90303;
+  font-size: 12.5px;
+  font-weight: 450;
+  line-height: 2;
+}
+
 .card-label {
   color: #7776B3;
   font-size: 13px;
   font-weight: 800;
   margin-bottom: 5px;
+  border-radius: 8px;
 }
 
 .dashboard-card h2 {

@@ -36,6 +36,15 @@
     <div class="empty-message">
       No transcript data found. Please upload your transcript to generate GPA trend analysis and prediction. </div>
     {% endif %}
+
+    {% if missing_semesters %}
+    <p class="missing-sem-note">
+      <i class="bi bi-info-circle"></i>
+      No record found for
+      {% for m in missing_semesters %}Sem {{ m.semester_no }} ({{ m.academic_session }}){{ ", " if not loop.last }}{% endfor %}.
+      The chart above skips {{ "this semester" if missing_semesters|length == 1 else "these semesters" }}. Upload the transcript that covers {{ "it" if missing_semesters|length == 1 else "them" }} if you have {{ "it" if missing_semesters|length == 1 else "them" }}.
+    </p>
+    {% endif %}
   </div>
 
   <!-- Prediction Engine -->

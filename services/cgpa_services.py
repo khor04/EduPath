@@ -1,3 +1,5 @@
+import re
+
 from models.course import Course
 from models.semester import Semester
 from models.transcript import Transcript
@@ -250,6 +252,48 @@ def project_cgpa(current_cgpa, current_credits, remaining_credits, assumed_gpa):
     return (
         (current_cgpa * current_credits) + (assumed_gpa * remaining_credits)
     ) / total_credits
+
+_SESSION_RE = re.compile(r"^(\d{4})/\d{4}$")
+
+
+def find_missing_semesters(semesters):
+    """
+    Finds regular semesters (Sem 1 / Sem 2) that sit between the
+    earliest and latest uploaded ones but have no record, e.g. a student
+    who uploaded Sem 1 2023/2024 and Sem 1 2024/2025 is missing
+    Sem 2 2023/2024. `semesters` is any iterable of objects with
+    semester_no and academic_session.
+
+    Only gaps *inside* the uploaded range are reported: nothing before
+    the first or after the last upload can be called missing (the
+    student may simply not have started, or not received results yet).
+    Semester 3 (special semester) is optional, so it is neither expected
+    nor used to widen the range.
+
+    Returns a chronological list of
+    {"semester_no": int, "academic_session": "YYYY/YYYY"}.
+    """
+    # Each regular semester gets one integer slot, so consecutive
+    # terms are consecutive numbers: Sem 1 -> 2*year, Sem 2 -> 2*year+1.
+    present = set()
+    for s in semesters:
+        match = _SESSION_RE.match(s.academic_session or "")
+        if match and s.semester_no in (1, 2):
+            present.add(int(match.group(1)) * 2 + s.semester_no - 1)
+
+    if len(present) < 2:
+        return []
+
+    missing = []
+    for slot in range(min(present), max(present)):
+        if slot not in present:
+            year, sem_index = divmod(slot, 2)
+            missing.append({
+                "semester_no": sem_index + 1,
+                "academic_session": f"{year}/{year + 1}",
+            })
+    return missing
+
 
 ##reusable for dashboard and analysis page
 def detect_trend(history):

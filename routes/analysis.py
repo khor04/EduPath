@@ -11,7 +11,7 @@ import json
 from dotenv import load_dotenv
 from google.api_core.exceptions import ResourceExhausted
 from services.gemini_service import generate_academic_plan
-from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa, detect_trend, determine_feasibility
+from services.cgpa_services import calculate_cgpa_credits, simulate_cgpa, detect_trend, determine_feasibility, find_missing_semesters
 
 analysis_bp = Blueprint("analysis", __name__)
 
@@ -65,6 +65,7 @@ def analysis():
         semesters=semesters,   
         gpa_labels=gpa_labels,
         gpa_values=gpa_values,
+        missing_semesters=find_missing_semesters(semesters),
         current_cgpa=current_cgpa,
         current_credits=current_credits,
         semester_history=json.dumps(semester_history)

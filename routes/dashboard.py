@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 from models.transcript import Transcript
 from models.semester import Semester
 from models.target_cgpa import TargetCGPA
-from services.cgpa_services import calculate_cgpa_credits, get_performance_alert
+from services.cgpa_services import calculate_cgpa_credits, get_performance_alert, find_missing_semesters
 from services.career_services import (
     build_student_profile,
     build_competency_profile,
@@ -116,6 +116,7 @@ def dashboard():
         last_updated=last_updated,
         gpa_labels=gpa_labels,
         gpa_values=gpa_values,
+        missing_semesters=find_missing_semesters(semesters),
         has_skill_data=has_skill_data,
         dashboard_strengths=dashboard_strengths,
         dashboard_weaknesses=dashboard_weaknesses,
