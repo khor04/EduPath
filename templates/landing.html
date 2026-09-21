@@ -116,19 +116,30 @@
                 </figure>
             </article>
 
-            <article class="showcase-slide" data-audience="student" data-title="Target CGPA Prediction">
+            <article class="showcase-slide" data-audience="student" data-title="Target CGPA + AI Planner">
                 <div class="showcase-copy">
                     <p class="showcase-eyebrow">STUDENT VIEW</p>
-                    <h3>Target CGPA Prediction</h3>
-                    <p>Set the CGPA you are aiming for and how many credits you have left. EduPath works out the GPA you need across those credits, and shows best, realistic and worst-case outcomes so the target is honest rather than hopeful.</p>
+                    <h3>Target CGPA + AI Planner</h3>
+                    <p>Set the CGPA you are aiming for and how many credits you have left. EduPath works out the GPA you need, with best, realistic and worst-case outcomes so the target is honest rather than hopeful. The AI Planner then turns it into a semester-by-semester GPA plan, with guidance based on your own performance trend.</p>
                 </div>
-                <figure class="showcase-shot">
-                    <div class="showcase-frame">
-                        <span class="showcase-frame-dots" aria-hidden="true"></span>
-                    </div>
-                    <img src="{{ url_for('static', filename='images/showcase/student_analysis.webp') }}"
-                         alt="Target CGPA simulator showing required GPA and best, realistic and worst-case projections" loading="lazy" width="1400">
-                </figure>
+                <!-- Two screenshots in one slide: the planner is the step after
+                     the target, so it sits on top of the simulator's corner. -->
+                <div class="showcase-stack">
+                    <figure class="showcase-shot">
+                        <div class="showcase-frame">
+                            <span class="showcase-frame-dots" aria-hidden="true"></span>
+                        </div>
+                        <img src="{{ url_for('static', filename='images/showcase/student_analysis.webp') }}"
+                             alt="Target CGPA simulator showing required GPA and best, realistic and worst-case projections" loading="lazy" width="1400">
+                    </figure>
+                    <figure class="showcase-shot showcase-shot--inset">
+                        <div class="showcase-frame">
+                            <span class="showcase-frame-dots" aria-hidden="true"></span>
+                        </div>
+                        <img src="{{ url_for('static', filename='images/showcase/student_aiplanner.webp') }}"
+                             alt="AI Planner showing a semester-by-semester GPA target plan" loading="lazy">
+                    </figure>
+                </div>
             </article>
 
             <article class="showcase-slide" data-audience="student" data-title="What-If Simulator">
@@ -206,6 +217,27 @@
                 </figure>
             </article>
 
+            <article class="showcase-slide" data-audience="student" data-title="EduPath AI Assistant">
+                <div class="showcase-copy">
+                    <p class="showcase-eyebrow">STUDENT VIEW</p>
+                    <h3>EduPath AI Assistant</h3>
+                    <p>Ask about your own results in plain language: why your CGPA changed, whether you are on track for your target, or why a career was recommended. Answers are based on your transcript, and the assistant is one click away on every page.</p>
+                </div>
+                <!-- Two chat panels: the opening screen with suggested
+                     questions, and an answer overlapping it. The panels have
+                     their own header, so they get no window frame. -->
+                <div class="showcase-pair">
+                    <figure class="showcase-shot showcase-chat">
+                        <img src="{{ url_for('static', filename='images/showcase/student_chatbot_welcome.webp') }}"
+                             alt="EduPath AI chat opening screen with suggested questions" loading="lazy">
+                    </figure>
+                    <figure class="showcase-shot showcase-chat showcase-chat--front">
+                        <img src="{{ url_for('static', filename='images/showcase/student_chatbot.webp') }}"
+                             alt="EduPath AI chat explaining why Web Developer was recommended, based on the student's strengths" loading="lazy">
+                    </figure>
+                </div>
+            </article>
+
             <article class="showcase-slide" data-audience="staff" data-title="Platform Overview">
                 <div class="showcase-copy">
                     <p class="showcase-eyebrow">STAFF VIEW</p>
@@ -270,6 +302,13 @@
     </p>
 
     <a href="{{ url_for('auth.register') }}" class="showcase-cta">Create an account to try it</a>
+
+    <p class="showcase-staff-notice" hidden>
+        <i class="bi bi-person-badge"></i>
+        Staff accounts can't be created through sign-up — only students can register here.
+        Staff access is set up by the EduPath team. To request it, please
+        <a href="{{ url_for('info.contact') }}">contact us</a>.
+    </p>
 
 </section>
 

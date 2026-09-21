@@ -780,11 +780,18 @@ document.getElementById("feasibilityInfoIcon")
   const tbody = document.getElementById("semesterPlanTable");
   tbody.innerHTML = "";
 
+  // The AI returns GPAs as it likes (3.6, 3.58); show 2 decimals like the
+  // rest of the page. Anything non-numeric is shown as-is.
+  const formatGPA = (value) => {
+    const n = Number(value);
+    return value !== "" && value !== null && Number.isFinite(n) ? n.toFixed(2) : value;
+  };
+
   tbody.innerHTML = data.semesters.map(sem => `
     <tr>
       <td>Semester ${escapeHtml(sem.sem)}</td>
       <td>${escapeHtml(sem.credits)}</td>
-      <td>${escapeHtml(sem.minimumGPARequired)}</td>
+      <td>${escapeHtml(formatGPA(sem.minimumGPARequired))}</td>
     </tr>
   `).join("");
 

@@ -23,6 +23,8 @@
   // Register button: students only. Signing up always creates a student
   // account -- staff access is granted by the administrator.
   const registerCta = section.querySelector(".showcase-cta");
+  // Shown in its place on the staff tab, so staff know how to get access.
+  const staffNotice = section.querySelector(".showcase-staff-notice");
   if (!tabs.length || !slides.length) return;
 
   let audience = tabs[0].dataset.audience;
@@ -64,6 +66,7 @@
     counter.textContent = `${index + 1} / ${group.length}`;
 
     if (registerCta) registerCta.hidden = audience !== "student";
+    if (staffNotice) staffNotice.hidden = audience !== "staff";
 
     // The arrows wrap around, so they are only ever dead when there is a
     // single slide to sit on.
