@@ -355,7 +355,33 @@ def verify_code_page():
                 (User.email == email) | (User.email_pending == email)
             ).first()
 
-        if not user or not user.verification_code_hash or not user.verification_expires_at:
+        # "No live code" collapses three different situations that need
+        # different advice -- telling all of them to hit Resend Code is
+        # a dead end for the first two, since resend_code() itself
+        # refuses in exactly those cases (see its own comment).
+        if not user:
+            flash(
+                Markup(
+                    "We couldn't find a pending verification for this email. "
+                    'Please <a href="' + url_for("auth.register") + '">sign up again</a>.'
+                ),
+                "error"
+            )
+            return redirect(url_for("auth.verify_code_page", email=email))
+
+        if user.is_verified and not user.email_pending:
+            flash(
+                Markup(
+                    'This email is already verified. <a href="' + url_for("auth.login") + '">Log in here</a>.'
+                ),
+                "success"
+            )
+            return redirect(url_for("auth.verify_code_page", email=email))
+
+        if not user.verification_code_hash or not user.verification_expires_at:
+            # The one case Resend Code actually fixes: account exists,
+            # not verified, but the code was wiped by the too-many-
+            # attempts lockout below.
             flash("Invalid verification session. Please request a new code.", "error")
             return redirect(url_for("auth.verify_code_page", email=email))
 
@@ -463,8 +489,25 @@ def resend_code():
         (User.email == email) | (User.email_pending == email)
     ).first()
 
-    if not user or (user.is_verified and not user.email_pending):
-        flash("No pending verification found for this email.", "error")
+    # Same two situations as verify_code_page() -- give the actual next
+    # step instead of one generic "no pending verification" dead end.
+    if not user:
+        flash(
+            Markup(
+                "We couldn't find a pending verification for this email. "
+                'Please <a href="' + url_for("auth.register") + '">sign up again</a>.'
+            ),
+            "error"
+        )
+        return redirect(url_for("auth.verify_code_page", email=email))
+
+    if user.is_verified and not user.email_pending:
+        flash(
+            Markup(
+                'This email is already verified. <a href="' + url_for("auth.login") + '">Log in here</a>.'
+            ),
+            "success"
+        )
         return redirect(url_for("auth.verify_code_page", email=email))
 
     if resend_on_cooldown(user):

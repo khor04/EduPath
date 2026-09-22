@@ -81,6 +81,22 @@
 
     </div>
 
+    <script>
+        // No other JS runs on this page. A double-click on Verify (easy
+        // to do while waiting for a slow page) fires two real POST
+        // requests -- the first one succeeds and clears the code, so
+        // the second lands on an "already verified" state instead of
+        // whatever the click was meant to do. Disabling both submit
+        // buttons the instant either is pressed stops that at the
+        // source; the page is about to navigate away anyway, so there's
+        // nothing to re-enable them for.
+        document.querySelector(".login-form").addEventListener("submit", function () {
+            this.querySelectorAll('button[type="submit"]').forEach(function (btn) {
+                btn.disabled = true;
+            });
+        });
+    </script>
+
 </body>
 
 </html>
