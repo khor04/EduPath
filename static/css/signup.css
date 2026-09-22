@@ -93,6 +93,7 @@ body {
   border: none;
   border-radius: 28px;
   background: #fff3a6;
+  color: #000;
   font-size: 24px;
   font-weight: bold;
 }
@@ -148,6 +149,7 @@ button {
   border: none;
   border-radius: 25px;
   background: #fff3a8;
+  color: #000;
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
@@ -155,6 +157,7 @@ button {
 
 button:hover {
   background: #ffec75;
+  color: #000;
 }
 
 .select-box {
@@ -265,6 +268,7 @@ button:hover {
   border: none;
   border-radius: 28px;
   background: #fff3a6;
+  color: #000;
   font-size: 24px;
   font-weight: bold;
 }
