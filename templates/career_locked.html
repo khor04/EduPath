@@ -2,8 +2,41 @@
 
 {% block content %}
 <div class="container text-center mt-5">
+    {% if reason == "building" %}
+    <h3>Preparing Your Career Recommendations</h3>
+
+    <p>
+        We're analysing the courses from your transcript. This usually takes about a
+        minute.
+    </p>
+    <p><strong>This page updates by itself -- you don't need to refresh.</strong></p>
+
+    <script>
+        // Background classification from the upload is still running
+        // (services/classification_jobs.py). Polls a cheap status
+        // endpoint and reloads only when it's done -- this page allows
+        // just 5 requests a minute, so reloading it on a 10s timer
+        // would trip its own rate limit instead of showing the result.
+        (function pollInsights() {
+            setTimeout(function () {
+                fetch("/api/transcript/insights-status")
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                        if (data.ready) { window.location.reload(); } else { pollInsights(); }
+                    })
+                    .catch(function () { pollInsights(); });
+            }, 10000);
+        })();
+    </script>
+    {% else %}
     <h3>Career Recommendation Unavailable</h3>
 
+    {% if reason == "error" %}
+    <p>
+        We're temporarily unable to generate your recommendations. This isn't
+        something wrong with your transcript -- please try again in a few minutes.
+    </p>
+    {% else %}
     <p>
         Upload your transcript to unlock recommendation features.
     </p>
@@ -11,5 +44,7 @@
     <a href="{{ url_for('transcript.upload') }}" class="btn btn-primary">
         Upload Transcript
     </a>
+    {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

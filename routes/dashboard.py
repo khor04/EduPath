@@ -1,12 +1,13 @@
 import re
 from datetime import date
 
-from flask import Blueprint, render_template, Response
+from flask import Blueprint, render_template, Response, current_app
 from flask_login import login_required, current_user
 from models.transcript import Transcript
 from models.semester import Semester
 from models.target_cgpa import TargetCGPA
 from services.cgpa_services import calculate_cgpa_credits, get_performance_alert, find_missing_semesters
+from services.classification_jobs import is_building
 from services.career_services import (
     build_student_profile,
     build_competency_profile,
@@ -82,28 +83,57 @@ def dashboard():
     # into SkillProfile/CareerRecommendation, since Dashboard is
     # likely visited far more often and that data's only real
     # consumer (Feedback) lives on the Career page.
-    concept_profile = build_student_profile(current_user.user_id)
-    has_skill_data = bool(concept_profile)
-
+    #
+    # Wrapped: this calls Gemini for any course nobody's profile has
+    # needed classified before, with no safety net of its own -- a
+    # quota/network failure here (confirmed in production 2026-09-22:
+    # the shared daily Gemini quota got exhausted by ordinary traffic
+    # and crashed this route with a raw 500 for every visitor, not just
+    # the student who happened to trigger it) must never take the whole
+    # dashboard down. skill_data_error tells the template whether this
+    # is a genuinely-no-transcript-yet student (has_skill_data=False,
+    # skill_data_error=False -- show the upload prompt) or a transient
+    # failure on a student who does have one (skill_data_error=True --
+    # don't tell them to re-upload, that wouldn't help).
+    has_skill_data = False
+    skill_data_error = False
+    # Set while the upload's background classification is still running
+    # (services/classification_jobs.py) -- show "still preparing"
+    # rather than starting a second, duplicate classification here.
+    skill_data_building = is_building(current_user.user_id)
     dashboard_strengths = []
     dashboard_weaknesses = []
     dashboard_top_careers = []
 
-    if has_skill_data:
-        competency_profile = build_competency_profile(concept_profile)
-        dashboard_strengths = [row["competency_name"] for row in top_strengths(competency_profile, top_n=3)]
+    try:
+        concept_profile = None if skill_data_building else build_student_profile(current_user.user_id)
+        has_skill_data = bool(concept_profile)
 
-        # Course-driven, same as the Career page's "Areas to Strengthen"
-        # -- not the competency names, so a student clicking through to
-        # /career finds exactly what this preview showed them.
-        improvement_courses = identify_improvement_courses(current_user.user_id, top_n=3)
-        dashboard_weaknesses = [
-            {"course_title": c["course_title"], "grade": c["grade"]}
-            for c in improvement_courses
-        ]
+        if has_skill_data:
+            competency_profile = build_competency_profile(concept_profile)
+            dashboard_strengths = [row["competency_name"] for row in top_strengths(competency_profile, top_n=3)]
 
-        dashboard_careers = match_careers(current_user.user_id, top_n=3, profile=concept_profile)
-        dashboard_top_careers = [c["title"] for c in dashboard_careers]
+            # Course-driven, same as the Career page's "Areas to Strengthen"
+            # -- not the competency names, so a student clicking through to
+            # /career finds exactly what this preview showed them.
+            improvement_courses = identify_improvement_courses(current_user.user_id, top_n=3)
+            dashboard_weaknesses = [
+                {"course_title": c["course_title"], "grade": c["grade"]}
+                for c in improvement_courses
+            ]
+
+            dashboard_careers = match_careers(current_user.user_id, top_n=3, profile=concept_profile)
+            dashboard_top_careers = [c["title"] for c in dashboard_careers]
+    except Exception:
+        current_app.logger.exception(
+            "Skill/career computation failed for user %s -- showing empty state instead of crashing",
+            current_user.user_id
+        )
+        has_skill_data = False
+        skill_data_error = True
+        dashboard_strengths = []
+        dashboard_weaknesses = []
+        dashboard_top_careers = []
 
     return render_template(
         "dashboard.html",
@@ -118,6 +148,8 @@ def dashboard():
         gpa_values=gpa_values,
         missing_semesters=find_missing_semesters(semesters),
         has_skill_data=has_skill_data,
+        skill_data_error=skill_data_error,
+        skill_data_building=skill_data_building,
         dashboard_strengths=dashboard_strengths,
         dashboard_weaknesses=dashboard_weaknesses,
         dashboard_top_careers=dashboard_top_careers,

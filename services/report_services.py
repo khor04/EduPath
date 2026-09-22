@@ -7,6 +7,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from xhtml2pdf import pisa
 
+from flask import current_app
+
 from models.users import User
 from models.transcript import Transcript
 from models.semester import Semester
@@ -14,6 +16,7 @@ from models.target_cgpa import TargetCGPA
 from services.cgpa_services import calculate_cgpa_credits, detect_trend, determine_feasibility
 from services.benchmark_services import compute_cohort_standings_bulk
 from services.career_services import build_student_profile, match_careers
+from services.classification_jobs import is_building
 
 
 TREND_NARRATIVES = {
@@ -188,23 +191,41 @@ def build_report_context(user_id):
         context["has_benchmark"] = False
 
     # ---- Career Recommendation Summary ----
-    concept_profile = build_student_profile(user_id)
-    if concept_profile:
-        top_careers = match_careers(user_id, top_n=3, profile=concept_profile)
+    # Same reasoning as routes/dashboard.py: this calls Gemini for any
+    # course nobody's profile has needed classified before, with no
+    # safety net of its own -- a quota/network failure here must not
+    # take down report generation (both the in-browser preview and the
+    # PDF download go through this same function).
+    try:
+        # Skipped while the post-upload classification is still running
+        # -- same reason as Dashboard/Career: don't start a second,
+        # duplicate one (services/classification_jobs.py).
+        concept_profile = None if is_building(user_id) else build_student_profile(user_id)
+        if concept_profile:
+            top_careers = match_careers(user_id, top_n=3, profile=concept_profile)
 
-        matched_skills = []
-        for career in top_careers:
-            for skill in career["matched_competencies"]:
-                if skill not in matched_skills:
-                    matched_skills.append(skill)
+            matched_skills = []
+            for career in top_careers:
+                for skill in career["matched_competencies"]:
+                    if skill not in matched_skills:
+                        matched_skills.append(skill)
 
-        context.update({
-            "has_careers": bool(top_careers),
-            "top_careers": top_careers,
-            "matched_skills_sentence": _join_with_and(matched_skills[:4]),
-        })
-    else:
+            context.update({
+                "has_careers": bool(top_careers),
+                "top_careers": top_careers,
+                "matched_skills_sentence": _join_with_and(matched_skills[:4]),
+            })
+        else:
+            context["has_careers"] = False
+        context["career_data_error"] = False
+        context["career_data_building"] = is_building(user_id)
+    except Exception:
+        current_app.logger.exception(
+            "Career recommendation computation failed for user %s in report -- "
+            "showing empty state instead of crashing report generation", user_id
+        )
         context["has_careers"] = False
+        context["career_data_error"] = True
 
     return context
 

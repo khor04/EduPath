@@ -138,7 +138,15 @@
       <h3>Academic Strengths & Areas for Improvement</h3>
 
       {% if not has_skill_data %}
-      <p class="empty-message">Upload your transcript to see your competency profile.</p>
+      <p class="empty-message">
+        {% if skill_data_building %}
+        Preparing your competency profile from your transcript&hellip; this usually takes a minute.
+        {% elif skill_data_error %}
+        We're temporarily unable to compute this -- please check back in a few minutes.
+        {% else %}
+        Upload your transcript to see your competency profile.
+        {% endif %}
+      </p>
       {% else %}
       <div class="summary-list">
         <strong>Strengths · Skills:</strong>
@@ -168,7 +176,15 @@
       <h3>Recommended Career Pathways</h3>
 
       {% if not has_skill_data %}
-      <p class="empty-message">Upload your transcript to see career recommendations.</p>
+      <p class="empty-message">
+        {% if skill_data_building %}
+        Preparing your career matches&hellip; this updates by itself, no need to refresh.
+        {% elif skill_data_error %}
+        We're temporarily unable to compute this -- please check back in a few minutes.
+        {% else %}
+        Upload your transcript to see career recommendations.
+        {% endif %}
+      </p>
       {% else %}
       <div class="career-match">
         <strong class="strong-match">BEST MATCHES FOR YOUR PROGRAMME</strong>
@@ -249,6 +265,25 @@
   const dashboardGpaLabels = JSON.parse('{{ gpa_labels | tojson | safe }}');
   const dashboardGpaValues = JSON.parse('{{ gpa_values | tojson | safe }}');
   const dashboardLatestCGPA = JSON.parse('{{ latest_cgpa | tojson | safe }}');
+
+  {% if skill_data_building %}
+  // The transcript's skill/career classification is still running in
+  // the background (services/classification_jobs.py). Poll a cheap
+  // status endpoint and reload only once it's actually done, rather
+  // than reloading this whole page on a timer -- /dashboard itself is
+  // capped at 50 requests/hour and /career at 5/minute, so blind
+  // refreshing is what would eventually rate-limit the student.
+  (function pollInsights() {
+    setTimeout(function () {
+      fetch("/api/transcript/insights-status")
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data.ready) { window.location.reload(); } else { pollInsights(); }
+        })
+        .catch(function () { pollInsights(); });
+    }, 10000);
+  })();
+  {% endif %}
 </script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

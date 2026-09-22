@@ -18,12 +18,15 @@ semester/course/career datasets -- so a general-knowledge question
 ("what is recursion?") doesn't carry an unneeded data dump, and so
 this doesn't drift into "just include everything" as the app grows.
 """
+from flask import current_app
+
 from models.users import User
 from models.transcript import Transcript
 from models.semester import Semester
 from models.target_cgpa import TargetCGPA
 from services.cgpa_services import calculate_cgpa_credits, detect_trend, determine_feasibility
 from services.benchmark_services import compute_cohort_standing
+from services.classification_jobs import is_building
 from services.career_services import (
     build_student_profile,
     build_competency_profile,
@@ -105,31 +108,50 @@ def build_chat_context(user_id):
 
     top_career_title = None
 
-    concept_profile = build_student_profile(user_id)
-    if concept_profile:
-        competency_profile = build_competency_profile(concept_profile)
-        strengths = top_strengths(competency_profile, top_n=3)
-        if strengths:
-            lines.append("Top academic strengths: " + ", ".join(row["competency_name"] for row in strengths))
+    # The strengths/career part needs build_student_profile(), which
+    # calls Gemini for any course not yet classified and has no safety
+    # net of its own. Everything above is plain DB data, so if this
+    # part fails the chat should still answer with that -- not 500.
+    # That matters more here than anywhere else: /api/chat/suggestions
+    # runs this on every page load via the chat widget, so an
+    # unprotected failure would break the widget site-wide during a
+    # Gemini outage (the same one that crashed /dashboard on
+    # 2026-09-22), and /api/chat builds this context before its own
+    # try/except around the Gemini reply.
+    try:
+        # Skipped while the post-upload classification is still running,
+        # for the same reason Dashboard/Career skip it: don't start a
+        # duplicate one (services/classification_jobs.py).
+        concept_profile = None if is_building(user_id) else build_student_profile(user_id)
+        if concept_profile:
+            competency_profile = build_competency_profile(concept_profile)
+            strengths = top_strengths(competency_profile, top_n=3)
+            if strengths:
+                lines.append("Top academic strengths: " + ", ".join(row["competency_name"] for row in strengths))
 
-        # Deliberately labeled as a plain fact ("lower grades"), not a
-        # causal claim ("courses affecting your CGPA") -- the ranking
-        # underneath is already credit-weighted (grade_weakness x
-        # relevance_weight x credit_hour), but that doesn't make "this
-        # course hurt your CGPA" a fact this context should assert on
-        # the student's behalf. Let Gemini phrase the interpretation.
-        improvement_courses = identify_improvement_courses(user_id, top_n=5)
-        if improvement_courses:
-            lines.append("Courses with lower grades:")
-            for c in improvement_courses:
-                lines.append(f"  - {c['course_title']}: {c['grade']}")
+            # Deliberately labeled as a plain fact ("lower grades"), not a
+            # causal claim ("courses affecting your CGPA") -- the ranking
+            # underneath is already credit-weighted (grade_weakness x
+            # relevance_weight x credit_hour), but that doesn't make "this
+            # course hurt your CGPA" a fact this context should assert on
+            # the student's behalf. Let Gemini phrase the interpretation.
+            improvement_courses = identify_improvement_courses(user_id, top_n=5)
+            if improvement_courses:
+                lines.append("Courses with lower grades:")
+                for c in improvement_courses:
+                    lines.append(f"  - {c['course_title']}: {c['grade']}")
 
-        top_careers = match_careers(user_id, top_n=3, profile=concept_profile)
-        if top_careers:
-            lines.append("Top career matches:")
-            for career in top_careers:
-                lines.append(f"  - {career['title']}: {career['match_percentage']:.0f}%")
-            top_career_title = top_careers[0]["title"]
+            top_careers = match_careers(user_id, top_n=3, profile=concept_profile)
+            if top_careers:
+                lines.append("Top career matches:")
+                for career in top_careers:
+                    lines.append(f"  - {career['title']}: {career['match_percentage']:.0f}%")
+                top_career_title = top_careers[0]["title"]
+    except Exception:
+        current_app.logger.exception(
+            "Strengths/career context unavailable for user %s -- chat continues without it", user_id
+        )
+        lines.append("Strengths and career matches are temporarily unavailable.")
 
     return {
         "has_data": True,

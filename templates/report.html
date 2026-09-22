@@ -244,7 +244,11 @@
   {% endif %}
   <p class="footnote">Match level reflects profile similarity to O*NET occupation data, not a probability of career success.</p>
   {% else %}
-  {% if shared %}
+  {% if career_data_building %}
+  <p class="empty-note">Career recommendations are still being prepared from the latest transcript upload.</p>
+  {% elif career_data_error %}
+  <p class="empty-note">We're temporarily unable to compute career recommendations -- please try again in a few minutes.</p>
+  {% elif shared %}
   <p class="empty-note">No career recommendations are available yet.</p>
   {% else %}
   <p class="empty-note">Upload your transcript to see career recommendations.</p>
