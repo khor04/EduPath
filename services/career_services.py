@@ -21,7 +21,17 @@ from models.career_recommendation import CareerRecommendation
 from services.cgpa_services import GRADE_POINTS, FAIL_GRADES
 from services.programme_careers import get_programme_careers
 
-MODEL_NAME = "gemini-3.6-flash"
+# "Lite" variants have far higher free-tier limits than the plain Flash
+# models -- confirmed 2026-09-23 against this project's own Google AI
+# Studio rate-limit page: gemini-3.6-flash sits at 5 RPM / 20 RPD, while
+# gemini-3.5-flash-lite (used here) sits at 15 RPM / 500 RPD -- a 25x
+# higher daily ceiling, shared across every feature that calls Gemini
+# (this file's course/relevance classification, the AI planner, and the
+# chatbot in services/gemini_service.py, which imports MODEL_NAME from
+# here). Directly relevant after 2026-09-22's outage: a single student's
+# first dashboard visit exhausting the old 20/day cap and crashing the
+# site for everyone else that day.
+MODEL_NAME = "gemini-3.5-flash-lite"
 CLASSIFY_PROMPT_VERSION = "v1"
 RELEVANCE_PROMPT_VERSION = "v2"
 
@@ -329,11 +339,23 @@ course code given for each course as the JSON key:
 {{"<course code>": {{"tier": "Core" | "Related" | "General", "reason": "..."}}}}"""
 
 
-# Backoff schedule for rate-limit errors, in seconds. The free tier's
-# per-minute quota resets on a rolling window, so waiting comfortably
-# longer than a minute across all retries clears even a fully-exhausted
-# window rather than just guessing at a short delay.
+# Backoff schedule for rate-limit errors, in seconds -- only actually
+# used when the error is NOT the free tier's per-DAY quota (see
+# is_daily_quota_exhausted below). That per-day cap, confirmed live in
+# production (2026-09-22: "GenerateRequestsPerDayPerProjectPerModel-
+# FreeTier", limit 20 -- exhausted by a single student's first
+# dashboard visit, one retry storm compounding on the next), does not
+# reset for hours, so retrying it here -- what this code used to do
+# unconditionally -- achieves nothing and burns up to 4x the attempts
+# per failed call for free, which is itself part of what exhausts the
+# quota in the first place. Retries are kept only as a hedge against a
+# genuinely short-lived limit, if the account ever has one.
 RATE_LIMIT_BACKOFF_SECONDS = [15, 30, 60]
+
+
+def is_daily_quota_exhausted(exc):
+    
+    return "GenerateRequestsPerDay" in str(exc)
 
 
 def _call_gemini(prompt):
@@ -346,8 +368,8 @@ def _call_gemini(prompt):
         try:
             response = model.generate_content(prompt)
             break
-        except ResourceExhausted:
-            if attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
+        except ResourceExhausted as exc:
+            if is_daily_quota_exhausted(exc) or attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
                 raise
             continue
 

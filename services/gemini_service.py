@@ -4,7 +4,7 @@ import google.generativeai as genai
 import os
 from google.api_core.exceptions import ResourceExhausted
 
-from services.career_services import MODEL_NAME, RATE_LIMIT_BACKOFF_SECONDS
+from services.career_services import MODEL_NAME, RATE_LIMIT_BACKOFF_SECONDS, is_daily_quota_exhausted
 
 def generate_academic_plan(prompt):
     """
@@ -18,9 +18,12 @@ def generate_academic_plan(prompt):
     already does for the chat widget.
 
     Same retry/backoff on ResourceExhausted as
-    career_services._call_gemini() and generate_chat_response(), so a
-    transient per-minute quota window gets a real chance to clear
-    before giving up.
+    career_services._call_gemini() and generate_chat_response() --
+    including giving up immediately (no sleep, no retry) once the
+    error confirms it's the free tier's per-DAY quota rather than
+    something shorter-lived, since retrying that achieves nothing but
+    burning more of the same exhausted quota. See
+    career_services.is_daily_quota_exhausted().
     """
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel(MODEL_NAME)
@@ -32,8 +35,8 @@ def generate_academic_plan(prompt):
         try:
             response = model.generate_content(prompt)
             break
-        except ResourceExhausted:
-            if attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
+        except ResourceExhausted as exc:
+            if is_daily_quota_exhausted(exc) or attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
                 raise
             continue
 
@@ -103,6 +106,10 @@ def generate_chat_response(message, history, context_text):
     the student. `history` is a list of {"role": "user"|"assistant",
     "text": "..."} prior turns, included for conversational flow only,
     never as a second source of truth.
+
+    Gives up immediately (no sleep, no retry) once the error confirms
+    it's the free tier's per-DAY quota rather than something
+    shorter-lived -- see career_services.is_daily_quota_exhausted().
     """
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
     model = genai.GenerativeModel(MODEL_NAME, system_instruction=CHAT_SYSTEM_PROMPT)
@@ -124,8 +131,8 @@ def generate_chat_response(message, history, context_text):
             chat = model.start_chat(history=convo)
             response = chat.send_message(prompt)
             break
-        except ResourceExhausted:
-            if attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
+        except ResourceExhausted as exc:
+            if is_daily_quota_exhausted(exc) or attempt == len(RATE_LIMIT_BACKOFF_SECONDS):
                 raise
             continue
 
