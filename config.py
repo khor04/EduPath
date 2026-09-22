@@ -28,12 +28,15 @@ class Config:
         "pool_recycle": 280,
     }
 
-    MAIL_SERVER = "smtp.gmail.com"
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = "khorch0425@gmail.com"
-    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
-    MAIL_DEFAULT_SENDER = ("EduPath System", "khorch0425@gmail.com")
+    # Outbound email (verification codes, password resets) goes through
+    # Brevo's HTTPS transactional API (routes/auth.py:send_email_via_brevo),
+    # not SMTP -- Render blocks outbound SMTP (ports 25/465/587) on free
+    # web services, confirmed 2026-09-22 in production
+    # (https://render.com/changelog/free-web-services-will-no-longer-allow-outbound-traffic-to-smtp-ports).
+    # BREVO_SENDER_EMAIL must be a sender verified in the Brevo dashboard.
+    BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+    BREVO_SENDER_NAME = "EduPath System"
+    BREVO_SENDER_EMAIL = "khorch0425@gmail.com"
 
     # The session cookie carries the login session id and (via Flask-WTF)
     # backs CSRF validation, and this app handles academic transcripts, so

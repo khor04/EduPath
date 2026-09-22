@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, jsonify
 from markupsafe import Markup
-from extensions import db, mail, limiter, ip_and_email_key
+from extensions import db, limiter, ip_and_email_key
 from models.users import User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 from sqlalchemy.exc import IntegrityError
 from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN
 import secrets
+import requests
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 
@@ -46,14 +46,14 @@ def issue_verification_code(user):
     Generates a code, saves it, and kicks off sending it in the
     background. Returns just the code.
 
-    Confirmed 2026-09-22 by a live test send: this Gmail SMTP relay
-    does deliver, but sometimes only after a long pause (normal
-    behaviour for Gmail's outbound queue/greylisting, not something
-    this app controls or can speed up). So the request is never made
-    to wait for the send -- see send_verification_email_in_background
-    for why. The code is saved here before that background send is
-    even started, so a slow or failed send is always recoverable: the
-    account already exists and Resend Code can just try again.
+    Real inbox delivery can take anywhere from a few seconds to a
+    couple of minutes depending on the provider's queue -- normal
+    behaviour this app doesn't control or need to wait on. So the
+    request is never made to wait for the send -- see
+    send_email_in_background for why. The code is saved here before
+    that background send is even started, so a slow or failed send is
+    always recoverable: the account already exists and Resend Code can
+    just try again.
     """
     code = generate_verification_code()
 
@@ -63,53 +63,18 @@ def issue_verification_code(user):
 
     db.session.commit()
 
-    send_verification_email_in_background(user, code)
-
-    return code
-
-
-def send_verification_email_in_background(user, code):
-    """
-    Fires the actual send on its own thread and returns immediately --
-    the request is never blocked on this at all, and no attempt is made
-    to report success/failure back to the caller.
-
-    Two things ruled that out: flask-mail opens its SMTP connection
-    with no timeout (smtplib.SMTP(server, port), no timeout kwarg --
-    checked in the installed flask-mail==0.10.0 source), so waiting on
-    it unbounded can hang the whole request; but a *bounded* wait
-    (tried first) is also wrong, because a real send confirmed to take
-    longer than the bound still goes on to succeed -- reporting that as
-    "failed" would be a false negative shown to the student. So instead
-    of trying to time the send, the request just doesn't wait on it:
-    the verification code is already saved by the caller, so however
-    long delivery takes, Resend Code is always a safe fallback.
-    """
-    app = current_app._get_current_object()
-
-    def _send():
-        try:
-            with app.app_context():
-                send_verification_email(user, code)
-        except Exception:
-            app.logger.exception(
-                "Verification email to %s failed to send",
-                user.email_pending or user.email
-            )
-
-    executor = ThreadPoolExecutor(max_workers=1)
-    executor.submit(_send)
-    executor.shutdown(wait=False)
-
-def send_verification_email(user, code):
+    # Read out of `user` HERE, in the request thread, before
+    # backgrounding -- not inside the background thread. A first
+    # version read these from `user` inside the thread, which raced
+    # the request's own session teardown (Flask-SQLAlchemy's scoped
+    # session closes at the end of the request) and threw
+    # sqlalchemy.exc.IllegalStateChangeError in production. Plain
+    # strings have no session to race.
     recipient = user.email_pending or user.email
+    username = user.username
 
-    msg = Message(
-        subject="Verify Your EduPath Account",
-        recipients=[recipient]
-    )
-
-    msg.body = f"""Please verify your identity, {user.username}
+    subject = "Verify Your EduPath Account"
+    body = f"""Please verify your identity, {username}
 
 Here is your verification code:
 
@@ -125,12 +90,19 @@ Thanks,
 EduPath team
 """
 
-    mail.send(msg)
+    send_email_in_background(recipient, subject, body, "Verification")
+
+    return code
+
 
 #forgot password
 def send_reset_email(user):
-    
+    # Same reasoning as issue_verification_code: read plain values out
+    # of `user` before backgrounding, never pass the ORM object itself
+    # into the thread.
     token = generate_token(user.user_id)
+    recipient = user.email
+    username = user.username
 
     reset_url = url_for(
         'auth.reset_password',
@@ -138,13 +110,9 @@ def send_reset_email(user):
         _external=True
     )
 
-    msg = Message(
-        subject="EduPath Password Reset",
-        recipients=[user.email]
-    )
-
-    msg.body = f"""
-Hi {user.username},
+    subject = "EduPath Password Reset"
+    body = f"""
+Hi {username},
 
 Click the link below to reset your password:
 
@@ -156,7 +124,74 @@ Regards,
 EduPath System
 """
 
-    mail.send(msg)
+    send_email_in_background(recipient, subject, body, "Password reset")
+
+
+def send_email_in_background(to_email, subject, text_body, context_label):
+    """
+    Runs send_email_via_brevo on its own thread and returns immediately
+    -- the request is never blocked on this at all, and no attempt is
+    made to report success/failure back to the caller.
+
+    Two things ruled out waiting on it instead: the mail server the app
+    used to talk to directly over SMTP has no built-in timeout, so
+    waiting on it unbounded can hang the whole request; but a
+    *bounded* wait (tried first) is also wrong when the send is just
+    slow rather than actually broken, because a real send confirmed to
+    take longer than the bound still goes on to succeed -- reporting
+    that as "failed" would be a false negative shown to the student. So
+    instead of trying to time the send, the request just doesn't wait
+    on it at all.
+    """
+    app = current_app._get_current_object()
+
+    def _send():
+        try:
+            with app.app_context():
+                send_email_via_brevo(to_email, subject, text_body)
+        except Exception:
+            app.logger.exception(
+                "%s email to %s failed to send", context_label, to_email
+            )
+
+    executor = ThreadPoolExecutor(max_workers=1)
+    executor.submit(_send)
+    executor.shutdown(wait=False)
+
+
+def send_email_via_brevo(to_email, subject, text_body):
+    """
+    Sends one email through Brevo's HTTPS transactional API, not raw
+    SMTP. Required because Render blocks outbound SMTP (ports 25, 465,
+    587) on free web services -- confirmed 2026-09-22 in production by
+    an "OSError: [Errno 101] Network is unreachable" out of
+    smtplib.SMTP(...).connect(), and documented by Render itself:
+    https://render.com/changelog/free-web-services-will-no-longer-allow-outbound-traffic-to-smtp-ports
+    HTTPS (this call) isn't blocked, so it reaches Brevo the same way a
+    browser would.
+
+    Needs BREVO_API_KEY (and BREVO_SENDER_EMAIL, a Brevo-verified
+    sender) set in the environment -- see config.py.
+    """
+    response = requests.post(
+        "https://api.brevo.com/v3/smtp/email",
+        headers={
+            "accept": "application/json",
+            "api-key": current_app.config["BREVO_API_KEY"],
+            "content-type": "application/json",
+        },
+        json={
+            "sender": {
+                "name": current_app.config["BREVO_SENDER_NAME"],
+                "email": current_app.config["BREVO_SENDER_EMAIL"],
+            },
+            "to": [{"email": to_email}],
+            "subject": subject,
+            "textContent": text_body,
+        },
+        timeout=15,
+    )
+    response.raise_for_status()
 
 # The sign-in forms below are used by visitors without an account, so they
 # can only be counted by IP -- and a classroom on one Wi-Fi shares one IP.

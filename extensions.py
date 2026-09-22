@@ -1,7 +1,6 @@
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
-from flask_mail import Mail
 from flask_wtf import CSRFProtect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -36,6 +35,5 @@ def ip_and_email_key():
 
 db = SQLAlchemy()
 login_manager = LoginManager()
-mail = Mail()
 csrf = CSRFProtect()
 limiter = Limiter(key_func=rate_limit_key, default_limits=["200 per day", "50 per hour"])

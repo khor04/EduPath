@@ -27,7 +27,7 @@ Tech Stack
    - `DATABASE_URL` — a PostgreSQL connection string (e.g. from [Supabase](https://supabase.com))
    - `GEMINI_API_KEY` — from [Google AI Studio](https://aistudio.google.com/apikey)
    - `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` — from your [Cloudinary](https://cloudinary.com) dashboard
-   - `MAIL_PASSWORD` — a Gmail app password for the sender account configured in `config.py`
+   - `BREVO_API_KEY` — from [Brevo](https://www.brevo.com) (free tier), after verifying the sender address configured in `config.py`
    - `SECRET_KEY` — any long random string
 
 3. Run the app:
