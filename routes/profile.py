@@ -161,7 +161,7 @@ def profile():
             # address -- and staying logged in means closing the verify
             # page isn't a dead end: the profile page shows a "verification
             # pending" banner they can return to at any time.
-            flash("Verification code sent to your new email. Please verify to complete the change.", "success")
+            flash("Verification code sent to your new email. It can take a few minutes to arrive -- please verify to complete the change.", "success")
 
             return redirect(url_for("auth.verify_code_page", email=new_email))
         

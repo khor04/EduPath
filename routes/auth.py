@@ -10,6 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN
 import secrets
 from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -41,6 +42,19 @@ def resend_on_cooldown(user):
     return datetime.utcnow() < sent_at + RESEND_COOLDOWN
 
 def issue_verification_code(user):
+    """
+    Generates a code, saves it, and kicks off sending it in the
+    background. Returns just the code.
+
+    Confirmed 2026-09-22 by a live test send: this Gmail SMTP relay
+    does deliver, but sometimes only after a long pause (normal
+    behaviour for Gmail's outbound queue/greylisting, not something
+    this app controls or can speed up). So the request is never made
+    to wait for the send -- see send_verification_email_in_background
+    for why. The code is saved here before that background send is
+    even started, so a slow or failed send is always recoverable: the
+    account already exists and Resend Code can just try again.
+    """
     code = generate_verification_code()
 
     user.verification_code_hash = generate_password_hash(code)
@@ -49,9 +63,43 @@ def issue_verification_code(user):
 
     db.session.commit()
 
-    send_verification_email(user, code)
+    send_verification_email_in_background(user, code)
 
     return code
+
+
+def send_verification_email_in_background(user, code):
+    """
+    Fires the actual send on its own thread and returns immediately --
+    the request is never blocked on this at all, and no attempt is made
+    to report success/failure back to the caller.
+
+    Two things ruled that out: flask-mail opens its SMTP connection
+    with no timeout (smtplib.SMTP(server, port), no timeout kwarg --
+    checked in the installed flask-mail==0.10.0 source), so waiting on
+    it unbounded can hang the whole request; but a *bounded* wait
+    (tried first) is also wrong, because a real send confirmed to take
+    longer than the bound still goes on to succeed -- reporting that as
+    "failed" would be a false negative shown to the student. So instead
+    of trying to time the send, the request just doesn't wait on it:
+    the verification code is already saved by the caller, so however
+    long delivery takes, Resend Code is always a safe fallback.
+    """
+    app = current_app._get_current_object()
+
+    def _send():
+        try:
+            with app.app_context():
+                send_verification_email(user, code)
+        except Exception:
+            app.logger.exception(
+                "Verification email to %s failed to send",
+                user.email_pending or user.email
+            )
+
+    executor = ThreadPoolExecutor(max_workers=1)
+    executor.submit(_send)
+    executor.shutdown(wait=False)
 
 def send_verification_email(user, code):
     recipient = user.email_pending or user.email
@@ -218,7 +266,7 @@ def register():
                     flash("An account with this email is already pending verification. Check your email for the code we already sent.", "success")
                 else:
                     issue_verification_code(existing_user)
-                    flash("An account with this email is already pending verification. We've sent you a new code.", "success")
+                    flash("An account with this email is already pending verification. We've sent you a new code -- it can take a few minutes to arrive.", "success")
 
                 return redirect(url_for("auth.verify_code_page", email=email))
 
@@ -241,7 +289,7 @@ def register():
         db.session.commit()
         issue_verification_code(new_user)
 
-        flash("Account created. Please check your email for a verification code.", "success")
+        flash("Account created. We're sending your verification code -- it can take a few minutes to arrive, so check your inbox (and spam folder) shortly. Use Resend Code if it doesn't show up.", "success")
         return redirect(url_for("auth.verify_code_page", email=email))
 
     return render_template("signup.html")
@@ -390,7 +438,8 @@ def resend_code():
 
     issue_verification_code(user)
 
-    flash("A new verification code has been sent.", "success")
+    flash("A new verification code is on its way -- it can take a few minutes to arrive.", "success")
+
     return redirect(url_for("auth.verify_code_page", email=email))
 
 
