@@ -29,8 +29,11 @@ NO_TRANSCRIPT_CONTEXT = (
 @login_required
 # Per-user, not the default per-IP -- this is behind @login_required,
 # and IP-based limiting would let testers sharing a network (e.g.
-# campus wifi during UAT) throttle each other.
-@limiter.limit("10 per minute", key_func=lambda: current_user.get_id())
+# campus wifi during UAT) throttle each other. The hourly cap is the
+# quota guard: every message is one Gemini request out of a daily
+# allowance shared with the AI planner and course classification, so a
+# single long conversation shouldn't be able to drain it.
+@limiter.limit("10 per minute; 100 per hour", key_func=lambda: current_user.get_id())
 def chat():
     data = request.get_json(silent=True) or {}
 

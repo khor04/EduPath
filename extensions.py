@@ -36,4 +36,18 @@ def ip_and_email_key():
 db = SQLAlchemy()
 login_manager = LoginManager()
 csrf = CSRFProtect()
-limiter = Limiter(key_func=rate_limit_key, default_limits=["200 per day", "50 per hour"])
+# Applied per ROUTE per key, to every route that doesn't set its own.
+# Sized for a student, not an API client: students refresh pages
+# constantly (especially while something is loading), and every page
+# load also fires background calls of its own -- /api/chat/suggestions
+# for the chat widget, /api/benchmark-data on the Dashboard. At the
+# old 50/hour, roughly fifty page loads in an hour was enough to start
+# silently breaking those widgets during ordinary use, which is well
+# within what one student clicking around can do.
+#
+# These are a backstop against runaway loops and scraping, NOT a
+# usage budget. Anything genuinely expensive -- sending email, guessing
+# passwords, or spending Gemini quota -- sets its own, much tighter
+# limit at the route instead (see routes/auth.py, routes/chat.py,
+# routes/analysis.py's /generate-ai-plan).
+limiter = Limiter(key_func=rate_limit_key, default_limits=["2000 per day", "300 per hour"])

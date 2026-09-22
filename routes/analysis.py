@@ -4,7 +4,7 @@ from models.transcript import Transcript
 from models.semester import Semester
 from models.course import Course
 from models.target_cgpa import TargetCGPA
-from extensions import db
+from extensions import db, limiter
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import json
@@ -51,12 +51,19 @@ def analysis():
     current_credits = cgpa_result["credits"]
 
 
+    # Sent back verbatim as the AI planner's `history`, where
+    # /generate-ai-plan writes each entry into the prompt as
+    # "Sem {semester}: {gpa} ({credits} credits)". "semester" carries
+    # the session too, since semester_no alone repeats every year
+    # (Sem 1, Sem 2, Sem 1, ...), and "credits" was previously missing
+    # altogether, so every past semester reached Gemini as "0 credits".
     semester_history = []
 
     for sem in semesters:
         semester_history.append({
-            "semester" : sem.semester_no,
+            "semester" : f"{sem.semester_no} ({sem.academic_session})",
             "gpa" : float(sem.semester_gpa or 0),
+            "credits" : int(sum(float(c.credit_hour or 0) for c in sem.courses)),
         })
 
     return render_template(
@@ -257,6 +264,13 @@ def simulate_cgpa_route():
 
 @analysis_bp.route("/generate-ai-plan", methods=["POST"])
 @login_required
+# Each plan is one Gemini request, billed against a daily quota shared
+# with the chatbot and every student's course classification -- so this
+# needs its own limit rather than the (deliberately generous) default
+# meant for page views. Regenerating a plan a few times while adjusting
+# credits is normal; dozens an hour would quietly eat the quota that
+# everyone else's Dashboard depends on.
+@limiter.limit("5 per minute; 20 per hour", key_func=lambda: current_user.get_id())
 def generate_ai_plan():
 
     try:
