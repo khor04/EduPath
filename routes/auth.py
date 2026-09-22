@@ -301,7 +301,7 @@ def register():
                     flash("An account with this email is already pending verification. Check your email for the code we already sent.", "success")
                 else:
                     issue_verification_code(existing_user)
-                    flash("An account with this email is already pending verification. We've sent you a new code -- it can take a few minutes to arrive.", "success")
+                    flash("An account with this email is already pending verification. We've sent you a new code.", "success")
 
                 return redirect(url_for("auth.verify_code_page", email=email))
 
@@ -324,7 +324,7 @@ def register():
         db.session.commit()
         issue_verification_code(new_user)
 
-        flash("Account created. We're sending your verification code -- it can take a few minutes to arrive, so check your inbox (and spam folder) shortly. Use Resend Code if it doesn't show up.", "success")
+        flash("Account created. We're sending your verification code, u may check your inbox (and spam folder) shortly. Use Resend Code if it doesn't show up.", "success")
         return redirect(url_for("auth.verify_code_page", email=email))
 
     return render_template("signup.html")
@@ -473,7 +473,7 @@ def resend_code():
 
     issue_verification_code(user)
 
-    flash("A new verification code is on its way -- it can take a few minutes to arrive.", "success")
+    flash("A new verification code is on its way...", "success")
 
     return redirect(url_for("auth.verify_code_page", email=email))
 
