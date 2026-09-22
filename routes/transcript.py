@@ -4,7 +4,7 @@ import fitz
 import re
 import os
 import uuid
-from extensions import db
+from extensions import db, limiter
 from models.transcript import Transcript
 from models.semester import Semester
 from models.course import Course
@@ -15,7 +15,7 @@ from models.feedback import Feedback
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils.validators import validate_course_row, MAX_COURSES_PER_SEMESTER
-from services.career_services import build_student_profile
+from services.classification_jobs import start_profile_build, is_building
 from utils.programmes import normalize_programme, programme_word_set, programmes_match
 
 
@@ -1407,21 +1407,20 @@ def save_transcript():
         # STEP 9: PRE-WARM SKILL/RELEVANCE CLASSIFICATION
         #
         # Runs the same Gemini-backed classification /dashboard and
-        # /career would otherwise trigger on first visit -- doing it
-        # here means a student uploading a transcript sees the wait
-        # (expected, since this is a "processing" action), instead of
-        # a later, unrelated dashboard visit randomly blocking on a
-        # live Gemini call for a course nobody has classified yet.
-        # Best-effort: classification failing here must never turn an
-        # already-committed, successful transcript save into an error
-        # response -- build_student_profile() still runs safely (just
-        # slower, on that one visit) from /dashboard/career if this
-        # doesn't complete for any reason.
+        # /career would otherwise trigger on first visit, so those
+        # pages don't randomly block on a live Gemini call for a course
+        # nobody has classified yet.
+        #
+        # In the BACKGROUND, not here: this is by far the slowest thing
+        # the app does (measured 39s + 65s for a 15-course transcript,
+        # and it scales with course count), and the transcript itself
+        # is already committed above -- so making the student watch a
+        # spinner for it bought nothing. While it runs, Dashboard and
+        # Career show a "still preparing" state instead of starting
+        # their own duplicate classification. See
+        # services/classification_jobs.py.
         # =====================================================
-        try:
-            build_student_profile(current_user.user_id)
-        except Exception as e:
-            print("Pre-warm classification failed (non-fatal):", type(e).__name__, ":", e)
+        start_profile_build(current_user.user_id)
 
         return jsonify({
             "success": True,
@@ -1429,7 +1428,8 @@ def save_transcript():
             "saved": saved,
             "updated": updated,
             "skipped": skipped,
-            "message": "Transcript processed successfully"
+            "message": "Transcript processed successfully",
+            "insights_preparing": True
         })
 
     except Exception as e:
@@ -1438,6 +1438,24 @@ def save_transcript():
             "success": False,
             "message": f"Failed: {str(e)}"
         })
+
+@transcript_bp.route("/api/transcript/insights-status")
+@login_required
+# Deliberately generous: the Dashboard/Career "preparing" pages poll
+# this every 10s while classification runs, and it must never be the
+# thing that rate-limits them. Cheap to serve -- an in-memory flag
+# check, no database or Gemini work -- but still bounded rather than
+# exempt, so it can't be hammered for free.
+@limiter.limit("60 per minute", key_func=lambda: current_user.get_id())
+def insights_status():
+    """
+    Whether this student's background skill/career classification has
+    finished (services/classification_jobs.py). Polled instead of
+    blind-refreshing the page: /career allows only 5 requests a minute,
+    so a 10s auto-refresh there would trip its own rate limit.
+    """
+    return jsonify({"ready": not is_building(current_user.user_id)})
+
 
 @transcript_bp.route("/delete-transcript-data", methods=["POST"])
 @login_required

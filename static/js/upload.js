@@ -381,6 +381,14 @@ document.getElementById("finalizeBtn").addEventListener("click", function () {
                 msg += "\nUpdated (appeal cases):\n" + data.updated.join(", ");
             }
 
+            // Skill/career classification now runs in the background
+            // after the save (services/classification_jobs.py), so say
+            // so -- otherwise those sections look empty for no reason
+            // on the Dashboard/Career page for the next minute.
+            if (data.insights_preparing) {
+                msg += "\n\nYour skills and career matches are being prepared in the background.";
+            }
+
             alert(msg || "Transcript processed successfully");
             location.reload();
         });
