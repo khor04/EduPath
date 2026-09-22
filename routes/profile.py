@@ -4,6 +4,7 @@ from extensions import db
 from werkzeug.security import check_password_hash, generate_password_hash
 from models.users import User
 from models.contact import ContactMessage
+from models.tracked_course import TrackedCourse
 import cloudinary.uploader
 import cloudinary
 from utils.validators import is_valid_password, PASSWORD_REQUIREMENT_MESSAGE, is_um_email, UM_EMAIL_DOMAIN, validate_profile_picture
@@ -247,6 +248,20 @@ def delete_account():
         ContactMessage.query.filter_by(user_id=user_id).update(
             {"user_id": None}, synchronize_session=False
         )
+
+        # Grade Tracker courses also have a non-nullable foreign key to
+        # the user and aren't transcript data, so nothing above removes
+        # them -- without this, deleting any student who ever tracked a
+        # course fails the FK constraint and the account can't be
+        # deleted at all. Deleted one by one through the ORM (not a bulk
+        # query delete) so each course's assessments go with it via the
+        # relationship's delete-orphan cascade.
+        for tracked in TrackedCourse.query.filter_by(user_id=user_id).all():
+            db.session.delete(tracked)
+        # User has no mapped relationship to TrackedCourse, so the ORM
+        # can't infer these must be deleted before the user row --
+        # flush now to guarantee the order.
+        db.session.flush()
 
         user = User.query.get(user_id)
         if user:
