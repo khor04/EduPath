@@ -324,7 +324,7 @@ def register():
         db.session.commit()
         issue_verification_code(new_user)
 
-        flash("Account created. We're sending your verification code, u may check your inbox (and spam folder) shortly. Use Resend Code if it doesn't show up.", "success")
+        flash("Account created. We're sending your verification code, you may check your inbox (and spam folder) shortly. Use Resend Code if it doesn't show up.", "success")
         return redirect(url_for("auth.verify_code_page", email=email))
 
     return render_template("signup.html")
