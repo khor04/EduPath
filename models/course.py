@@ -3,7 +3,7 @@ class Course(db.Model):
     __tablename__ = 'course'
 
     course_id    = db.Column(db.Integer, primary_key=True)
-    semester_id  = db.Column(db.Integer, db.ForeignKey('semester.semester_id'), nullable=False)
+    semester_id  = db.Column(db.Integer, db.ForeignKey('semester.semester_id'), nullable=False, index=True)
 
     course_code  = db.Column(db.String(20), nullable=False)
     course_name  = db.Column(db.String(200))

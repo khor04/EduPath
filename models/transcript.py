@@ -5,7 +5,7 @@ class Transcript(db.Model):
     __tablename__ = 'transcript'
 
     transcript_id = db.Column(db.Integer, primary_key=True)
-    user_id       = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    user_id       = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False, index=True)
     status        = db.Column(db.String(20), default='pending')  # pending / verified
     uploaded_at   = db.Column(db.DateTime, default=datetime.utcnow)
     uploaded_type = db.Column(db.String(20)) #new/appeal/mixed
