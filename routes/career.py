@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from extensions import db, limiter
 from models.career_recommendation import CareerRecommendation
 from models.feedback import Feedback
-from services.classification_jobs import is_building
+from services.classification_jobs import ensure_profile_build, is_building
 from services.career_services import (
     build_student_profile,
     build_competency_profile,
@@ -67,7 +67,7 @@ def career():
     # Still classifying in the background after an upload? Say so,
     # instead of starting a second, duplicate classification of the
     # same courses here (services/classification_jobs.py).
-    if is_building(current_user.user_id):
+    if ensure_profile_build(current_user.user_id):
         return render_template("career_locked.html", active_page="career", reason="building")
 
     try:

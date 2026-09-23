@@ -26,7 +26,7 @@ from models.semester import Semester
 from models.target_cgpa import TargetCGPA
 from services.cgpa_services import calculate_cgpa_credits, detect_trend, determine_feasibility
 from services.benchmark_services import compute_cohort_standing
-from services.classification_jobs import is_building
+from services.classification_jobs import ensure_profile_build
 from services.career_services import (
     build_student_profile,
     build_competency_profile,
@@ -122,7 +122,7 @@ def build_chat_context(user_id):
         # Skipped while the post-upload classification is still running,
         # for the same reason Dashboard/Career skip it: don't start a
         # duplicate one (services/classification_jobs.py).
-        concept_profile = None if is_building(user_id) else build_student_profile(user_id)
+        concept_profile = None if ensure_profile_build(user_id) else build_student_profile(user_id)
         if concept_profile:
             competency_profile = build_competency_profile(concept_profile)
             strengths = top_strengths(competency_profile, top_n=3)

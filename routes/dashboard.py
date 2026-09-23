@@ -7,7 +7,7 @@ from models.transcript import Transcript
 from models.semester import Semester
 from models.target_cgpa import TargetCGPA
 from services.cgpa_services import calculate_cgpa_credits, get_performance_alert, find_missing_semesters
-from services.classification_jobs import is_building
+from services.classification_jobs import ensure_profile_build
 from services.career_services import (
     build_student_profile,
     build_competency_profile,
@@ -100,7 +100,7 @@ def dashboard():
     # Set while the upload's background classification is still running
     # (services/classification_jobs.py) -- show "still preparing"
     # rather than starting a second, duplicate classification here.
-    skill_data_building = is_building(current_user.user_id)
+    skill_data_building = ensure_profile_build(current_user.user_id)
     dashboard_strengths = []
     dashboard_weaknesses = []
     dashboard_top_careers = []
