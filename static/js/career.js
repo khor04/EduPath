@@ -1,7 +1,48 @@
-// Radar Chart
+// Skill chart: a radar needs at least three points to draw a shape -- with
+// one or two competencies it collapses into a straight line that reads as a
+// broken chart. Those students get horizontal bars instead, which show the
+// same scores.
 const radarCtx = document.getElementById("skillRadar");
+const MIN_RADAR_POINTS = 3;
+const useBars = careerRadarLabels.length < MIN_RADAR_POINTS;
 
-const radarChart = new Chart(radarCtx, {
+if (useBars) {
+  radarCtx.closest(".radar-wrapper").classList.add("is-bar");
+}
+
+const radarChart = new Chart(radarCtx, useBars ? {
+  type: "bar",
+  data: {
+    labels: careerRadarLabels,
+    datasets: [{
+      label: "Skill Score",
+      data: careerRadarValues,
+      backgroundColor: "rgba(22, 139, 209, 0.75)",
+      borderColor: "#168bd1",
+      borderWidth: 1,
+      borderRadius: 4,
+      barThickness: 34,
+    }]
+  },
+  options: {
+    indexAxis: "y",
+    maintainAspectRatio: false,
+    layout: { padding: { top: 10, bottom: 10, left: 6, right: 16 } },
+    plugins: { legend: { display: false } },
+    scales: {
+      x: {
+        beginAtZero: true,
+        max: 100,
+        ticks: { stepSize: 25 },
+        title: { display: true, text: "Skill score" }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { font: { size: 12 } }
+      }
+    }
+  }
+} : {
   type: "radar",
   data: {
     labels: careerRadarLabels,
