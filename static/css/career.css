@@ -113,6 +113,15 @@
   max-height: 100%;
 }
 
+/* One or two competencies: bars instead of a radar (see career.js), so the
+   square radar box gives way to a short, wide one. */
+.radar-wrapper.is-bar {
+  aspect-ratio: auto;
+  height: 200px;
+  max-width: 100%;
+  margin: 10px auto 4px;
+}
+
 .hover-card {
   position: absolute;
   right: 5px;
