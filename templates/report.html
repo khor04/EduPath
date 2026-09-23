@@ -7,6 +7,11 @@
 <meta name="referrer" content="no-referrer">
 {% endif %}
 <title>Academic Performance Summary Report</title>
+{% if not is_pdf %}
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/favicon.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+{% endif %}
 <style>
   @page {
     size: A4;
