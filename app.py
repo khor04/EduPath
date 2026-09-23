@@ -76,7 +76,7 @@ def create_app():
         from models.tracked_course import TrackedCourse, Assessment
 
         db.create_all()
-        print("✅ Database tables created successfully")
+        print("Database tables created successfully")
 
     return app
 
