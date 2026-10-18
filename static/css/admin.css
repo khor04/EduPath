@@ -168,6 +168,14 @@ body {
   margin: 0;
 }
 
+.admin-stat-card .admin-stat-detail {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #747474;
+}
+
 /* Performance Trends */
 .trend-filter {
   display: flex;
@@ -423,4 +431,3 @@ body {
   width: 9px;
   height: 9px;
 }
-

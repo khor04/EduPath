@@ -10,6 +10,7 @@ from models.contact import ContactMessage
 from models.career_recommendation import CareerRecommendation
 from models.feedback import Feedback
 from models.target_cgpa import TargetCGPA
+from models.tracked_course import TrackedCourse
 from services.cgpa_services import detect_trend, FAIL_GRADES, GRADE_POINTS
 from services.course_stats_services import compute_course_stats
 
@@ -136,14 +137,33 @@ def get_platform_stats():
     total_users = students.count()
     verified_users = students.filter_by(is_verified=True).count()
     unverified_users = total_users - verified_users
-    total_transcripts = Transcript.query.count()
+    transcript_users = (
+        db.session.query(Transcript.user_id)
+        .join(User, User.user_id == Transcript.user_id)
+        .filter(User.is_admin == False)
+        .distinct()
+        .count()
+    )
 
     career_users = (
         db.session.query(CareerRecommendation.user_id)
         .distinct()
         .count()
     )
-    target_cgpa_plans = TargetCGPA.query.count()
+    target_cgpa_users = (
+        db.session.query(TargetCGPA.user_id)
+        .join(User, User.user_id == TargetCGPA.user_id)
+        .filter(User.is_admin == False)
+        .distinct()
+        .count()
+    )
+    grade_tracker_users = (
+        db.session.query(TrackedCourse.user_id)
+        .join(User, User.user_id == TrackedCourse.user_id)
+        .filter(User.is_admin == False)
+        .distinct()
+        .count()
+    )
 
     users_by_programme = dict(
         db.session.query(User.programme, db.func.count(User.user_id))
@@ -175,9 +195,19 @@ def get_platform_stats():
         "total_users": total_users,
         "verified_users": verified_users,
         "unverified_users": unverified_users,
-        "total_transcripts": total_transcripts,
+        "transcript_users": transcript_users,
+        "transcript_percent": (
+            round(transcript_users / total_users * 100) if total_users else 0
+        ),
         "career_users": career_users,
-        "target_cgpa_plans": target_cgpa_plans,
+        "target_cgpa_users": target_cgpa_users,
+        "target_cgpa_percent": (
+            round(target_cgpa_users / total_users * 100) if total_users else 0
+        ),
+        "grade_tracker_users": grade_tracker_users,
+        "grade_tracker_percent": (
+            round(grade_tracker_users / total_users * 100) if total_users else 0
+        ),
         "users_by_programme": users_by_programme,
         "users_by_faculty": users_by_faculty,
         "benchmark_participation": benchmark_participation,

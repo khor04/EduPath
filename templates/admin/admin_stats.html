@@ -19,16 +19,19 @@
         <p>{{ stats.unverified_users }}</p>
     </div>
     <div class="admin-stat-card">
-        <h3>Transcripts</h3>
-        <p>{{ stats.total_transcripts }}</p>
+        <h3>Students with a Transcript</h3>
+        <p class="admin-stat-percentage">{{ stats.transcript_percent }}%</p>
+        <span class="admin-stat-detail">{{ stats.transcript_users }} of {{ stats.total_users }} student{% if stats.total_users != 1 %}s{% endif %}</span>
     </div>
     <div class="admin-stat-card">
-        <h3>Career Users</h3>
-        <p>{{ stats.career_users }}</p>
+        <h3>Students Using Target CGPA</h3>
+        <p class="admin-stat-percentage">{{ stats.target_cgpa_percent }}%</p>
+        <span class="admin-stat-detail">{{ stats.target_cgpa_users }} of {{ stats.total_users }} student{% if stats.total_users != 1 %}s{% endif %}</span>
     </div>
     <div class="admin-stat-card">
-        <h3>Target CGPA Plans</h3>
-        <p>{{ stats.target_cgpa_plans }}</p>
+        <h3>Students Using Grade Tracker</h3>
+        <p class="admin-stat-percentage">{{ stats.grade_tracker_percent }}%</p>
+        <span class="admin-stat-detail">{{ stats.grade_tracker_users }} of {{ stats.total_users }} student{% if stats.total_users != 1 %}s{% endif %}</span>
     </div>
 </div>
 
@@ -67,7 +70,7 @@
     </div>
 
     <div class="admin-card">
-        <p class="card-label">PEER BENCHMARKING PARTICIPATION</p>
+        <p class="card-label">CONSENT ON TRANSCRIPT DATA SHARING</p>
         {% if not stats.benchmark_participation %}
         <p class="empty-message">No users yet.</p>
         {% else %}
