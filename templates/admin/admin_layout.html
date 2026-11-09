@@ -50,10 +50,6 @@
                     <a href="{{ url_for('admin.admin_courses') }}"><i class="bi bi-journal-check"></i> Course Difficulty</a>
                 </li>
 
-                <li class="{% if active_admin_page == 'feedback' %}active{% endif %}">
-                    <a href="{{ url_for('admin.admin_feedback') }}"><i class="bi bi-star"></i> Career Feedback</a>
-                </li>
-
                 <li class="{% if active_admin_page == 'contact' %}active{% endif %}">
                     <a href="{{ url_for('admin.admin_contact') }}"><i class="bi bi-envelope"></i> Contact Messages</a>
                 </li>

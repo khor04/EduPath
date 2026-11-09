@@ -315,11 +315,6 @@ body {
   max-width: 1200px;
 }
 
-.admin-feedback-overview {
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 440px;
-}
-
 .admin-breakdown-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

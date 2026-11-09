@@ -164,10 +164,9 @@ function downloadCareerSectionAsPng() {
 
   btn.style.visibility = "hidden";
 
-  // Leave out the controls that only make sense on screen: the "i" description
-  // toggles and the "Rate These Recommendations" button.
+  // Leave out the description toggle, which only makes sense on screen.
   const isScreenOnly = el => el.classList && (
-    el.classList.contains("career-info-icon") || el.classList.contains("career-feedback-toggle-row")
+    el.classList.contains("career-info-icon")
   );
 
   html2canvas(section, { backgroundColor: "#ffffff", scale: 2, ignoreElements: isScreenOnly })
@@ -187,35 +186,4 @@ function toggleCareerDescription(descId) {
   if (target) {
     target.classList.toggle("hidden");
   }
-}
-
-// Per-career feedback
-function toggleAllCareerFeedback() {
-  const intro = document.getElementById("careerFeedbackIntro");
-  if (intro) {
-    intro.classList.toggle("hidden");
-  }
-  document.querySelectorAll(".career-feedback").forEach(el => {
-    el.classList.toggle("hidden");
-  });
-}
-
-function submitCareerFeedback(careerId, rating) {
-  const container = document.getElementById(`feedback-${careerId}`);
-  if (!container) return;
-
-  fetch(`/career/feedback/${careerId}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-CSRFToken": getCsrfToken() },
-    body: JSON.stringify({ rating: rating }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        container.innerHTML = '<p class="career-feedback-thanks">Thank you for your feedback!</p>';
-      } else {
-        console.error("Feedback submission failed:", data.error);
-      }
-    })
-    .catch(error => console.error("Feedback submission failed:", error));
 }

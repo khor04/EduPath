@@ -1166,23 +1166,10 @@ def match_careers(user_id, top_n=10, profile=None):
 
 def save_career_recommendations(user_id, careers):
     """
-    Persists match_careers()'s output into CareerRecommendation so
-    Feedback (which references a specific career_id) has something
-    real to attach to.
+    Persists match_careers()'s output into CareerRecommendation.
 
-    Deliberately get-or-create per (user_id, career_name), NOT the
-    delete-then-reinsert pattern save_skill_profile() uses: deleting a
-    CareerRecommendation row would violate the Feedback FK constraint
-    the moment a student has actually rated it, and even ignoring
-    that, wiping the table on every page view would destroy feedback
-    history -- which is valuable evaluation data for an FYP, not
-    disposable state. An existing row is updated in place (score,
-    tier, rank can drift as the student's transcript changes); a new
-    one is only inserted for a career never recommended to this
-    student before.
-
-    Returns a dict mapping career title -> career_id, so the route can
-    tell the template which career_id backs each displayed card.
+    Existing rows are updated in place, and new rows are created only
+    for careers not previously recommended to this student.
     """
     latest_transcript = (
         Transcript.query
@@ -1195,8 +1182,7 @@ def save_career_recommendations(user_id, careers):
 
     # Bulk lookup instead of one query per career, same fix as the
     # course-mapping/relevance caches -- this was costing /career one
-    # round trip per recommended career just to check get-vs-create,
-    # plus another one (via flush()) for every newly-inserted row.
+    # round trip per recommended career just to check get-vs-create.
     career_names = [c["title"] for c in careers]
     existing_rows = (
         CareerRecommendation.query.filter(
@@ -1207,9 +1193,6 @@ def save_career_recommendations(user_id, careers):
     )
     existing_by_name = {row.career_name: row for row in existing_rows}
 
-    name_to_id = {}
-    new_rows = []
-
     for rank, career in enumerate(careers, start=1):
         existing = existing_by_name.get(career["title"])
 
@@ -1218,7 +1201,6 @@ def save_career_recommendations(user_id, careers):
             existing.match_level = career["tier_class"]
             existing.rank = rank
             existing.transcript_id = latest_transcript.transcript_id
-            name_to_id[career["title"]] = existing.career_id
         else:
             row = CareerRecommendation(
                 user_id=user_id,
@@ -1229,13 +1211,4 @@ def save_career_recommendations(user_id, careers):
                 rank=rank,
             )
             db.session.add(row)
-            new_rows.append((career["title"], row))
-
-    # One flush (via commit) for the whole batch populates career_id
-    # on every newly-added row -- no need to flush per row.
     db.session.commit()
-
-    for title, row in new_rows:
-        name_to_id[title] = row.career_id
-
-    return name_to_id

@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template, request, jsonify, current_app
+from flask import Blueprint, render_template, current_app
 from flask_login import login_required, current_user
 
-from extensions import db, limiter
-from models.career_recommendation import CareerRecommendation
-from models.feedback import Feedback
+from extensions import limiter
 from services.classification_jobs import ensure_profile_build, is_building
 from services.career_services import (
     build_student_profile,
@@ -89,9 +87,7 @@ def career():
         careers = match_careers(current_user.user_id, top_n=BEST_MATCH_COUNT + MORE_MATCH_COUNT, profile=concept_profile)
         save_skill_profile(current_user.user_id, competency_profile, top_n=5)
 
-        name_to_career_id = save_career_recommendations(current_user.user_id, careers)
-        for c in careers:
-            c["career_id"] = name_to_career_id[c["title"]]
+        save_career_recommendations(current_user.user_id, careers)
 
         radar_labels = [row["competency_name"] for row in strengths]
         radar_values = [row["percentage"] for row in strengths]
@@ -112,27 +108,3 @@ def career():
         radar_labels=radar_labels,
         radar_values=radar_values,
     )
-
-
-@career_bp.route("/career/feedback/<int:career_id>", methods=["POST"])
-@login_required
-def submit_career_feedback(career_id):
-    data = request.get_json(silent=True) or {}
-    rating = data.get("rating")
-
-    if rating not in (1, 2, 3, 4, 5):
-        return jsonify({"success": False, "error": "Invalid rating."}), 400
-
-    # Ownership check -- career_id is a guessable sequential integer,
-    # so without this a user could submit feedback against any other
-    # student's recommendation by trying different IDs.
-    career = CareerRecommendation.query.filter_by(
-        career_id=career_id, user_id=current_user.user_id
-    ).first()
-    if career is None:
-        return jsonify({"success": False, "error": "Recommendation not found."}), 404
-
-    db.session.add(Feedback(career_id=career_id, rating=rating))
-    db.session.commit()
-
-    return jsonify({"success": True})

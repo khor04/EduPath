@@ -4,6 +4,7 @@ import fitz
 import re
 import os
 import uuid
+from sqlalchemy import inspect
 from extensions import db, limiter
 from models.transcript import Transcript
 from models.semester import Semester
@@ -11,7 +12,6 @@ from models.course import Course
 from models.target_cgpa import TargetCGPA
 from models.skill_profile import SkillProfile
 from models.career_recommendation import CareerRecommendation
-from models.feedback import Feedback
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from utils.validators import validate_course_row, MAX_COURSES_PER_SEMESTER
@@ -31,7 +31,8 @@ def allowed_file(filename):
 
 def delete_all_transcript_related_data(user_id):
     """Delete every transcript-derived row for a user (courses, semesters,
-    feedback, career recommendations, skill profiles, transcripts, target CGPA).
+    legacy feedback rows, career recommendations, skill profiles,
+    transcripts, target CGPA).
 
     Does not touch course_skill_mapping -- that's a shared course->skill
     reference table, not per-user data. Does not commit; caller controls
@@ -58,13 +59,17 @@ def delete_all_transcript_related_data(user_id):
             Semester.transcript_id.in_(transcript_ids)
         ).delete(synchronize_session=False)
 
-    # Delete feedback -- must go before CareerRecommendation, which
-    # it references via career_id.
+    # Remove legacy feedback rows before CareerRecommendation, which
+    # they reference via career_id.
     career_ids = [
         c.career_id for c in
         CareerRecommendation.query.filter_by(user_id=user_id).all()
     ]
-    if career_ids:
+    if career_ids and inspect(db.engine).has_table("feedback"):
+        # Load the legacy mapping only when an older database still has
+        # the table; fresh databases no longer create it.
+        from models.feedback import Feedback
+
         Feedback.query.filter(
             Feedback.career_id.in_(career_ids)
         ).delete(synchronize_session=False)
@@ -1292,6 +1297,12 @@ def save_transcript():
                         grade_point=float(c["grade_point"] or 0)
                     ))
 
+                continue
+
+            # Step 2 already found this semester identical to what is
+            # stored (it is in `skipped`): leave it alone, otherwise it
+            # would be wrongly flagged as revised.
+            if f"Sem {sem['semester_no']} {sem['academic_session']}" in skipped:
                 continue
 
             # -------------------------

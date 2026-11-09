@@ -73,16 +73,18 @@ def dashboard():
     # Saved target CGPA plan
     target_plan = TargetCGPA.query.filter_by(user_id=current_user.user_id).first()
     target_cgpa = round(target_plan.target_cgpa, 2) if target_plan else None
-    required_gpa = round(target_plan.required_gpa, 2) if target_plan else None
+    target_gap = (
+        round(latest_cgpa - target_cgpa, 2)
+        if target_cgpa is not None and completed_credits > 0
+        else None
+    )
 
     performance_alert = get_performance_alert(current_user.user_id)
 
     # Real Academic Strength/Weakness and Career Pathways -- same
     # pipeline the Career page uses, condensed for a glance-level
-    # summary. Read-only here: unlike /career, this doesn't persist
-    # into SkillProfile/CareerRecommendation, since Dashboard is
-    # likely visited far more often and that data's only real
-    # consumer (Feedback) lives on the Career page.
+    # summary. Read-only here: unlike /career, the dashboard does not
+    # persist the student's SkillProfile or CareerRecommendation rows.
     #
     # Wrapped: this calls Gemini for any course nobody's profile has
     # needed classified before, with no safety net of its own -- a
@@ -142,7 +144,7 @@ def dashboard():
         latest_cgpa=round(latest_cgpa, 2),
         completed_credits=int(completed_credits),
         target_cgpa=target_cgpa,
-        required_gpa=required_gpa,
+        target_gap=target_gap,
         last_updated=last_updated,
         gpa_labels=gpa_labels,
         gpa_values=gpa_values,

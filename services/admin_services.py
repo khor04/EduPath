@@ -8,7 +8,6 @@ from models.semester import Semester
 from models.transcript import Transcript
 from models.contact import ContactMessage
 from models.career_recommendation import CareerRecommendation
-from models.feedback import Feedback
 from models.target_cgpa import TargetCGPA
 from models.tracked_course import TrackedCourse
 from services.cgpa_services import detect_trend, FAIL_GRADES, GRADE_POINTS
@@ -43,77 +42,6 @@ TREND_LABELS = [
 # "Volatile" is intentionally not in here: an unstable GPA pattern isn't
 # the same claim as a downward one.
 DECLINING_LABELS = ("Slightly Declining", "Declining")
-
-
-def get_feedback_summary():
-    """
-    One row per distinct career name that has at least one rating,
-    aggregated across every student who was ever recommended that
-    career -- not per-recommendation-instance, since the point is to
-    see how a given career is landing across the whole student body.
-
-    Sorted by average rating ascending, so the careers most worth an
-    admin's attention (algorithm says "Strong Match", students keep
-    rating it low) surface first.
-    """
-    rows = (
-        db.session.query(
-            CareerRecommendation.career_name,
-            CareerRecommendation.career_score,
-            CareerRecommendation.match_level,
-            Feedback.rating,
-        )
-        .join(Feedback, Feedback.career_id == CareerRecommendation.career_id)
-        .all()
-    )
-
-    by_career = {}
-    for career_name, career_score, match_level, rating in rows:
-        entry = by_career.setdefault(career_name, {
-            "career_name": career_name,
-            "ratings": [],
-            "scores": [],
-            "match_levels": Counter(),
-        })
-        entry["ratings"].append(rating)
-        entry["scores"].append(career_score or 0)
-        entry["match_levels"][match_level] += 1
-
-    summary = []
-    for entry in by_career.values():
-        ratings = entry["ratings"]
-        distribution = Counter(ratings)
-
-        summary.append({
-            "career_name": entry["career_name"],
-            "avg_rating": round(sum(ratings) / len(ratings), 2),
-            "num_ratings": len(ratings),
-            "distribution": {star: distribution.get(star, 0) for star in range(1, 6)},
-            "avg_score": round(sum(entry["scores"]) / len(entry["scores"]), 4),
-            "match_level": entry["match_levels"].most_common(1)[0][0],
-        })
-
-    summary.sort(key=lambda row: row["avg_rating"])
-    return summary
-
-
-def get_feedback_overview(summary):
-    """
-    Single-number roll-up across every rated career, for the summary
-    header on the Career Feedback page -- built from get_feedback_summary()'s
-    output rather than re-querying, since it already has every rating
-    grouped by career.
-    """
-    if not summary:
-        return {"avg_rating": None, "total_responses": 0}
-
-    total_responses = sum(row["num_ratings"] for row in summary)
-    weighted_total = sum(row["avg_rating"] * row["num_ratings"] for row in summary)
-
-    return {
-        "avg_rating": round(weighted_total / total_responses, 2),
-        "total_responses": total_responses,
-    }
 
 
 def get_contact_messages():

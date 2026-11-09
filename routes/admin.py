@@ -4,8 +4,6 @@ from flask import Blueprint, render_template, abort, redirect, url_for, request
 from flask_login import login_required, current_user
 
 from services.admin_services import (
-    get_feedback_summary,
-    get_feedback_overview,
     get_contact_messages,
     get_platform_stats,
     get_trend_filter_options,
@@ -32,18 +30,6 @@ def admin_required(view):
 @admin_required
 def admin_home():
     return redirect(url_for("admin.admin_stats"))
-
-
-@admin_bp.route("/feedback")
-@admin_required
-def admin_feedback():
-    feedback_summary = get_feedback_summary()
-    return render_template(
-        "admin/admin_feedback.html",
-        active_admin_page="feedback",
-        feedback_summary=feedback_summary,
-        feedback_overview=get_feedback_overview(feedback_summary),
-    )
 
 
 @admin_bp.route("/contact")

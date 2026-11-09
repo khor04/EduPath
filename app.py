@@ -66,7 +66,6 @@ def create_app():
         from models.skill_profile import SkillProfile
         from models.career_recommendation import CareerRecommendation
         from models.target_cgpa import TargetCGPA
-        from models.feedback import Feedback
         from models.contact import ContactMessage
         from models.course_skill_mapping import CourseSkillMapping
         from models.programme_course_relevance import ProgrammeCourseRelevance

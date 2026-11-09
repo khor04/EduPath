@@ -127,15 +127,6 @@
                     {% endfor %}
                 </ul>
 
-                <div class="career-feedback hidden" id="feedback-{{ c.career_id }}">
-                    <div class="career-feedback-buttons">
-                        <button onclick="submitCareerFeedback({{ c.career_id }}, 1)" title="Very Poor">😞</button>
-                        <button onclick="submitCareerFeedback({{ c.career_id }}, 2)" title="Poor">😐</button>
-                        <button onclick="submitCareerFeedback({{ c.career_id }}, 3)" title="Neutral">🙂</button>
-                        <button onclick="submitCareerFeedback({{ c.career_id }}, 4)" title="Good">😊</button>
-                        <button onclick="submitCareerFeedback({{ c.career_id }}, 5)" title="Excellent">😍</button>
-                    </div>
-                </div>
             </div>
         </div>
         {% endmacro %}
@@ -146,20 +137,13 @@
             {{ career_card(c, "best-" ~ loop.index, best=True) }}
             {% endfor %}
         </div>
-        <h3 class="career-group-heading">You may also like</h3>
+        <h3 class="career-group-heading">Additional Compatible Pathways</h3>
         <div class="career-grid">
             {% for c in more_careers %}
             {{ career_card(c, "more-" ~ loop.index) }}
             {% endfor %}
         </div>
 
-        <div class="career-feedback-toggle-row">
-            <button class="career-feedback-toggle-btn" onclick="toggleAllCareerFeedback()">Rate These Recommendations</button>
-        </div>
-        <p class="career-feedback-intro hidden" id="careerFeedbackIntro">
-            How well does each career recommendation match your career interests? Rate each one below —
-            you may rate one, several, or all of them.
-        </p>
         {% endif %}
     </div>
 

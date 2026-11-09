@@ -2,6 +2,8 @@ from extensions import db
 from datetime import datetime
 
 class Feedback(db.Model):
+    """Legacy rows retained only for safe cleanup of previously stored ratings."""
+
     __tablename__ = 'feedback'
 
     feedback_id = db.Column(db.Integer, primary_key=True)
