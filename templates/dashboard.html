@@ -61,8 +61,22 @@
     </div>
 
     <div class="stat-card">
-      <h3>GPA needed<br>for Target</h3>
-      <p>{{ "%.2f"|format(required_gpa) if required_gpa else "-" }}</p>
+      <h3>Target progress</h3>
+      {% if target_gap is not none %}
+      <p>{{ "%.2f"|format(target_gap|abs) }}</p>
+      <small class="stat-note">
+        {% if target_gap > 0 %}
+        CGPA points above your target.
+        {% elif target_gap < 0 %}
+        CGPA points below your target.
+        {% else %}
+        Your current CGPA matches your target.
+        {% endif %}
+      </small>
+      {% else %}
+      <p>-</p>
+      <small class="stat-note">Upload transcript data and set a target CGPA to see your progress.</small>
+      {% endif %}
     </div>
   </div>
 
