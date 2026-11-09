@@ -11,6 +11,3 @@ class CareerRecommendation(db.Model):
     career_score  = db.Column(db.Float)
     match_level   = db.Column(db.String(20))   # 'strong' or 'moderate'
     rank          = db.Column(db.Integer)
-
-    # Relationship
-    feedback = db.relationship('Feedback', backref='career', lazy=True)

@@ -44,7 +44,7 @@ db.init_app(app)
 
 # Registers every model so relationships resolve, exactly as app.py does.
 import models.career_recommendation, models.contact, models.course  # noqa: E401,F401
-import models.course_skill_mapping, models.feedback, models.onet_occupation  # noqa: E401,F401
+import models.course_skill_mapping, models.onet_occupation  # noqa: E401,F401
 import models.onet_occupation_concept, models.programme_course_relevance  # noqa: E401,F401
 import models.report_share, models.semester, models.skill_profile  # noqa: E401,F401
 import models.target_cgpa, models.tracked_course, models.transcript, models.users  # noqa: E401,F401
